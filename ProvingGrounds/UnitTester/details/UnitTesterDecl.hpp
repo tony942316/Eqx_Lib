@@ -18,7 +18,7 @@
 #ifndef PROVINGGROUNDS_UNITTESTER_DETAILS_UNITTESTERDECL_HPP
 #define PROVINGGROUNDS_UNITTESTER_DETAILS_UNITTESTERDECL_HPP
 
-#include "../../../include/EquinoxCppStd.hpp"
+#include "../../../include/Equinox/EquinoxCppStd.hpp"
 
 template <typename T>
 constexpr T abs(T val) noexcept

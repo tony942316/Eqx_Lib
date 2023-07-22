@@ -19,6 +19,6 @@
 #define PROVINGGROUNDS_DEPENDENCIES_HPP
 
 #include "../UnitTester/UnitTester.hpp"
-#include "../../include/Equinox.hpp"
+#include "../../include/Equinox/Equinox.hpp"
 
 #endif // PROVINGGROUNDS_DEPENDENCIES_HPP
