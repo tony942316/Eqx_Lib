@@ -53,6 +53,7 @@
 #include <algorithm>
 
 //STL Numerics
+#include <numeric>
 #include <numbers>
 #include <cmath>
 #include <random>
