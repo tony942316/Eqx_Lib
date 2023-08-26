@@ -81,34 +81,34 @@ namespace eqx
          * @param args Arguments To Forward To constructor
          */
         template <typename t_Constructor, typename... t_Args>
-        void init(t_Destructor&& destructor, const t_Constructor& constructor,
+        constexpr void init(t_Destructor&& destructor, const t_Constructor& constructor,
             t_Args&&... args) noexcept;
 
         /*
          * @brief Deallocate Resource
          */
-        void free() noexcept;
+        constexpr void free() noexcept;
 
         /*
          * @brief Swap Resources
          *
          * @param other UniqueResource To Swap With
          */
-        void swap(UniqueResource& other) noexcept;
+        constexpr void swap(UniqueResource& other) noexcept;
 
         /*
          * @brief Get Underlying Resource
          *
          * @returns Reference To Resource
          */
-        t_Resource& get() noexcept;
+        constexpr t_Resource& get() noexcept;
 
         /*
          * @brief Get Underlying Resource
          *
          * @returns Const Reference To Resource
          */
-        const t_Resource& get() const noexcept;
+        constexpr const t_Resource& get() const noexcept;
 
     private:
         bool m_Init;

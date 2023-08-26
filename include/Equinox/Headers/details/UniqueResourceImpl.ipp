@@ -71,8 +71,7 @@ namespace eqx
     constexpr
         UniqueResource<t_Resource, t_Destructor>::~UniqueResource() noexcept
     {
-        if (m_Destructor != nullptr &&
-            m_Init == true)
+        if (m_Init == true)
         {
             free();
         }
@@ -80,7 +79,7 @@ namespace eqx
 
     template <class t_Resource, class t_Destructor>
     template <typename t_Constructor, typename... t_Args>
-    void UniqueResource<t_Resource, t_Destructor>::init(
+    constexpr void UniqueResource<t_Resource, t_Destructor>::init(
         t_Destructor&& destructor,
         const t_Constructor& constructor,
         t_Args&&... args) noexcept
@@ -96,7 +95,7 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
-    void UniqueResource<t_Resource, t_Destructor>::free() noexcept
+    constexpr void UniqueResource<t_Resource, t_Destructor>::free() noexcept
     {
         std::invoke(m_Destructor, m_Resource);
 
@@ -105,7 +104,7 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
-    void UniqueResource<t_Resource, t_Destructor>::swap(
+    constexpr void UniqueResource<t_Resource, t_Destructor>::swap(
         UniqueResource& other) noexcept
     {
         std::swap(m_Init, other.m_Init);
@@ -114,13 +113,14 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
-    t_Resource& UniqueResource<t_Resource, t_Destructor>::get() noexcept
+    constexpr t_Resource&
+        UniqueResource<t_Resource, t_Destructor>::get() noexcept
     {
         return m_Resource;
     }
 
     template <class t_Resource, class t_Destructor>
-    const t_Resource&
+    constexpr const t_Resource&
         UniqueResource<t_Resource, t_Destructor>::get() const noexcept
     {
         return m_Resource;

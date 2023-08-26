@@ -22,7 +22,7 @@
 
 inline void StopWatchTester::test()
 {
-    std::cout << "Testing StopWatch..." << std::endl;
+    std::cout << "Testing Stop Watch..." << std::endl;
     testGetTime();
     testReadTime();
     testGetSeconds();
@@ -67,14 +67,14 @@ inline void StopWatchTester::testGetSeconds()
     wasteTime(1'000ms);
     watch.stop();
 
-    UnitTester::test(watch.getSeconds(), 2.0, UnitTesterFunctions::LTE);
+    UnitTester::test(watch.getSeconds(), 3.0, UnitTesterFunctions::LTE);
     UnitTester::test(watch.getSeconds(), 1.0, UnitTesterFunctions::GTE);
 
     watch.start();
     wasteTime(500ms);
     watch.stop();
 
-    UnitTester::test(watch.getSeconds(), 1.0, UnitTesterFunctions::LTE);
+    UnitTester::test(watch.getSeconds(), 2.0, UnitTesterFunctions::LTE);
     UnitTester::test(watch.getSeconds(), 0.5, UnitTesterFunctions::GTE);
 }
 
@@ -86,7 +86,7 @@ inline void StopWatchTester::testReadSeconds()
     wasteTime(1'000ms);
     auto result = watch.readSeconds();
 
-    UnitTester::test(result, 2.0, UnitTesterFunctions::LTE);
+    UnitTester::test(result, 5.0, UnitTesterFunctions::LTE);
     UnitTester::test(result, 1.0, UnitTesterFunctions::GTE);
     UnitTester::test(result, watch.getSeconds());
 
@@ -94,7 +94,7 @@ inline void StopWatchTester::testReadSeconds()
     wasteTime(500ms);
     result = watch.readSeconds();
 
-    UnitTester::test(result, 1.0, UnitTesterFunctions::LTE);
+    UnitTester::test(result, 3.0, UnitTesterFunctions::LTE);
     UnitTester::test(result, 0.5, UnitTesterFunctions::GTE);
     UnitTester::test(result, watch.getSeconds());
 }

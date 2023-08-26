@@ -15,26 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef PROVINGGROUNDS_TESTS_DETAILS_FULLTESTERDECL_HPP
-#define PROVINGGROUNDS_TESTS_DETAILS_FULLTESTERDECL_HPP
+#ifndef PROVINGGROUNDS_TESTS_UNIQUERESOURCETESTER_HPP
+#define PROVINGGROUNDS_TESTS_UNIQUERESOURCETESTER_HPP
 
-#include "../../UnitTester/UnitTester.hpp"
-#include "../UtilityMacrosTester.hpp"
-#include "../MiscTester.hpp"
-#include "../SuperEnumTester.hpp"
-#include "../LogTester.hpp"
-#include "../MathematicsTester.hpp"
-#include "../RandomTester.hpp"
-#include "../StopWatchTester.hpp"
-#include "../PointTester.hpp"
-#include "../RectangleTester.hpp"
-#include "../BenchmarkTester.hpp"
-#include "../StaticVectorTester.hpp"
-#include "../UniqueResourceTester.hpp"
+// Declarations in "details/UniqueResourceTesterDecl.hpp"
+#include "details/UniqueResourceTesterImpl.ipp"
 
-namespace FullTester
-{
-    inline void test();
-}
-
-#endif // PROVINGGROUNDS_TESTS_DETAILS_FULLTESTERDECL_HPP
+#endif // PROVINGGROUNDS_TESTS_UNIQUERESOURCETESTER_HPP

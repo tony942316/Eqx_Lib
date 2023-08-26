@@ -37,6 +37,7 @@ namespace FullTester
         RectangleTester::test();
         BenchmarkTester::test();
         StaticVectorTester::test();
+        UniqueResourceTester::test();
         std::cout << "*********************" << std::endl;
     }
 }
