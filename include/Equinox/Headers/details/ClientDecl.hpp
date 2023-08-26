@@ -15,26 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "Tests/FullTester.hpp"
+#ifndef EQUINOX_DETAILS_CLIENTDECL_HPP
+#define EQUINOX_DETAILS_CLIENTDECL_HPP
 
-int main()
+#include "Dependencies.hpp"
+
+#include "../UniqueResource.hpp"
+
+namespace eqx
 {
-    using namespace std::literals;
-    std::cout << std::boolalpha;
+    class Client
+    {
+    private:
+        using Socket = UniqueResource<int, decltype(&close)>;
+    public:
+        explicit constexpr Client() noexcept;
+        explicit inline Client(std::string_view host,
+            std::uint16_t port) noexcept;
 
-    std::cout << "Start: ";
-    std::cin.get();
-    std::cout << "\n";
+        inline void init(std::string_view host, std::uint16_t port) noexcept;
+        inline void send(std::string_view msg) noexcept;
+        inline std::string receive(std::size_t bytes) noexcept;
 
-    auto serv = eqx::Server(4000);
-    serv.connect();
-    auto msg = serv.receive(256);
-    serv.send("All Good!");
-    std::cout << msg << std::endl;
-
-    //FullTester::test();
-
-    std::cout << "\nEnd: ";
-    std::cin.get();
-    return 0;
+    private:
+        Socket m_Socket;
+    };
 }
+
+#endif // EQUINOX_DETAILS_CLIENTDECL_HPP

@@ -18,6 +18,9 @@
 #ifndef EQUINOX_CPP_STD_HPP
 #define EQUINOX_CPP_STD_HPP
 
+//C Lib
+#include <cstring>
+
 //STL Concepts
 #include <concepts>
 
@@ -69,5 +72,22 @@
 
 //STL Concurrency
 #include <thread>
+
+//Windows Headers
+#ifdef _WIN32
+#endif
+
+//Mac Headers
+#ifdef __APPLE__
+#endif
+
+//Linux Headers
+#ifdef __linux__
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#endif
 
 #endif // EQUINOX_CPP_STD_HPP

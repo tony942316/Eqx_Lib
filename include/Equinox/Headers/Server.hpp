@@ -15,22 +15,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef EQUINOX_STD_HPP
-#define EQUINOX_STD_HPP
+#ifndef EQUINOX_SERVER_HPP
+#define EQUINOX_SERVER_HPP
 
-#include "Headers/UtilityMacros.hpp"
-#include "Headers/Misc.hpp"
-#include "Headers/SuperEnum.hpp"
-#include "Headers/Log.hpp"
-#include "Headers/Mathematics.hpp"
-#include "Headers/Random.hpp"
-#include "Headers/StopWatch.hpp"
-#include "Headers/Point.hpp"
-#include "Headers/Rectangle.hpp"
-#include "Headers/Benchmark.hpp"
-#include "Headers/StaticVector.hpp"
-#include "Headers/UniqueResource.hpp"
-#include "Headers/Server.hpp"
-#include "Headers/Client.hpp"
+// Declarations in "details/ServerDecl.hpp"
+#include "details/ServerImpl.ipp"
 
-#endif // EQUINOX_STD_HPP
+#endif // EQUINOX_SERVER_HPP
