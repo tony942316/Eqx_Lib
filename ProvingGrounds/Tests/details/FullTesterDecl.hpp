@@ -18,7 +18,8 @@
 #ifndef PROVINGGROUNDS_TESTS_DETAILS_FULLTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_DETAILS_FULLTESTERDECL_HPP
 
-#include "../../UnitTester/UnitTester.hpp"
+#include "Dependencies.hpp"
+
 #include "../UtilityMacrosTester.hpp"
 #include "../MiscTester.hpp"
 #include "../SuperEnumTester.hpp"

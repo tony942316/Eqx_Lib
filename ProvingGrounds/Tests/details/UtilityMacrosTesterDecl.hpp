@@ -18,7 +18,7 @@
 #ifndef PROVINGGROUNDS_TESTS_DETAILS_UTILITYMACROSTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_DETAILS_UTILITYMACROSTESTERDECL_HPP
 
-#include "../Dependencies.hpp"
+#include "Dependencies.hpp"
 
 class UtilityMacrosTester
 {

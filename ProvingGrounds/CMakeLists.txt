@@ -17,12 +17,19 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-project(
-    Equinox
-    VERSION 1.1.0
-    DESCRIPTION "Drop In C++ Extension"
-    LANGUAGES CXX)
+set(CMAKE_CXX_EXTENSIONS Off)
+set(CMAKE_EXPORT_COMPILE_COMMANDS On)
 
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(ProvingGrounds)
+set_property(GLOBAL PROPERTY USE_FOLDERS On)
+
+add_executable(ProvingGrounds Main.cpp)
+
+target_include_directories(ProvingGrounds PRIVATE ../include UnitTester)
+
+target_compile_features(ProvingGrounds PRIVATE cxx_std_20)
+if (MSVC)
+    target_compile_options(ProvingGrounds PRIVATE /W4 /GR- /Zc:preprocessor)
+else ()
+    target_compile_options(ProvingGrounds PRIVATE -Wall -Wextra -Wpedantic
+        -Wconversion -fno-rtti -fno-exceptions)
 endif()

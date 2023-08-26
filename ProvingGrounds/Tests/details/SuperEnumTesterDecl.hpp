@@ -18,7 +18,7 @@
 #ifndef PROVINGGROUNDS_TESTS_DETAILS_SUPERENUMTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_DETAILS_SUPERENUMTESTERDECL_HPP
 
-#include "../Dependencies.hpp"
+#include "Dependencies.hpp"
 
 class SuperEnumTester
 {

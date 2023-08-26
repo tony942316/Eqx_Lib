@@ -19,8 +19,6 @@
 #define PROVINGGROUNDS_UNITTESTER_DETAILS_UNITTESTERIMPL_IPP
 
 #include "UnitTesterDecl.hpp"
-#include <iomanip>
-#include <ios>
 
 inline void UnitTester::init()
 {

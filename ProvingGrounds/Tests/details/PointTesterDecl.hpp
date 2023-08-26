@@ -18,7 +18,7 @@
 #ifndef PROVINGGROUNDS_TESTS_DETAILS_POINTTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_DETAILS_POINTTESTERDECL_HPP
 
-#include "../Dependencies.hpp"
+#include "Dependencies.hpp"
 
 class PointTester
 {

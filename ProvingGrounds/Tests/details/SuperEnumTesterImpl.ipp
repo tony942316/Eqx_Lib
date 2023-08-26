@@ -22,7 +22,7 @@
 
 inline void SuperEnumTester::test()
 {
-    std::cout << "Testing SuperEnum..." << std::endl;
+    std::cout << "Testing Super Enum..." << std::endl;
     testStreaming();
     UnitTester::printStatus();
     UnitTester::clear();

@@ -16,7 +16,6 @@
  */
 
 #include "Tests/FullTester.hpp"
-#include "UnitTester/details/UnitTesterDecl.hpp"
 
 int main()
 {

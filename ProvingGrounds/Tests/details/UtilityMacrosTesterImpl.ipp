@@ -22,7 +22,7 @@
 
 inline void UtilityMacrosTester::test()
 {
-    std::cout << "Testing UtilityMacros..." << std::endl;
+    std::cout << "Testing Utility Macros..." << std::endl;
     UnitTester::printStatus();
     UnitTester::clear();
 }

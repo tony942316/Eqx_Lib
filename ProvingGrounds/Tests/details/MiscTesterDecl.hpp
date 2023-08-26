@@ -18,7 +18,7 @@
 #ifndef PROVINGGROUNDS_TESTS_DETAILS_MISCTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_DETAILS_MISCTESTERDECL_HPP
 
-#include "../Dependencies.hpp"
+#include "Dependencies.hpp"
 
 class MiscTester
 {
