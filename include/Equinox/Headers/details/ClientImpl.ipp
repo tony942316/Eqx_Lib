@@ -83,7 +83,6 @@ namespace eqx
         addrinfo* result = nullptr;
         addrinfo* ptr = nullptr;
         addrinfo hints;
-        int iResult;
 
         eqx::runtimeAssert(WSAStartup(MAKEWORD(2, 2), &wsaDATA) == 0,
             "WSA Failed To Initialize!"sv);

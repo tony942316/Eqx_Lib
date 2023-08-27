@@ -110,9 +110,12 @@
 #define NOTAPE
 #define NOMINMAX
 
+#pragma warning(push)
+#pragma warning(disable : 5105)
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#pragma warning(pop)
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "Mswsock.lib")
 #pragma comment(lib, "AdvApi32.lib")
