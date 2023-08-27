@@ -36,25 +36,25 @@ inline void ClientServerTester::testSendReceive()
     auto serverTask = std::async(std::launch::async, serverLoop);
     auto clientTask = std::async(std::launch::async, clientLoop);
 
-    auto serverData = serverTask.get();
-    auto clientData = clientTask.get();
+    //auto serverData = serverTask.get();
+    //auto clientData = clientTask.get();
 
-    UnitTester::test(serverData, "Hello Server!"s);
-    UnitTester::test(clientData, "Hello Client!"s);
+    UnitTester::test(serverTask.get(), "Hello Server!"s);
+    UnitTester::test(clientTask.get(), "Hello Client!"s);
 }
 
 inline std::string ClientServerTester::clientLoop()
 {
     auto client = eqx::Client("127.0.0.1", 4'000);
     client.send("Hello Server!");
-    return client.receive(128);
+    return client.receive();
 }
 
 inline std::string ClientServerTester::serverLoop()
 {
     auto server = eqx::Server(4'000);
     server.send("Hello Client!");
-    return server.receive(128);
+    return server.receive();
 }
 
 #endif // PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP

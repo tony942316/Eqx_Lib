@@ -73,7 +73,7 @@ namespace eqx
          *
          * @returns std::string With All The Bytes
          */
-        inline std::string receive(std::size_t bytes) noexcept;
+        inline std::string receive(std::size_t bytes = 128) noexcept;
 
     private:
         Socket m_Socket;
