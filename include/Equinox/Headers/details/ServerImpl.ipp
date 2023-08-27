@@ -55,10 +55,7 @@ namespace eqx
             bind(m_ServerSocket.get(), (sockaddr*)&serv, sizeof(serv)) > -1,
             "Server Bind Error!"sv);
         listen(m_ServerSocket.get(), 5);
-    }
 
-    inline void Server::connect() noexcept
-    {
         sockaddr_in client = {};
         socklen_t clientLen = sizeof(client);
         m_ClientSocket.init(close, accept,

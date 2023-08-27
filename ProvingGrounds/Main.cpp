@@ -27,7 +27,6 @@ int main()
     std::cout << "\n";
 
     auto serv = eqx::Server(4000);
-    serv.connect();
     serv.send("Hello There Client!");
     auto msg = serv.receive(256);
     std::cout << msg << std::endl;
