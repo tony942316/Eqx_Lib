@@ -38,7 +38,9 @@ namespace FullTester
         BenchmarkTester::test();
         StaticVectorTester::test();
         UniqueResourceTester::test();
+#ifdef __linux__
         ClientServerTester::test();
+#endif // __linux__
         std::cout << "*********************" << std::endl;
     }
 }

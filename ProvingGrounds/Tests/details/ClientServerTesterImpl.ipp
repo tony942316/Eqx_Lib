@@ -15,17 +15,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef __linux__
+
 #ifndef PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
 #define PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
+
 
 #include "ClientServerTesterDecl.hpp"
 
 inline void ClientServerTester::test()
 {
     std::cout << "Testing Client And Server..." << std::endl;
-#ifdef __linux__
     testSendReceive();
-#endif // __linux__
     UnitTester::printStatus();
     UnitTester::clear();
 }
@@ -35,9 +36,6 @@ inline void ClientServerTester::testSendReceive()
     using namespace std::literals;
     auto serverTask = std::async(std::launch::async, serverLoop);
     auto clientTask = std::async(std::launch::async, clientLoop);
-
-    //auto serverData = serverTask.get();
-    //auto clientData = clientTask.get();
 
     UnitTester::test(serverTask.get(), "Hello Server!"s);
     UnitTester::test(clientTask.get(), "Hello Client!"s);
@@ -59,3 +57,4 @@ inline std::string ClientServerTester::serverLoop()
 
 #endif // PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
 
+#endif // __linux__

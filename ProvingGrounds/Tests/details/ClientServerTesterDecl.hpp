@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef __linux__
+
 #ifndef PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERDECL_HPP
 #define PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERDECL_HPP
 
@@ -42,3 +44,5 @@ private:
 };
 
 #endif // PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERDECL_HPP
+
+#endif // __linux__
