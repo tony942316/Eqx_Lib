@@ -24,14 +24,9 @@ int main()
 
     std::cout << "Start: ";
     std::cin.get();
-    std::cout << "\n";
+    std::cout << std::endl;
 
-    auto serv = eqx::Server(4000);
-    serv.send("Hello There Client!");
-    auto msg = serv.receive(256);
-    std::cout << msg << std::endl;
-
-    //FullTester::test();
+    FullTester::test();
 
     std::cout << "\nEnd: ";
     std::cin.get();

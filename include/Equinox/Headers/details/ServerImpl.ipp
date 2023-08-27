@@ -76,6 +76,7 @@ namespace eqx
         msg.resize(bytes);
         auto nBytes = read(m_ClientSocket.get(), msg.data(), bytes);
         eqx::runtimeAssert(nBytes > -1, "Server Read Error!"sv);
+        msg.resize(static_cast<std::size_t>(nBytes));
         return msg;
     }
 }

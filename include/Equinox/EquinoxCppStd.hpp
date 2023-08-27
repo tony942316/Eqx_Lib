@@ -72,6 +72,7 @@
 
 //STL Concurrency
 #include <thread>
+#include <future>
 
 //Windows Headers
 #ifdef _WIN32

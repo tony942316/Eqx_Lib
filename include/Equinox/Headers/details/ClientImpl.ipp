@@ -71,6 +71,7 @@ namespace eqx
         auto nBytes = read(m_Socket.get(), msg.data(), bytes);
         eqx::runtimeAssert(nBytes > -1,
             "Client Read Error!"sv);
+        msg.resize(static_cast<std::size_t>(nBytes));
         return msg;
     }
 #endif // __linux__
@@ -126,8 +127,12 @@ namespace eqx
         eqx::runtimeAssert(bytes < c_MaxBytes,
             "1024 Bytes Is The Receive Limit!"sv);
         char buf[c_MaxBytes] = {};
-        ::recv(m_Socket.get(), buf, static_cast<int>(bytes), 0);
-        return std::string(buf);
+        auto nBytes = ::recv(m_Socket.get(), buf, static_cast<int>(bytes), 0);
+        eqx::runtimeAssert(nBytes != SOCKET_ERROR,
+            "Client Receive Error!"sv);
+        auto result = std::string(buf);
+        result.resize(nBytes);
+        return result;
     }
 #endif // _WIN32
 }
