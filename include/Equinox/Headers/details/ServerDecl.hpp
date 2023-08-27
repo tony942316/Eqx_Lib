@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef __linux__
+
 #ifndef EQUINOX_DETAILS_SERVERDECL_HPP
 #define EQUINOX_DETAILS_SERVERDECL_HPP
 
@@ -45,3 +47,5 @@ namespace eqx
 }
 
 #endif // EQUINOX_DETAILS_SERVERDECL_HPP
+
+#endif // __linux__

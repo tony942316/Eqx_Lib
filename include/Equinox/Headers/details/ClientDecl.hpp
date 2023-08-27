@@ -27,7 +27,12 @@ namespace eqx
     class Client
     {
     private:
+#ifdef __linux__
         using Socket = UniqueResource<int, decltype(&close)>;
+#endif // __linux__
+#ifdef _WIN32
+        using Socket = UniqueResource<SOCKET, decltype(&closesocket)>;
+#endif // _WIN32
     public:
         explicit constexpr Client() noexcept;
         explicit inline Client(std::string_view host,

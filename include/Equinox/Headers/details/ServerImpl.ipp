@@ -15,6 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#ifdef __linux__
+
 #ifndef EQUINOX_DETAILS_SERVERIMPL_IPP
 #define EQUINOX_DETAILS_SERVERIMPL_IPP
 
@@ -82,3 +84,5 @@ namespace eqx
 }
 
 #endif //EQUINOX_DETAILS_SERVERIMPL_IPP
+
+#endif // __linux__

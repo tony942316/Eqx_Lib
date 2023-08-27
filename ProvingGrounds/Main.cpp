@@ -28,8 +28,8 @@ int main()
 
     auto serv = eqx::Server(4000);
     serv.connect();
+    serv.send("Hello There Client!");
     auto msg = serv.receive(256);
-    serv.send("All Good!");
     std::cout << msg << std::endl;
 
     //FullTester::test();
