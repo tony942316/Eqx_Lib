@@ -80,7 +80,6 @@ namespace eqx
     {
         auto portStr = std::to_string(port);
         WSADATA wsaDATA;
-        m_Socket = INVALID_SOCKET;
         addrinfo* result = nullptr;
         addrinfo* ptr = nullptr;
         addrinfo hints;
@@ -119,16 +118,16 @@ namespace eqx
 
     inline void Client::send(std::string_view msg) noexcept
     {
-        ::send(m_Socket, msg.data(), static_cast<int>(msg.size()), 0);
+        ::send(m_Socket.get(), msg.data(), static_cast<int>(msg.size()), 0);
     }
 
     inline std::string Client::receive(std::size_t bytes) noexcept
     {
         static constexpr auto c_MaxBytes = 1024;
         eqx::runtimeAssert(bytes < c_MaxBytes,
-            "1024 Bytes Is The Receive Limit!"sv)
+            "1024 Bytes Is The Receive Limit!"sv);
         char buf[c_MaxBytes] = {};
-        ::recv(m_Socket, buf, static_cast<int>(bytes), 0);
+        ::recv(m_Socket.get(), buf, static_cast<int>(bytes), 0);
         return std::string(buf);
     }
 #endif // _WIN32
