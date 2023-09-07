@@ -17,22 +17,8 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-project(
-    Equinox
-    VERSION 1.1.0
-    DESCRIPTION "Drop In C++ Extension"
-    LANGUAGES CXX)
+add_library(UnitTester INTERFACE include/UnitTester/UnitTester.hpp)
 
-add_library(Equinox INTERFACE include/Equinox/Equinox.hpp)
+target_include_directories(UnitTester INTERFACE include)
 
-target_include_directories(Equinox INTERFACE include)
-
-target_compile_features(Equinox INTERFACE cxx_std_20)
-if (MSVC)
-    target_compile_options(Equinox INTERFACE /Zc:preprocessor)
-endif()
-
-if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(UnitTester)
-    add_subdirectory(ProvingGrounds)
-endif()
+target_compile_features(UnitTester INTERFACE cxx_std_20)

@@ -17,18 +17,17 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-set(CMAKE_CXX_EXTENSIONS Off)
-set(CMAKE_EXPORT_COMPILE_COMMANDS On)
-
-set_property(GLOBAL PROPERTY USE_FOLDERS On)
-
 add_executable(ProvingGrounds Main.cpp)
 
-target_include_directories(ProvingGrounds PRIVATE ../include UnitTester)
+set_target_properties(ProvingGrounds PROPERTIES
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
 
-target_compile_features(ProvingGrounds PRIVATE cxx_std_20)
+target_link_libraries(ProvingGrounds PRIVATE Equinox)
+target_link_libraries(ProvingGrounds PRIVATE UnitTester)
+
 if (MSVC)
-    target_compile_options(ProvingGrounds PRIVATE /W4 /GR- /Zc:preprocessor)
+    target_compile_options(ProvingGrounds PRIVATE /W4 /GR-)
 else ()
     target_compile_options(ProvingGrounds PRIVATE -Wall -Wextra -Wpedantic
         -Wconversion -fno-rtti -fno-exceptions)
