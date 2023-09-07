@@ -19,7 +19,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(
     Equinox
-    VERSION 1.1.0
+    VERSION 1.1.1
     DESCRIPTION "Drop In C++ Extension"
     LANGUAGES CXX)
 
