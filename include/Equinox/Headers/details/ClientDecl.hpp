@@ -24,7 +24,7 @@
 
 namespace eqx
 {
-    /*
+    /**
      * @brief Client To Send And Receive Data From eqx::Server
      */
     class Client
@@ -37,12 +37,12 @@ namespace eqx
         using Socket = UniqueResource<SOCKET, decltype(&closesocket)>;
 #endif // _WIN32
     public:
-        /*
+        /**
          * @brief Default Initialization
          */
         explicit constexpr Client() noexcept;
 
-        /*
+        /**
          * @brief Initialize With Host And Port
          *
          * @param host IP Of The eqx::Server
@@ -51,7 +51,7 @@ namespace eqx
         explicit inline Client(std::string_view host,
             std::uint16_t port) noexcept;
 
-        /*
+        /**
          * @brief Initialize With Host And Port
          *
          * @param host IP Of The eqx::Server
@@ -59,14 +59,14 @@ namespace eqx
          */
         inline void init(std::string_view host, std::uint16_t port) noexcept;
 
-        /*
+        /**
          * @brief Send Data To The eqx::Server
          *
          * @param msg Data To Send
          */
         inline void send(std::string_view msg) noexcept;
 
-        /*
+        /**
          * @brief Receive Data From The eqx::Server
          *
          * @param bytes Number Of Bytes Receiving From The eqx::Server

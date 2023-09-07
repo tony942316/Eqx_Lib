@@ -268,6 +268,27 @@ namespace eqx
     template <typename C1, typename C2>
         requires ConstCollection<C1> && ConstCollection<C2>
     [[nodiscard]] inline auto zip(const C1& x, const C2& y);
+
+    /**
+     * @brief Wrapper Function Around new
+     *
+     * @param args Arguments To Pass To T Constructor
+     *
+     * @returns T Pointer To Heap Memory
+     */
+    template <typename T, typename... Args>
+        requires requires(Args&&... args)
+            {  new T(std::forward<Args>(args)...); }
+    [[nodiscard]] inline T* newAlloc(Args&&... args) noexcept;
+
+    /**
+     * @brief Wrapper Function Around delete
+     *
+     * @param ptr Pointer To Delete
+     */
+    template <typename T>
+        requires requires(T* ptr) { delete ptr; }
+    inline void deleteDealloc(T* ptr) noexcept;
 }
 
 #endif // EQUINOX_DETAILS_MISCDECL_HPP

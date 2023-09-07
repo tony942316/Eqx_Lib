@@ -36,6 +36,7 @@ private:
     static inline void testToString();
     static inline void testPairPrint();
     static inline void testZip();
+    static inline void testAlloc() noexcept;
     static constexpr void testLiterals() noexcept;
 };
 

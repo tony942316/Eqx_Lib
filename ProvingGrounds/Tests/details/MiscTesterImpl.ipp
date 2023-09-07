@@ -26,6 +26,7 @@ inline void MiscTester::test()
     testToString();
     testPairPrint();
     testZip();
+    testAlloc();
     UnitTester::printStatus();
     UnitTester::clear();
 }
@@ -142,6 +143,18 @@ inline void MiscTester::testZip()
         std::vector<std::pair<std::string_view, double>>({
             { "Hello"sv, 1.0 },
             { "Goodbye"sv, 2.0 } }));
+}
+
+inline void MiscTester::testAlloc() noexcept
+{
+    using namespace std::literals;
+
+    auto res = eqx::newAlloc<std::string>("Hello");
+
+    UnitTester::test(res, nullptr, UnitTesterFunctions::NE);
+    UnitTester::test(*res, "Hello"s);
+
+    eqx::deleteDealloc(res);
 }
 
 constexpr void MiscTester::testLiterals() noexcept

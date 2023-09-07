@@ -23,6 +23,7 @@
 inline void UniqueResourceTester::test()
 {
     std::cout << "Testing Unique Resource..." << std::endl;
+    testUniquePointer();
     UnitTester::printStatus();
     UnitTester::clear();
 }
@@ -35,6 +36,22 @@ constexpr int UniqueResourceTester::newResource(int x) noexcept
 constexpr void UniqueResourceTester::deleteResource(int& x) noexcept
 {
     x = 0;
+}
+
+inline void UniqueResourceTester::testUniquePointer() noexcept
+{
+    using namespace std::literals;
+
+    auto res1 = eqx::UniquePointer<std::string>();
+    auto res2 = eqx::UniquePointer<std::string>("Hello");
+
+    UnitTester::test(res1.get(), nullptr);
+    UnitTester::test(res2.get(), nullptr, UnitTesterFunctions::NE);
+    UnitTester::test(*res2.get(), "Hello"s);
+
+    res2.free();
+
+    UnitTester::test(res2.get(), nullptr);
 }
 
 constexpr void UniqueResourceTester::testConstruction() noexcept
@@ -64,6 +81,10 @@ constexpr void UniqueResourceTester::testConstruction() noexcept
     };
 
     static_assert(moveAssign());
+
+    constexpr auto uniquePointer = eqx::UniquePointer<std::string>();
+
+    static_assert(uniquePointer.get() == nullptr);
 }
 
 constexpr void UniqueResourceTester::testFreeSwap() noexcept

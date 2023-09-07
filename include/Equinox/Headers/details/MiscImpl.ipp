@@ -159,6 +159,21 @@ namespace eqx
 
         return zippedRange;
     }
+
+    template <typename T, typename... Args>
+        requires requires(Args&&... args)
+            {  new T(std::forward<Args>(args)...); }
+    [[nodiscard]] inline T* newAlloc(Args&&... args) noexcept
+    {
+        return new T(std::forward<Args>(args)...);
+    }
+
+    template <typename T>
+        requires requires(T* ptr) { delete ptr; }
+    inline void deleteDealloc(T* ptr) noexcept
+    {
+        delete ptr;
+    }
 }
 
 

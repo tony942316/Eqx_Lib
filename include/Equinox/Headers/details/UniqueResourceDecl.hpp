@@ -24,19 +24,20 @@
 
 namespace eqx
 {
-    /*
+    /**
      * @brief Scoped Resource Management
      */
-    template <class t_Resource, class t_Destructor>
+    template <class t_Resource,
+        class t_Destructor = decltype(&deleteDealloc<std::remove_pointer_t<t_Resource>>)>
     class UniqueResource
     {
     public:
-        /*
+        /**
          * @brief Default Initialization
          */
         explicit constexpr UniqueResource() noexcept;
 
-        /*
+        /**
          * @brief Initialize With Constructor And Arguments
          *
          * @param destructor Function Called To Deallocate Resource
@@ -48,32 +49,40 @@ namespace eqx
             const t_Constructor& constructor,
             t_Args&&... args) noexcept;
 
-        /*
+        /**
+         * @brief Initialize With new And Arguments
+         *
+         * @param args Arguments To Forward To new
+         */
+        template <typename... t_Args>
+        explicit constexpr UniqueResource(t_Args&&... args) noexcept;
+
+        /**
          * @brief Move Construction Performs A Swap
          *
          * @param other UniqueResource To Move From
          */
         constexpr UniqueResource(UniqueResource&& other) noexcept;
 
-        /*
+        /**
          * @brief Move Assignment Performs A Swap
          *
          * @param other UniqueResource To Move From
          */
         constexpr UniqueResource& operator= (UniqueResource&& other) noexcept;
 
-        /*
+        /**
          * @brief Deallocate Resource
          */
         constexpr ~UniqueResource() noexcept;
 
-        /*
+        /**
          * @brief Move Only Type
          */
         UniqueResource(const UniqueResource&) = delete;
         UniqueResource& operator= (const UniqueResource&) = delete;
 
-        /*
+        /**
          * @brief Allocate Resource With Constructor And Arguments
          *
          * @param destructor Function Called To Deallocate Resource
@@ -84,26 +93,34 @@ namespace eqx
         constexpr void init(t_Destructor&& destructor, const t_Constructor& constructor,
             t_Args&&... args) noexcept;
 
-        /*
+        /**
+         * @brief Allocate Resource With new And Arguments
+         *
+         * @param args Arguments To Forward To new
+         */
+        template <typename... t_Args>
+        constexpr void init(t_Args&&... args) noexcept;
+
+        /**
          * @brief Deallocate Resource
          */
         constexpr void free() noexcept;
 
-        /*
+        /**
          * @brief Swap Resources
          *
          * @param other UniqueResource To Swap With
          */
         constexpr void swap(UniqueResource& other) noexcept;
 
-        /*
+        /**
          * @brief Get Underlying Resource
          *
          * @returns Reference To Resource
          */
         constexpr t_Resource& get() noexcept;
 
-        /*
+        /**
          * @brief Get Underlying Resource
          *
          * @returns Const Reference To Resource
@@ -116,6 +133,12 @@ namespace eqx
         t_Resource m_Resource;
         t_Destructor m_Destructor;
     };
+
+    /**
+     * @brief Alias For Default UniqueResource Which Wraps new And delete
+     */
+    template <typename T>
+    using UniquePointer = UniqueResource<T*>;
 }
 
 #endif // EQUINOX_DETAILS_UNIQUERESOURCEDECL_HPP

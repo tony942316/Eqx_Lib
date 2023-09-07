@@ -38,9 +38,9 @@ private:
 
     using SomeResource = eqx::UniqueResource<int, decltype(&deleteResource)>;
 
+    static inline void testUniquePointer() noexcept;
     static constexpr void testConstruction() noexcept;
     static constexpr void testFreeSwap() noexcept;
-
 };
 
 #endif // PROVINGGROUNDS_TESTS_DETAILS_UNIQUERESOURCETESTERDECL_HPP

@@ -47,6 +47,14 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
+    template <typename... t_Args>
+    constexpr UniqueResource<t_Resource, t_Destructor>::UniqueResource(
+        t_Args&&... args) noexcept
+    {
+        init(std::forward<t_Args>(args)...);
+    }
+
+    template <class t_Resource, class t_Destructor>
     constexpr UniqueResource<t_Resource, t_Destructor>::UniqueResource(
         UniqueResource&& other) noexcept
         :
@@ -92,6 +100,16 @@ namespace eqx
         m_Init = true;
         m_Resource = std::invoke(constructor, std::forward<t_Args>(args)...);
         m_Destructor = std::forward<t_Destructor>(destructor);
+    }
+
+    template <class t_Resource, class t_Destructor>
+    template <typename... t_Args>
+    constexpr void UniqueResource<t_Resource, t_Destructor>::init(
+        t_Args&&... args) noexcept
+    {
+        init(deleteDealloc<std::remove_pointer_t<t_Resource>>,
+            newAlloc<std::remove_pointer_t<t_Resource>, t_Args...>,
+            std::forward<t_Args>(args)...);
     }
 
     template <class t_Resource, class t_Destructor>

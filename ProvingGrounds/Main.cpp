@@ -15,6 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "Equinox/Equinox.hpp"
 #include "Tests/FullTester.hpp"
 
 int main()
