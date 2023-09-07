@@ -20,16 +20,6 @@
 
 #include "MiscDecl.hpp"
 
-#ifndef NDEBUG
-
-constexpr void eqx_debugOnly_runtimeAssert(bool expr, std::string_view msg)
-    noexcept
-{
-    eqx::runtimeAssert(expr, msg);
-}
-
-#endif // NDEBUG
-
 namespace eqx
 {
     [[nodiscard]] inline std::string toString(const char* cstring)
@@ -122,16 +112,40 @@ namespace eqx
         print("\n", out);
     }
 
-    constexpr void runtimeAssert(bool expr, std::string_view msg) noexcept
+    constexpr void runtimeAssert(bool expr, std::string_view msg,
+        const std::source_location& loc) noexcept
     {
+#ifndef EQX_NO_ASSERTS
         if (!expr)
         {
             // If you got here because of a constexpr evaluation
             // go up the call stack to where this assert was called
             // and ideally there is a message in the msg parameter
-            (void)std::fprintf(stderr, "%s", msg.data());
+
+            (void)std::fprintf(stderr, "%s", "Runtime Assertion Failed!\n");
+
+            (void)std::fprintf(stderr, "%s", "File: ");
+            (void)std::fprintf(stderr, "%s", loc.file_name());
+            (void)std::fprintf(stderr, "%s", "\n");
+
+            (void)std::fprintf(stderr, "%s", "Function: ");
+            (void)std::fprintf(stderr, "%s", loc.function_name());
+            (void)std::fprintf(stderr, "%s", "\n");
+
+            (void)std::fprintf(stderr, "%s", "Line: ");
+            (void)std::fprintf(stderr, "%i", loc.line());
+            (void)std::fprintf(stderr, "%s", "\n");
+
+            if (msg.data() != std::string_view(""))
+            {
+                (void)std::fprintf(stderr, "%s", "Msg: ");
+                (void)std::fprintf(stderr, "%s", msg.data());
+                (void)std::fprintf(stderr, "%s", "\n");
+            }
+
             std::abort();
         }
+#endif // EQX_NO_ASSERTS
     }
 
     template <typename C1, typename C2>

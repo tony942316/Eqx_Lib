@@ -22,25 +22,6 @@
 
 #include "../UtilityMacros.hpp"
 
-#ifdef NDEBUG
-
-#define eqx_debugOnly_runtimeAssert(expr, message) 0;
-
-#else
-
-/**
- * @brief Checks If A Boolean Expression Is True, If Not Then Print
- *      A Message To std::cerr And Call std::abort()
- * @brief Note: Removed If NDEBUG Is Defined
- *
- * @param expr Expression To Be Checked
- * @param msg Message To Print To std::cerr
- */
-constexpr void eqx_debugOnly_runtimeAssert(bool expr,
-    std::string_view msg = "") noexcept;
-
-#endif // NDEBUG
-
 namespace eqx
 {
     /**
@@ -248,12 +229,15 @@ namespace eqx
 
     /**
      * @brief Checks If A Boolean Expression Is True, If Not Then Print
-     *      A Message To std::cerr And Call std::abort()
+     *      A Message To std::cerr And Call std::abort(), Note You Can
+     *      Turn Off All Asserts By Defining EQX_NO_ASSERTS
      *
      * @param expr Expression To Be Checked
      * @param msg Message To Print To std::cerr
+     * @param loc Location In Source Default Is Call Site
      */
-    constexpr void runtimeAssert(bool expr, std::string_view msg = "")
+    constexpr void runtimeAssert(bool expr, std::string_view msg = "",
+        const std::source_location& loc = std::source_location::current())
         noexcept;
 
     /**

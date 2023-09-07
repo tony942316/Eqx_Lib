@@ -38,6 +38,7 @@ private:
     static inline void testZip();
     static inline void testAlloc() noexcept;
     static constexpr void testLiterals() noexcept;
+    static constexpr void testConstexprAssert() noexcept;
 };
 
 #endif // PROVINGGROUNDS_TESTS_DETAILS_MISCTESTERDECL_HPP

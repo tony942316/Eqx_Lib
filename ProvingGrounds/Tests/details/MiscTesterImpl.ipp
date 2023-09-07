@@ -166,4 +166,14 @@ constexpr void MiscTester::testLiterals() noexcept
     static_assert(std::same_as<decltype(1_ushort), unsigned short>);
 }
 
+constexpr void MiscTester::testConstexprAssert() noexcept
+{
+    constexpr auto value = std::invoke([]()
+        {
+            eqx::runtimeAssert(true, "Some Msg");
+            return 1;
+        });
+    static_assert(value == 1);
+}
+
 #endif // PROVINGGROUNDS_TESTS_DETAILS_MISCTESTERIMPL_IPP
