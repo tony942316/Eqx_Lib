@@ -44,23 +44,23 @@ namespace eqx
         /**
          * @brief Severity Of A Log
          */
-        EQX_SUPER_ENUM(Level,
+        EQX_CLASS_SUPER_ENUM(Level,
             All,
             Info,
             Warning,
             Error,
-            None );
+            None )
 
         /**
          * @brief Type Of A Log
          */
-        EQX_SUPER_ENUM(Type,
+        EQX_CLASS_SUPER_ENUM(Type,
             None,
             Info,
             RuntimeWarning,
             RuntimeError,
             OverflowError,
-            UnreachableCodeError );
+            UnreachableCodeError )
 
         /**
          * @brief Activate The Logger

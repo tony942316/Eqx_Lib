@@ -48,8 +48,11 @@ void SuperEnumTester::testStreaming()
     ss << SuperEnumShell::Pub7::v5;
     ss << SuperEnumShell::Pub7::v6;
     ss << SuperEnumShell::Pub7::v7;
+    ss << FreeSuperEnum::Free3::v1;
+    ss << FreeSuperEnum::Free3::v2;
+    ss << FreeSuperEnum::Free3::v3;
 
-    UnitTester::test(ss.str(), "v1v2v3v1v2v3v4v5v1v2v3v4v5v6v7"s);
+    UnitTester::test(ss.str(), "v1v2v3v1v2v3v4v5v1v2v3v4v5v6v7v1v2v3"s);
 }
 
 constexpr void SuperEnumTester::testEnumCollection() noexcept
@@ -57,23 +60,23 @@ constexpr void SuperEnumTester::testEnumCollection() noexcept
     using namespace std::literals;
 
     constexpr auto expected3 =
-        std::array<EnumPair<SuperEnumShell::Pub3>, 3ULL>({
+        std::array<std::pair<SuperEnumShell::Pub3, std::string_view>, 3ULL>({
             { SuperEnumShell::Pub3::v1, "v1"sv },
             { SuperEnumShell::Pub3::v2, "v2"sv },
             { SuperEnumShell::Pub3::v3, "v3"sv } });
-    static_assert(expected3 == SuperEnumShell::Pub3Collection);
+    static_assert(expected3 == SuperEnumShell::p_Pub3Collection);
 
     constexpr auto expected5 =
-        std::array<EnumPair<SuperEnumShell::Pub5>, 5ULL>({
+        std::array<std::pair<SuperEnumShell::Pub5, std::string_view>, 5ULL>({
             { SuperEnumShell::Pub5::v1, "v1"sv },
             { SuperEnumShell::Pub5::v2, "v2"sv },
             { SuperEnumShell::Pub5::v3, "v3"sv },
             { SuperEnumShell::Pub5::v4, "v4"sv },
             { SuperEnumShell::Pub5::v5, "v5"sv } });
-    static_assert(expected5 == SuperEnumShell::Pub5Collection);
+    static_assert(expected5 == SuperEnumShell::p_Pub5Collection);
 
     constexpr auto expected7 =
-        std::array<EnumPair<SuperEnumShell::Pub7>, 7ULL>({
+        std::array<std::pair<SuperEnumShell::Pub7, std::string_view>, 7ULL>({
             { SuperEnumShell::Pub7::v1, "v1"sv },
             { SuperEnumShell::Pub7::v2, "v2"sv },
             { SuperEnumShell::Pub7::v3, "v3"sv },
@@ -81,7 +84,14 @@ constexpr void SuperEnumTester::testEnumCollection() noexcept
             { SuperEnumShell::Pub7::v5, "v5"sv },
             { SuperEnumShell::Pub7::v6, "v6"sv },
             { SuperEnumShell::Pub7::v7, "v7"sv } });
-    static_assert(expected7 == SuperEnumShell::Pub7Collection);
+    static_assert(expected7 == SuperEnumShell::p_Pub7Collection);
+
+    constexpr auto fExpected3 =
+        std::array<std::pair<FreeSuperEnum::Free3, std::string_view>, 3ULL>({
+            { FreeSuperEnum::Free3::v1, "v1"sv },
+            { FreeSuperEnum::Free3::v2, "v2"sv },
+            { FreeSuperEnum::Free3::v3, "v3"sv } });
+    static_assert(fExpected3 == FreeSuperEnum::p_Free3Collection);
 }
 
 constexpr void SuperEnumTester::testGetEnums() noexcept
@@ -112,6 +122,13 @@ constexpr void SuperEnumTester::testGetEnums() noexcept
             SuperEnumShell::Pub7::v6,
             SuperEnumShell::Pub7::v7 });
     static_assert(expected7 == SuperEnumShell::getPub7Enums());
+
+    constexpr auto fExpected3 =
+        std::array<FreeSuperEnum::Free3, 3ULL>({
+            FreeSuperEnum::Free3::v1,
+            FreeSuperEnum::Free3::v2,
+            FreeSuperEnum::Free3::v3 });
+    static_assert(fExpected3 == FreeSuperEnum::getFree3Enums());
 }
 
 constexpr void SuperEnumTester::testGetString() noexcept
@@ -144,6 +161,13 @@ constexpr void SuperEnumTester::testGetString() noexcept
             "v6"sv,
             "v7"sv });
     static_assert(expected7 == SuperEnumShell::getPub7Strings());
+
+    constexpr auto fExpected3 =
+        std::array<std::string_view, 3ULL>({
+            "v1"sv,
+            "v2"sv,
+            "v3"sv });
+    static_assert(fExpected3 == FreeSuperEnum::getFree3Strings());
 }
 
 #endif // PROVINGGROUNDS_TESTS_DETAILS_SUPERENUMTESTERIMPL_IPP

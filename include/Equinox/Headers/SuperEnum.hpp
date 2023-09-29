@@ -22,61 +22,46 @@
 
 #include "UtilityMacros.hpp"
 
-template <typename T>
-    requires std::is_enum_v<T>
-struct EnumPair
+namespace eqx
 {
-    consteval EnumPair() noexcept
-        :
-        m_Enum(static_cast<T>(0ULL)),
-        m_String("")
+    class SuperEnum
     {
-    }
+    public:
+        SuperEnum() = delete;
+        SuperEnum(const SuperEnum&) = delete;
+        SuperEnum(SuperEnum&&) = delete;
+        SuperEnum& operator= (const SuperEnum&) = delete;
+        SuperEnum& operator= (SuperEnum&&) = delete;
+        ~SuperEnum() = delete;
 
-    consteval EnumPair(T e, std::string_view s) noexcept
-        :
-        m_Enum(e),
-        m_String(s)
-    {
-    }
-
-    T m_Enum;
-    std::string_view m_String;
-};
+        template <std::size_t N, typename EnumType, typename... Types>
+        [[nodiscard]] static consteval
+            std::array<std::pair<EnumType, std::string_view>, N>
+            makeArr(Types... args) noexcept;
+    private:
+    };
+}
 
 namespace eqx
 {
-    /**
-     * @brief Function For Use By EQX_SUPER_ENUM, NOT FOR EXTERNAL USE!
-     */
     template <std::size_t N, typename EnumType, typename... Types>
-    consteval std::array<EnumPair<EnumType>, N> P_makeArr(Types... args)
+    [[nodiscard]] consteval
+        std::array<std::pair<EnumType, std::string_view>, N>
+        SuperEnum::makeArr(Types... args) noexcept
     {
-        std::array<EnumPair<EnumType>, N> arr;
-        std::array<std::string_view, N> arr2 = { args... };
+        auto result = std::array<std::pair<EnumType, std::string_view>, N>();
+        auto strs = std::array<std::string_view, N>({ args... });
 
-        for (std::size_t i = 0ULL; i < arr.size(); i++)
-        {
-            arr.at(i).m_Enum = static_cast<EnumType>(i);
-            arr.at(i).m_String = arr2.at(i);
-        }
+        std::ranges::for_each(std::views::iota(0, static_cast<int>(N)),
+            [&result, &strs](int index)
+            {
+                result.at(static_cast<std::size_t>(index)) = std::make_pair(
+                    static_cast<EnumType>(index),
+                    strs.at(static_cast<std::size_t>(index)));
+            });
 
-        return arr;
+        return result;
     }
-}
-
-template <typename T>
-    requires std::is_enum_v<T>
-constexpr bool operator== (EnumPair<T> lhs, EnumPair<T> rhs)
-{
-    return lhs.m_Enum == rhs.m_Enum;
-}
-
-template <typename T>
-    requires std::is_enum_v<T>
-constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
-{
-    return !(lhs == rhs);
 }
 
 /**
@@ -86,7 +71,10 @@ constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
 #define P_EQX_SUPER_ENUM_TO_STRING(name) \
     [[nodiscard]] static constexpr \
         std::string_view name##ToString(name value) noexcept \
-    { return name##Collection.at(static_cast<std::size_t>(value)).m_String; }
+    { \
+        return p_##name##Collection.at( \
+            static_cast<std::size_t>(value)).second; \
+    }
 
 /**
  * @brief Macro For Use By Other Macros In The SuperEnum Header,
@@ -94,13 +82,17 @@ constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
  */
 #define P_EQX_SUPER_ENUM_GET_ENUMS(name) \
     [[nodiscard]] static consteval \
-        std::array<name, name##Collection.size()> get##name##Enums() \
+        std::array<name, std::ranges::size(p_##name##Collection)> \
+        get##name##Enums() noexcept \
     { \
-        auto result = std::array<name, name##Collection.size()>(); \
-        for (std::size_t i = 0ULL; i < name##Collection.size(); i++) \
-        { \
-            result.at(i) = name##Collection.at(i).m_Enum; \
-        } \
+        auto result = \
+            std::array<name, std::ranges::size(p_##name##Collection)>(); \
+        std::ranges::transform(p_##name##Collection, \
+            std::ranges::begin(result), \
+            [](const std::pair<name, std::string_view>& val) \
+            { \
+                return val.first; \
+            }); \
         return result; \
     }
 
@@ -108,18 +100,33 @@ constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
  * @brief Macro For Use By Other Macros In The SuperEnum Header,
  *      NOT FOR EXTERNAL USE!
  */
-#define P_EQX_SUPER_ENUM_GET_STRINGS(name)\
+#define P_EQX_SUPER_ENUM_GET_STRINGS(name) \
     [[nodiscard]] static consteval \
-        std::array<std::string_view, name##Collection.size()> \
-        get##name##Strings() \
+        std::array<std::string_view, std::ranges::size(p_##name##Collection)> \
+        get##name##Strings() noexcept \
     { \
         auto result = \
-            std::array<std::string_view, name##Collection.size()>(); \
-        for (std::size_t i = 0ULL; i < name##Collection.size(); i++) \
-        { \
-            result.at(i) = name##Collection.at(i).m_String; \
-        } \
+            std::array<std::string_view, \
+            std::ranges::size(p_##name##Collection)>(); \
+        std::ranges::transform(p_##name##Collection, \
+            std::ranges::begin(result), \
+            [](const std::pair<name, std::string_view>& val) \
+            { \
+                return val.second; \
+            }); \
         return result; \
+    }
+
+/**
+ * @brief Macro For Use By Other Macros In The SuperEnum Header,
+ *      NOT FOR EXTERNAL USE!
+ */
+#define P_EQX_CLASS_SUPER_ENUM_OSTREAM(name) \
+    inline friend std::ostream& \
+        operator<< (std::ostream& oStream, name val) noexcept \
+    { \
+        oStream << name##ToString(val); \
+        return oStream; \
     }
 
 /**
@@ -127,11 +134,21 @@ constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
  *      NOT FOR EXTERNAL USE!
  */
 #define P_EQX_SUPER_ENUM_OSTREAM(name) \
-    friend std::ostream& operator<< (std::ostream& oStream, name val) \
+    inline std::ostream& operator<< (std::ostream& oStream, name val) noexcept \
     { \
         oStream << name##ToString(val); \
         return oStream; \
     }
+
+/**
+ * @brief Macro For Use By Other Macros In The SuperEnum Header,
+ *      NOT FOR EXTERNAL USE!
+ */
+#define P_EQX_CLASS_SUPER_ENUM_FULL_IMPLEMENTATION(name) \
+    P_EQX_SUPER_ENUM_TO_STRING(name) \
+    P_EQX_SUPER_ENUM_GET_ENUMS(name) \
+    P_EQX_SUPER_ENUM_GET_STRINGS(name) \
+    P_EQX_CLASS_SUPER_ENUM_OSTREAM(name)
 
 /**
  * @brief Macro For Use By Other Macros In The SuperEnum Header,
@@ -144,48 +161,24 @@ constexpr bool operator!= (EnumPair<T> lhs, EnumPair<T> rhs)
     P_EQX_SUPER_ENUM_OSTREAM(name)
 
 /**
- * @brief Create An enum class With Provided Values And A
- *      std::array<EnumPair, sizeof...(...)> name##Collection For Value
- *      And std::string_view Access, Also Provides consteval Functions
- *      To Convert Enum Values To String, Get A Collection Of All Enum Values,
- *      Get A Collection Of All Enum std::string_view, And Overloads
- *      operator<< To Allow Streaming Of Enums. The Functions Are
- *      Respectivly As Follows:
  *
- * @brief name##ToString(name val);
- * @brief get##name##Enums();
- * @brief get##name##Strings();
- * @brief friend std::ostream& operator<< (std::ostream& oStream, name val);
+ */
+#define EQX_CLASS_SUPER_ENUM(name, ...) \
+    enum class name : std::size_t \
+        { __VA_ARGS__ }; \
+    static inline constexpr auto p_##name##Collection = \
+        eqx::SuperEnum::makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
+        (EQX_STRING_ARGS(__VA_ARGS__)); \
+    P_EQX_CLASS_SUPER_ENUM_FULL_IMPLEMENTATION(name)
+
+/**
  *
- * @brief The EQX_SUPER_ENUM(name, ...) Macro Should Be Placed In A Class
- *      As Such
- *
- * @brief class SomeClass
- * @brief {
- * @brief public:
- * @brief       class declartions/implementations...
- * @brief       EQX_SUPER_ENUM(EnumName, Val1, Val2, etc...)
- * @brief       class declartions/implementations...
- * @brief private:
- * @brief       class declartions/implementations...
- * @brief       EQX_SUPER_ENUM(PrivateEnumName, Val1, Val2, etc...)
- * @brief       class declartions/implementations...
- * @brief };
- *
- *
- * @param name The Name Of The enum class
- * @param ... The Values Of The enum class
- *
- * @returns An enum class Of std::size_t With All The Provided Values, Aswell
- *      As A std::array<EnumPair, sizeof...(...)> Called name##Collection,
- *      The Array Provides The Values Of The Enum With A std::string_view
- *      Of The Enum Value
  */
 #define EQX_SUPER_ENUM(name, ...) \
     enum class name : std::size_t \
         { __VA_ARGS__ }; \
-    constexpr static inline auto name##Collection = \
-        eqx::P_makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
+    inline constexpr auto p_##name##Collection = \
+        eqx::SuperEnum::makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
         (EQX_STRING_ARGS(__VA_ARGS__)); \
     P_EQX_SUPER_ENUM_FULL_IMPLEMENTATION(name)
 

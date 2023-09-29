@@ -36,12 +36,12 @@ private:
     class SuperEnumShell
     {
     public:
-        EQX_SUPER_ENUM(Pub3,
+        EQX_CLASS_SUPER_ENUM(Pub3,
             v1,
             v2,
             v3)
-            EQX_SUPER_ENUM(Pub5, v1, v2, v3, v4, v5)
-            EQX_SUPER_ENUM(Pub7, v1, v2, v3, v4, v5,
+            EQX_CLASS_SUPER_ENUM(Pub5, v1, v2, v3, v4, v5)
+            EQX_CLASS_SUPER_ENUM(Pub7, v1, v2, v3, v4, v5,
                 v6, v7)
     };
 
@@ -50,5 +50,10 @@ private:
     static constexpr void testGetEnums() noexcept;
     static constexpr void testGetString() noexcept;
 };
+
+namespace FreeSuperEnum
+{
+    EQX_SUPER_ENUM(Free3, v1, v2, v3)
+}
 
 #endif // PROVINGGROUNDS_TESTS_DETAILS_SUPERENUMTESTERDECL_HPP
