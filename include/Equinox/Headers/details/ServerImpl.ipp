@@ -46,14 +46,19 @@ namespace eqx
         eqx::runtimeAssert(m_ServerSocket.get() > -1,
             "Socket Creation Error!"sv);
 
+        static constexpr int enable = 1;
+        eqx::runtimeAssert(setsockopt(m_ServerSocket.get(), SOL_SOCKET,
+            SO_REUSEADDR, &enable, sizeof(int)) == 0,
+            "Socket Set Option Error"sv);
+
         sockaddr_in serv = {};
         serv.sin_family = AF_INET;
         serv.sin_addr.s_addr = INADDR_ANY;
         serv.sin_port = htons(port);
 
         eqx::runtimeAssert(
-            bind(m_ServerSocket.get(), (sockaddr*)&serv, sizeof(serv)) > -1,
-            "Server Bind Error!"sv);
+            bind(m_ServerSocket.get(), (sockaddr*)&serv, sizeof(serv)) == 0,
+            "Server Bind Error!\n"sv);
         listen(m_ServerSocket.get(), 5);
 
         sockaddr_in client = {};

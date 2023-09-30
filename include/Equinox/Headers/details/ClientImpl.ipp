@@ -53,7 +53,7 @@ namespace eqx
             static_cast<std::size_t>(servEnt->h_length));
         serv.sin_port = htons(port);
         eqx::runtimeAssert(
-            connect(m_Socket.get(), (sockaddr*)&serv, sizeof(serv)) > -1,
+            connect(m_Socket.get(), (sockaddr*)&serv, sizeof(serv)) == 0,
             "Client Connect Error!"sv);
     }
 

@@ -141,6 +141,10 @@ namespace eqx
             (void)std::fprintf(stderr, "%i", loc.line());
             (void)std::fprintf(stderr, "%s", "\n");
 
+            (void)std::fprintf(stderr, "%s", "Errno: ");
+            (void)std::fprintf(stderr, "%i", errno);
+            (void)std::fprintf(stderr, "%s", "\n");
+
             if (msg.data() != std::string_view(""))
             {
                 (void)std::fprintf(stderr, "%s", "Msg: ");
