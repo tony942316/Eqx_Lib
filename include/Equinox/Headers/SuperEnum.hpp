@@ -22,32 +22,16 @@
 
 #include "UtilityMacros.hpp"
 
-namespace eqx
+namespace eqx::details
 {
-    class SuperEnum
-    {
-    public:
-        SuperEnum() = delete;
-        SuperEnum(const SuperEnum&) = delete;
-        SuperEnum(SuperEnum&&) = delete;
-        SuperEnum& operator= (const SuperEnum&) = delete;
-        SuperEnum& operator= (SuperEnum&&) = delete;
-        ~SuperEnum() = delete;
-
-        template <std::size_t N, typename EnumType, typename... Types>
-        [[nodiscard]] static consteval
-            std::array<std::pair<EnumType, std::string_view>, N>
-            makeArr(Types... args) noexcept;
-    private:
-    };
-}
-
-namespace eqx
-{
+    /**
+     * @brief Function For Use By Macros In The SuperEnum Header,
+     *      NOT FOR EXTERNAL USE!
+     */
     template <std::size_t N, typename EnumType, typename... Types>
     [[nodiscard]] consteval
         std::array<std::pair<EnumType, std::string_view>, N>
-        SuperEnum::makeArr(Types... args) noexcept
+        P_makeArr(Types... args) noexcept
     {
         auto result = std::array<std::pair<EnumType, std::string_view>, N>();
         auto strs = std::array<std::string_view, N>({ args... });
@@ -161,24 +145,35 @@ namespace eqx
     P_EQX_SUPER_ENUM_OSTREAM(name)
 
 /**
+ * @brief Macro For Creating An Enum In A Class With Additional Functionality
+ * @brief Example: EQX_CLASS_SUPER_ENUM(State, Up, Down)
+ * @brief Equivalent: enum class State : std::size_t { Up, Down };
  *
+ * @param name Name Of The Enum
+ * @param ... Values Of The Enum
  */
 #define EQX_CLASS_SUPER_ENUM(name, ...) \
     enum class name : std::size_t \
         { __VA_ARGS__ }; \
     static inline constexpr auto p_##name##Collection = \
-        eqx::SuperEnum::makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
+        eqx::details::P_makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
         (EQX_STRING_ARGS(__VA_ARGS__)); \
     P_EQX_CLASS_SUPER_ENUM_FULL_IMPLEMENTATION(name)
 
 /**
+ * @brief Macro For Creating An Enum Outside A Class With
+ *      Additional Functionality
+ * @brief Example: EQX_SUPER_ENUM(State, Up, Down)
+ * @brief Equivalent: enum class State : std::size_t { Up, Down };
  *
+ * @param name Name Of The Enum
+ * @param ... Values Of The Enum
  */
 #define EQX_SUPER_ENUM(name, ...) \
     enum class name : std::size_t \
         { __VA_ARGS__ }; \
     inline constexpr auto p_##name##Collection = \
-        eqx::SuperEnum::makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
+        eqx::details::P_makeArr<EQX_COUNT_ARGS(__VA_ARGS__), name> \
         (EQX_STRING_ARGS(__VA_ARGS__)); \
     P_EQX_SUPER_ENUM_FULL_IMPLEMENTATION(name)
 

@@ -100,13 +100,18 @@ namespace eqx
         }
     }
 
-    inline void print(std::string_view msg, std::ostream& out) noexcept
+    template <typename T>
+        requires requires(const T& val) { eqx::toString(val); }
+    inline void print(const T& msg, std::ostream& out) noexcept
     {
-        out.write(msg.data(),
-            static_cast<std::streamsize>(std::ranges::size(msg)));
+        out.write(eqx::toString(msg).c_str(),
+            static_cast<std::streamsize>(
+            std::ranges::size(eqx::toString(msg))));
     }
 
-    inline void println(std::string_view msg, std::ostream& out) noexcept
+    template <typename T>
+        requires requires(const T& val) { eqx::toString(val); }
+    inline void println(const T& msg, std::ostream& out) noexcept
     {
         print(msg, out);
         print("\n", out);

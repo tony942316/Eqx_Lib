@@ -62,7 +62,6 @@ inline void MiscTester::testToString()
     UnitTester::test(
         eqx::toString(std::make_pair(p1, p2)), "((A, B), (C, D))"s);
 
-    
     auto vec = std::vector<int>({ 1, 2, 3 });
     UnitTester::test(eqx::toString(vec), "{ 1, 2, 3 }"s);
 

@@ -215,7 +215,9 @@ namespace eqx
      * @param msg Message To Be Printed
      * @param out Stream To Print To
      */
-    inline void print(std::string_view msg, std::ostream& out = std::cout)
+    template <typename T>
+        requires requires(const T& val) { eqx::toString(val); }
+    inline void print(const T& msg, std::ostream& out = std::cout)
         noexcept;
 
     /**
@@ -224,7 +226,9 @@ namespace eqx
      * @param msg Message To Be Printed
      * @param out Stream To Print To
      */
-    inline void println(std::string_view msg, std::ostream& out = std::cout)
+    template <typename T>
+        requires requires(const T& val) { eqx::toString(val); }
+    inline void println(const T& msg, std::ostream& out = std::cout)
         noexcept;
 
     /**
