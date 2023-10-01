@@ -126,7 +126,7 @@ namespace eqx
         const auto dy = static_cast<double>(distance(y, other.y));
         const auto result = std::hypot(dx, dy);
 
-        runtimeAssert(errno != ERANGE, "errno == ERANGE!");
+        runtimeAssert(errno == 0, "Errno Tripped!");
 
         return static_cast<T>(result);
     }
