@@ -170,4 +170,42 @@ constexpr void SuperEnumTester::testGetString() noexcept
     static_assert(fExpected3 == FreeSuperEnum::getFree3Strings());
 }
 
+constexpr void SuperEnumTester::testToEnum() noexcept
+{
+    using namespace std::literals;
+
+    constexpr auto expected3 = SuperEnumShell::Pub3::v2;
+    static_assert(expected3 == SuperEnumShell::Pub3ToEnum("v2"sv));
+    static_assert(expected3 != SuperEnumShell::Pub3ToEnum("v1"sv));
+
+    constexpr auto expected5 = SuperEnumShell::Pub5::v5;
+    static_assert(expected5 == SuperEnumShell::Pub5ToEnum("v5"sv));
+
+    constexpr auto expected7 = SuperEnumShell::Pub7::v1;
+    static_assert(expected7 == SuperEnumShell::Pub7ToEnum("v1"sv));
+
+    constexpr auto fExpected3 = FreeSuperEnum::Free3::v3;
+    static_assert(fExpected3 == FreeSuperEnum::Free3ToEnum("v3"sv));
+
+    constexpr auto expected3All = SuperEnumShell::getPub3Enums();
+    constexpr auto actual3All = SuperEnumShell::getPub3Strings() |
+        std::views::transform(SuperEnumShell::Pub3ToEnum);
+    static_assert(std::ranges::equal(expected3All, actual3All));
+
+    constexpr auto expected5All = SuperEnumShell::getPub5Enums();
+    constexpr auto actual5All = SuperEnumShell::getPub5Strings() |
+        std::views::transform(SuperEnumShell::Pub5ToEnum);
+    static_assert(std::ranges::equal(expected5All, actual5All));
+
+    constexpr auto expected7All = SuperEnumShell::getPub7Enums();
+    constexpr auto actual7All = SuperEnumShell::getPub7Strings() |
+        std::views::transform(SuperEnumShell::Pub7ToEnum);
+    static_assert(std::ranges::equal(expected7All, actual7All));
+
+    constexpr auto fExpected3All = FreeSuperEnum::getFree3Enums();
+    constexpr auto fActual3All = FreeSuperEnum::getFree3Strings() |
+        std::views::transform(FreeSuperEnum::Free3ToEnum);
+    static_assert(std::ranges::equal(fExpected3All, fActual3All));
+}
+
 #endif // PROVINGGROUNDS_TESTS_DETAILS_SUPERENUMTESTERIMPL_IPP

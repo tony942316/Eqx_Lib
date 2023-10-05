@@ -53,7 +53,7 @@ namespace eqx::details
  *      NOT FOR EXTERNAL USE!
  */
 #define P_EQX_SUPER_ENUM_TO_STRING(name) \
-    [[nodiscard]] static constexpr \
+    [[maybe_unused]] [[nodiscard]] static constexpr \
         std::string_view name##ToString(name value) noexcept \
     { \
         return p_##name##Collection.at( \
@@ -64,8 +64,20 @@ namespace eqx::details
  * @brief Macro For Use By Other Macros In The SuperEnum Header,
  *      NOT FOR EXTERNAL USE!
  */
+#define P_EQX_SUPER_ENUM_TO_ENUM(name) \
+    [[maybe_unused]] [[nodiscard]] static constexpr \
+        name name##ToEnum(std::string_view value) noexcept \
+    { \
+        return (*std::ranges::find(p_##name##Collection, value, \
+            [](const auto& x){ return x.second ;})).first;\
+    }
+
+/**
+ * @brief Macro For Use By Other Macros In The SuperEnum Header,
+ *      NOT FOR EXTERNAL USE!
+ */
 #define P_EQX_SUPER_ENUM_GET_ENUMS(name) \
-    [[nodiscard]] static consteval \
+    [[maybe_unused]] [[nodiscard]] static consteval \
         std::array<name, std::ranges::size(p_##name##Collection)> \
         get##name##Enums() noexcept \
     { \
@@ -85,7 +97,7 @@ namespace eqx::details
  *      NOT FOR EXTERNAL USE!
  */
 #define P_EQX_SUPER_ENUM_GET_STRINGS(name) \
-    [[nodiscard]] static consteval \
+    [[maybe_unused]] [[nodiscard]] static consteval \
         std::array<std::string_view, std::ranges::size(p_##name##Collection)> \
         get##name##Strings() noexcept \
     { \
@@ -132,7 +144,8 @@ namespace eqx::details
     P_EQX_SUPER_ENUM_TO_STRING(name) \
     P_EQX_SUPER_ENUM_GET_ENUMS(name) \
     P_EQX_SUPER_ENUM_GET_STRINGS(name) \
-    P_EQX_CLASS_SUPER_ENUM_OSTREAM(name)
+    P_EQX_CLASS_SUPER_ENUM_OSTREAM(name) \
+    P_EQX_SUPER_ENUM_TO_ENUM(name)
 
 /**
  * @brief Macro For Use By Other Macros In The SuperEnum Header,
@@ -142,7 +155,8 @@ namespace eqx::details
     P_EQX_SUPER_ENUM_TO_STRING(name) \
     P_EQX_SUPER_ENUM_GET_ENUMS(name) \
     P_EQX_SUPER_ENUM_GET_STRINGS(name) \
-    P_EQX_SUPER_ENUM_OSTREAM(name)
+    P_EQX_SUPER_ENUM_OSTREAM(name) \
+    P_EQX_SUPER_ENUM_TO_ENUM(name)
 
 /**
  * @brief Macro For Creating An Enum In A Class With Additional Functionality

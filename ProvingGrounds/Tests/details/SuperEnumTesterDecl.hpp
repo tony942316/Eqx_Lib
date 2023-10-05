@@ -49,6 +49,7 @@ private:
     static constexpr void testEnumCollection() noexcept;
     static constexpr void testGetEnums() noexcept;
     static constexpr void testGetString() noexcept;
+    static constexpr void testToEnum() noexcept;
 };
 
 namespace FreeSuperEnum
