@@ -24,6 +24,7 @@ inline void MiscTester::test()
 {
     std::cout << "Testing Misc..." << std::endl;
     testToString();
+    testToLower();
     testPairPrint();
     testZip();
     testAlloc();
@@ -73,6 +74,19 @@ inline void MiscTester::testToString()
 
     UnitTester::test(eqx::toString(vecWPairs),
         "{ (1, One), (2, Two), (3, Three), (4, Four) }"s);
+}
+
+inline void MiscTester::testToLower() noexcept
+{
+    using namespace std::literals;
+
+    constexpr auto expected = "alllowercase"sv;
+    UnitTester::test(eqx::toLower("ALLLOWERCASE"sv), expected);
+    UnitTester::test(eqx::toLower("AllLowerCase"sv), expected);
+    UnitTester::test(eqx::toLower("AlllowercasE"sv), expected);
+    UnitTester::test(eqx::toLower("alllowercasE"sv), expected);
+    UnitTester::test(eqx::toLower("Alllowercase"sv), expected);
+    UnitTester::test(eqx::toLower("alllowercase"sv), expected);
 }
 
 inline void MiscTester::testPairPrint()

@@ -36,10 +36,10 @@ namespace eqx
      */
     template <typename T>
     concept SignedInteger =
-    std::is_same_v<std::remove_cvref_t<T>, signed short> ||
-    std::is_same_v<std::remove_cvref_t<T>, signed int> ||
-    std::is_same_v<std::remove_cvref_t<T>, signed long> ||
-    std::is_same_v<std::remove_cvref_t<T>, signed long long>;
+        std::is_same_v<std::remove_cvref_t<T>, signed short> ||
+        std::is_same_v<std::remove_cvref_t<T>, signed int> ||
+        std::is_same_v<std::remove_cvref_t<T>, signed long> ||
+        std::is_same_v<std::remove_cvref_t<T>, signed long long>;
 
     /**
      * @brief Constrain T To Be An unsigned Integer Type, Note Unlike
@@ -47,10 +47,10 @@ namespace eqx
      */
     template <typename T>
     concept UnsignedInteger =
-    std::is_same_v<std::remove_cvref_t<T>, unsigned short> ||
-    std::is_same_v<std::remove_cvref_t<T>, unsigned int> ||
-    std::is_same_v<std::remove_cvref_t<T>, unsigned long> ||
-    std::is_same_v<std::remove_cvref_t<T>, unsigned long long>;
+        std::is_same_v<std::remove_cvref_t<T>, unsigned short> ||
+        std::is_same_v<std::remove_cvref_t<T>, unsigned int> ||
+        std::is_same_v<std::remove_cvref_t<T>, unsigned long> ||
+        std::is_same_v<std::remove_cvref_t<T>, unsigned long long>;
 
     /**
      * @brief Constrain T To Be An Integer Type, Note Unlike std::is_integeral
@@ -94,16 +94,16 @@ namespace eqx
      */
     template <typename T>
     concept StringType =
-    std::is_same<std::remove_cvref_t<T>, std::string>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::wstring>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u8string>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u16string>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u32string>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::string_view>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::wstring_view>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u8string_view>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u16string_view>::value ||
-    std::is_same<std::remove_cvref_t<T>, std::u32string_view>::value;
+        std::is_same<std::remove_cvref_t<T>, std::string>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::wstring>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u8string>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u16string>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u32string>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::string_view>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::wstring_view>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u8string_view>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u16string_view>::value ||
+        std::is_same<std::remove_cvref_t<T>, std::u32string_view>::value;
 
     /**
      * @brief Constrain T To Be A Const Collection
@@ -114,7 +114,7 @@ namespace eqx
         {
             std::ranges::cbegin(val);
             std::ranges::cend(val);
-            std::ranges::size(val);
+            std::ranges::distance(val);
         };
 
     /**
@@ -171,6 +171,15 @@ namespace eqx
     template <typename T>
         requires ConstCollection<T>
     [[nodiscard]] std::string toString(const T& val);
+
+    /**
+     * @brief Convert The Characters Of A String To Lower Case
+     *
+     * @param str String To Be Converted
+     *
+     * @returns std::string Which Is The Converted String
+     */
+    [[nodiscard]] std::string toLower(std::string_view str) noexcept;
 
     namespace pairPrint
     {

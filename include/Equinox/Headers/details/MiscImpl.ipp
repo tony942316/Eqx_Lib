@@ -66,6 +66,17 @@ namespace eqx
         return result;
     }
 
+    [[nodiscard]] std::string toLower(std::string_view str) noexcept
+    {
+        auto result = std::string(str);
+        std::ranges::transform(result, std::ranges::begin(result),
+            [](unsigned char c)
+            {
+                return std::tolower(c);
+            });
+        return result;
+    }
+
     namespace pairPrint
     {
         template <typename T, typename U>
