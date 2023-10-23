@@ -18,8 +18,6 @@
 #include "Equinox/Equinox.hpp"
 #include "Tests/FullTester.hpp"
 
-EQX_SUPER_ENUM(Test, V1, V2)
-
 int main()
 {
     using namespace std::literals;

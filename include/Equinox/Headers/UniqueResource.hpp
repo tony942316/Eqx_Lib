@@ -18,7 +18,7 @@
 #ifndef EQUINOX_UNIQUERESOURCE_HPP
 #define EQUINOX_UNIQUERESOURCE_HPP
 
-// Declarations in "details/UniqueREsourceDecl.hpp"
+// Declarations in "details/UniqueResourceDecl.hpp"
 #include "details/UniqueResourceImpl.ipp"
 
 #endif // EQUINOX_UNIQUERESOURCE_HPP

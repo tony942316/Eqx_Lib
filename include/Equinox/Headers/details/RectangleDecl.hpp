@@ -256,7 +256,7 @@ namespace eqx
 template <typename T>
 struct std::hash<eqx::Rectangle<T>>
 {
-    [[nodiscard]] std::size_t operator() (const eqx::Rectangle<T>& rect) 
+    [[nodiscard]] std::size_t operator() (const eqx::Rectangle<T>& rect)
         const noexcept
     {
         return std::hash<T>()(rect.x) ^ std::hash<T>()(rect.y) ^

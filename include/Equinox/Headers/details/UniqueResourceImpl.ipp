@@ -86,6 +86,36 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
+    [[nodiscard]] constexpr std::remove_pointer_t<t_Resource>&
+        UniqueResource<t_Resource, t_Destructor>::operator* () noexcept
+    {
+        if constexpr (std::is_pointer_v<t_Resource>)
+        {
+            eqx::runtimeAssert(m_Resource != nullptr, "nullptr Dereference!");
+            return *m_Resource;
+        }
+        else
+        {
+            return get();
+        }
+    }
+
+    template <class t_Resource, class t_Destructor>
+    [[nodiscard]] constexpr const std::remove_pointer_t<t_Resource>&
+        UniqueResource<t_Resource, t_Destructor>::operator* () const noexcept
+    {
+        if constexpr (std::is_pointer_v<t_Resource>)
+        {
+            eqx::runtimeAssert(m_Resource != nullptr, "nullptr Dereference!");
+            return *m_Resource;
+        }
+        else
+        {
+            return get();
+        }
+    }
+
+    template <class t_Resource, class t_Destructor>
     template <typename t_Constructor, typename... t_Args>
     constexpr void UniqueResource<t_Resource, t_Destructor>::init(
         t_Destructor&& destructor,
@@ -115,6 +145,7 @@ namespace eqx
     template <class t_Resource, class t_Destructor>
     constexpr void UniqueResource<t_Resource, t_Destructor>::free() noexcept
     {
+        eqx::runtimeAssert(m_Init, "Init Never Called!");
         std::invoke(m_Destructor, m_Resource);
 
         m_Init = false;
@@ -131,14 +162,14 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
-    constexpr t_Resource&
+    [[nodiscard]] constexpr t_Resource&
         UniqueResource<t_Resource, t_Destructor>::get() noexcept
     {
         return m_Resource;
     }
 
     template <class t_Resource, class t_Destructor>
-    constexpr const t_Resource&
+    [[nodiscard]] constexpr const t_Resource&
         UniqueResource<t_Resource, t_Destructor>::get() const noexcept
     {
         return m_Resource;

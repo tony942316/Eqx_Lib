@@ -28,7 +28,8 @@ namespace eqx
      * @brief Scoped Resource Management
      */
     template <class t_Resource,
-        class t_Destructor = decltype(&deleteDealloc<std::remove_pointer_t<t_Resource>>)>
+        class t_Destructor =
+            decltype(&deleteDealloc<std::remove_pointer_t<t_Resource>>)>
     class UniqueResource
     {
     public:
@@ -83,6 +84,24 @@ namespace eqx
         UniqueResource& operator= (const UniqueResource&) = delete;
 
         /**
+         * @brief Calls get() Unless The Underlying Resource Is A Pointer Type
+         *      Then It Will Dereference The Underlying Pointer
+         *
+         * @returns Reference To Resource (dereferences pointers)
+         */
+        [[nodiscard]] constexpr std::remove_pointer_t<t_Resource>&
+            operator* () noexcept;
+
+        /**
+         * @brief Calls get() Unless The Underlying Resource Is A Pointer Type
+         *      Then It Will Dereference The Underlying Pointer
+         *
+         * @returns Const Reference To Resource (dereferences pointers)
+         */
+        [[nodiscard]] constexpr const std::remove_pointer_t<t_Resource>&
+            operator* () const noexcept;
+
+        /**
          * @brief Allocate Resource With Constructor And Arguments
          *
          * @param destructor Function Called To Deallocate Resource
@@ -118,14 +137,14 @@ namespace eqx
          *
          * @returns Reference To Resource
          */
-        constexpr t_Resource& get() noexcept;
+        [[nodiscard]] constexpr t_Resource& get() noexcept;
 
         /**
          * @brief Get Underlying Resource
          *
          * @returns Const Reference To Resource
          */
-        constexpr const t_Resource& get() const noexcept;
+        [[nodiscard]] constexpr const t_Resource& get() const noexcept;
 
     private:
         bool m_Init;

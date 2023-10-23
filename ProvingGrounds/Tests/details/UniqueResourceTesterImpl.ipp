@@ -48,6 +48,7 @@ inline void UniqueResourceTester::testUniquePointer() noexcept
     UnitTester::test(res1.get(), nullptr);
     UnitTester::test(res2.get(), nullptr, UnitTesterFunctions::NE);
     UnitTester::test(*res2.get(), "Hello"s);
+    UnitTester::test(*res2, "Hello"s);
 
     res2.free();
 
@@ -62,12 +63,15 @@ constexpr void UniqueResourceTester::testConstruction() noexcept
 
     static_assert(res1.get() == 0);
     static_assert(res2.get() == 1);
+    static_assert(*res1 == 0);
+    static_assert(*res2 == 1);
 
     constexpr auto moveConstruct = []()
     {
         auto res1 = SomeResource(deleteResource, newResource, 2);
         auto res2 = std::move(res1);
-        return res1.get() == 0 && res2.get() == 2;
+        return res1.get() == 0 && res2.get() == 2 &&
+            *res1 == 0 && *res2 == 2;
     };
 
     static_assert(moveConstruct());
@@ -77,7 +81,8 @@ constexpr void UniqueResourceTester::testConstruction() noexcept
         auto res1 = SomeResource(deleteResource, newResource, 3);
         auto res2 = SomeResource();
         res2 = std::move(res1);
-        return res1.get() == 0 && res2.get() == 3;
+        return res1.get() == 0 && res2.get() == 3 &&
+            *res1 == 0 && *res2 == 3;
     };
 
     static_assert(moveAssign());
@@ -93,7 +98,7 @@ constexpr void UniqueResourceTester::testFreeSwap() noexcept
     {
         auto res = SomeResource(deleteResource, newResource, 1);
         res.free();
-        return res.get() == 0;
+        return res.get() == 0 && *res == 0;
     };
 
     constexpr auto swap = []()
@@ -101,7 +106,8 @@ constexpr void UniqueResourceTester::testFreeSwap() noexcept
         auto res1 = SomeResource(deleteResource, newResource, 1);
         auto res2 = SomeResource(deleteResource, newResource, 2);
         res1.swap(res2);
-        return res1.get() == 2 && res2.get() == 1;
+        return res1.get() == 2 && res2.get() == 1 &&
+            *res1 == 2 && *res2 == 1;
     };
 
     static_assert(free() && swap());
