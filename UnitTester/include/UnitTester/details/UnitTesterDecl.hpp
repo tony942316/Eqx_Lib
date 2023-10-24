@@ -34,7 +34,8 @@ struct equalTo
             std::is_floating_point<U>>
     constexpr bool operator() (const T& l, const U& r) const
     {
-        return abs<decltype(l - r)>(l - r) < 0.001;
+        return abs<decltype(l - r)>(l - r) <
+            static_cast<decltype(l - r)>(0.001);
     }
 
     template <typename T, typename U, typename V, typename W>

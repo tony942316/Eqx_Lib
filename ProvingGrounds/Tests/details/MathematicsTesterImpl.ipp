@@ -114,6 +114,8 @@ constexpr void MathematicsTester::testDistance() noexcept
     static_assert(eqx::distance(1.5, 10.2) == 8.7);
     static_assert(eqx::distance(-10.2, -1.5) == 8.7);
     static_assert(eqx::distance(-1.054689, 1.5047896) == 2.5594786000000003);
+    static_assert(equalTo()(eqx::distance(15.3f, -33.1f), 48.4f));
+    static_assert(equalTo()(eqx::distance(-22.5f, 5.7f), 28.2f));
 
     static_assert(eqx::distance(0U, 100'000U) == 100'000U);
 }

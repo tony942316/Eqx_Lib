@@ -25,6 +25,9 @@ project(
 
 add_library(Equinox INTERFACE include/Equinox/Equinox.hpp)
 
+set_target_properties(Equinox PROPERTIES
+    CXX_STANDARD_REQUIRED On)
+
 target_include_directories(Equinox INTERFACE include)
 
 target_compile_features(Equinox INTERFACE cxx_std_20)

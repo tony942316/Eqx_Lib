@@ -54,18 +54,42 @@ constexpr void RectangleTester::testConstruction() noexcept
         eqx::Rectangle<double>(-10.0, -10.0, 3.0, 15.0);
     constexpr auto rect3 =
         eqx::Rectangle<double>(6.123, -9.874, 6.548, 3.698);
+    constexpr auto rect4 = eqx::Rectangle<float>(
+        eqx::Point<float>(0.0f, 0.0f),
+        eqx::Point<float>(10.0f, -10.0f));
+    constexpr auto rect5 = eqx::Rectangle<float>(
+        eqx::Point<float>(-22.5f, 15.3f),
+        eqx::Point<float>(5.7f, -33.1f));
 
     constexpr auto testLambda =
-        [](const eqx::Rectangle<double>& rect,
-            double x, double y, double w, double h) constexpr
+        []<typename T>(const eqx::Rectangle<T>& rect,
+            T x, T y, T w, T h) constexpr
         {
-            return rect.x == x && rect.y == y && rect.w == w && rect.h == h;
+            return equalTo()(rect.x, x) && equalTo()(rect.y, y) &&
+                equalTo()(rect.w, w) && equalTo()(rect.h, h);
         };
 
     static_assert(testLambda(rect0, 0.0, 0.0, 0.0, 0.0));
     static_assert(testLambda(rect1, 1.0, 1.0, 1.0, 1.0));
     static_assert(testLambda(rect2, -10.0, -10.0, 3.0, 15.0));
     static_assert(testLambda(rect3, 6.123, -9.874, 6.548, 3.698));
+    static_assert(testLambda(rect4, 0.0f, 0.0f, 10.0f, 10.0f));
+    static_assert(testLambda(rect5, -22.5f, 15.3f, 28.2f, 48.4f));
+
+    static_assert(requires
+        {
+            eqx::rects::Rectf();
+            eqx::rects::Rectd();
+            eqx::rects::Recti();
+        });
+
+    using namespace eqx::rects;
+    static_assert(requires
+        {
+            Rectf();
+            Rectd();
+            Recti();
+        });
 }
 
 constexpr void RectangleTester::testGetPoints() noexcept

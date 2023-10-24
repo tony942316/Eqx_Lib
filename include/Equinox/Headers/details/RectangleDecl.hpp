@@ -53,6 +53,15 @@ namespace eqx
         explicit constexpr Rectangle(T x, T y, T w, T h) noexcept;
 
         /**
+         * @brief Initalize With Corner Points
+         *
+         * @param topLeft The Top Left Point
+         * @param bottomRight The Bottom Right Point
+         */
+        explicit constexpr Rectangle(const eqx::Point<T>& topLeft,
+            const eqx::Point<T>& bottomRight) noexcept;
+
+        /**
          * Trivial Move And Copy Operation
          */
         Rectangle(const Rectangle&) = default;
@@ -263,5 +272,15 @@ struct std::hash<eqx::Rectangle<T>>
             std::hash<T>()(rect.w) ^ std::hash<T>()(rect.h);
     }
 };
+
+/**
+ * @brief Shorter Names
+ */
+namespace eqx::rects
+{
+    using Rectf = eqx::Rectangle<float>;
+    using Rectd = eqx::Rectangle<double>;
+    using Recti = eqx::Rectangle<int>;
+}
 
 #endif // EQUINOX_DETAILS_RECTANGLEDECL_HPP

@@ -43,6 +43,19 @@ namespace eqx
 
     template <typename T>
         requires Arithmetic<T>
+    constexpr Rectangle<T>::Rectangle(const eqx::Point<T>& topLeft,
+        const eqx::Point<T>& bottomRight) noexcept
+        :
+        Rectangle(topLeft.x, topLeft.y,
+            distance(topLeft.x, bottomRight.x),
+            distance(topLeft.y, bottomRight.y))
+    {
+        eqx::runtimeAssert(topLeft.x < bottomRight.x &&
+            topLeft.y > bottomRight.y , "Invalid Bottom Right Point!");
+    }
+
+    template <typename T>
+        requires Arithmetic<T>
     [[nodiscard]] constexpr bool
         Rectangle<T>::operator== (const Rectangle<T>& other) const noexcept
     {
