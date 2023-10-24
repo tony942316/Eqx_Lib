@@ -121,6 +121,21 @@ constexpr void PointTester::testConstruction() noexcept
     constexpr auto pointParam = eqx::Point<double>(1.5, 3.9);
     static_assert(pointParam.x == 1.5);
     static_assert(pointParam.y == 3.9);
+
+    static_assert(requires
+        {
+            eqx::points::Pointf();
+            eqx::points::Pointd();
+            eqx::points::Pointi();
+        });
+
+    using namespace eqx::points;
+    static_assert(requires
+        {
+            Pointf();
+            Pointd();
+            Pointi();
+        });
 }
 
 constexpr void PointTester::testPlus() noexcept

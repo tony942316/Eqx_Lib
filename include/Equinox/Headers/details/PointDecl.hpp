@@ -283,4 +283,14 @@ struct std::hash<eqx::Point<T>>
     }
 };
 
+/**
+ * @brief Shorter Names
+ */
+namespace eqx::points
+{
+    using Pointf = eqx::Point<float>;
+    using Pointd = eqx::Point<double>;
+    using Pointi = eqx::Point<int>;
+}
+
 #endif // EQUINOX_DETAILS_POINTDECL_HPP
