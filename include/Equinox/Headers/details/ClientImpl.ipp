@@ -24,13 +24,15 @@ namespace eqx
 {
     using namespace eqx::literals;
 
-    constexpr Client::Client() noexcept
+    consteval Client::Client() noexcept
         :
         m_Socket()
     {
     }
 
     inline Client::Client(std::string_view host, std::uint16_t port) noexcept
+        :
+        m_Socket()
     {
         init(host, port);
     }

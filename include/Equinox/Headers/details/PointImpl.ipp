@@ -24,7 +24,7 @@ namespace eqx
 {
     template <typename T>
         requires Arithmetic<T>
-    constexpr Point<T>::Point() noexcept
+    consteval Point<T>::Point() noexcept
         :
         Point(zero<T>, zero<T>)
     {

@@ -40,7 +40,7 @@ namespace eqx
         /**
          * @brief Default Initialization
          */
-        explicit constexpr Client() noexcept;
+        explicit consteval Client() noexcept;
 
         /**
          * @brief Initialize With Host And Port

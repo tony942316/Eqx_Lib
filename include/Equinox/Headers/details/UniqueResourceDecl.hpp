@@ -36,7 +36,7 @@ namespace eqx
         /**
          * @brief Default Initialization
          */
-        explicit constexpr UniqueResource() noexcept;
+        explicit consteval UniqueResource() noexcept;
 
         /**
          * @brief Initialize With Constructor And Arguments

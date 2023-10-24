@@ -37,7 +37,7 @@ namespace eqx
         /**
          * @brief Initialized With Zeros i.e. ((T)0, (T)0)
          */
-        explicit constexpr Point() noexcept;
+        explicit consteval Point() noexcept;
 
         /**
          * @brief Initialize With Values i.e. (x, y)

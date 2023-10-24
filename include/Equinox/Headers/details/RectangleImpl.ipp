@@ -24,7 +24,7 @@ namespace eqx
 {
     template <typename T>
         requires Arithmetic<T>
-    constexpr Rectangle<T>::Rectangle() noexcept
+    consteval Rectangle<T>::Rectangle() noexcept
         :
         Rectangle(zero<T>, zero<T>, zero<T>, zero<T>)
     {

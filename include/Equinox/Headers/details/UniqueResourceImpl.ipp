@@ -23,12 +23,12 @@
 namespace eqx
 {
     template <class t_Resource, class t_Destructor>
-    constexpr
+    consteval
         UniqueResource<t_Resource, t_Destructor>::UniqueResource() noexcept
-            :
-            m_Init(false),
-            m_Resource(),
-            m_Destructor()
+        :
+        m_Init(false),
+        m_Resource(),
+        m_Destructor()
     {
     }
 
@@ -40,7 +40,9 @@ namespace eqx
             const t_Constructor& constructor,
             t_Args&&... args) noexcept
         :
-        UniqueResource()
+        m_Init(false),
+        m_Resource(),
+        m_Destructor()
     {
         init(std::forward<t_Destructor>(destructor), constructor,
             std::forward<t_Args>(args)...);
@@ -58,7 +60,9 @@ namespace eqx
     constexpr UniqueResource<t_Resource, t_Destructor>::UniqueResource(
         UniqueResource&& other) noexcept
         :
-        UniqueResource()
+        m_Init(false),
+        m_Resource(),
+        m_Destructor()
     {
         swap(other);
     }

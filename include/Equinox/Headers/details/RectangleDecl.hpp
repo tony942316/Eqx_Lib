@@ -40,7 +40,7 @@ namespace eqx
         /**
          * @brief Initialized With Zeros i.e. ((T)0, ...)
          */
-        explicit constexpr Rectangle() noexcept;
+        explicit consteval Rectangle() noexcept;
 
         /**
          * @brief Initalize With Values i.e. (x, y, w, h)
