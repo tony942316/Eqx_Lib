@@ -20,6 +20,7 @@
 
 //C Lib
 #include <cstring>
+#include <cmath>
 
 //STL Concepts
 #include <concepts>
@@ -58,7 +59,6 @@
 //STL Numerics
 #include <numeric>
 #include <numbers>
-#include <cmath>
 #include <random>
 
 //STL Time
@@ -134,6 +134,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <arpa/inet.h>
 #endif
 
 #endif // EQUINOX_CPP_STD_HPP
