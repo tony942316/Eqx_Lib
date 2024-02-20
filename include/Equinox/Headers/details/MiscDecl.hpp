@@ -294,19 +294,6 @@ namespace eqx
         noexcept;
 
     /**
-     * @brief "Zip" Two Collections Together In The Form Of
-     *      A std::vector<std::pair<C1 Held Value, C2 Held Value>>
-     *
-     * @param x, y Must Be eqx::constCollection Compliant And 
-     *      Must Be The Same Size
-     *
-     * @returns std::vector<std::pair<C1 Held Value, C2 Held Value>>
-     */
-    template <typename C1, typename C2>
-        requires ConstCollection<C1> && ConstCollection<C2>
-    [[nodiscard]] inline auto zip(const C1& x, const C2& y);
-
-    /**
      * @brief Wrapper Function Around new
      *
      * @param args Arguments To Pass To T Constructor

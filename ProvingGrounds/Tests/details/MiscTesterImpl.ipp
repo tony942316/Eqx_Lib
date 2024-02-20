@@ -26,7 +26,6 @@ inline void MiscTester::test()
     testToString();
     testToLower();
     testPairPrint();
-    testZip();
     testAlloc();
     UnitTester::printStatus();
     UnitTester::clear();
@@ -48,7 +47,7 @@ inline void MiscTester::testToString()
     UnitTester::test(eqx::toString(5.1234567F), "5.123456"s);
     UnitTester::test(eqx::toString(5.1234567), "5.123457"s);
     UnitTester::test(eqx::toString(5.1234567L), "5.123457"s);
-    
+
     UnitTester::test(eqx::toString(std::make_pair(5, 5)), "(5, 5)"s);
     UnitTester::test(eqx::toString(std::make_pair("Yes", 5)), "(Yes, 5)"s);
     UnitTester::test(
@@ -108,54 +107,6 @@ inline void MiscTester::testPairPrint()
     ss << std::make_pair(1.5, "Double") << "\n";
     std::getline(ss, temp);
     UnitTester::test(temp, "(1.500000, Double)"s);
-}
-
-inline void MiscTester::testZip()
-{
-    using namespace std::literals;
-
-    auto emptyTest = eqx::zip(std::vector<int>(), std::vector<int>());
-    UnitTester::test(emptyTest, std::vector<std::pair<int, int>>());
-
-    auto diffCollectionTest = eqx::zip(
-        std::vector<int>({ 1, 2, 3 }),
-        std::array<int, 3ULL>({ 1, 2, 3 }));
-    UnitTester::test(diffCollectionTest, std::vector<std::pair<int, int>>({
-        { 1, 1 },
-        { 2, 2 },
-        { 3, 3 } }));
-
-    auto diffCollectionTest2 = eqx::zip(
-        std::vector<int>({ 1, 2, 3 }),
-        std::map<int, int>({
-            { 1, 1 },
-            { 2, 2 },
-            { 3, 3 } }));
-    UnitTester::test(diffCollectionTest2,
-        std::vector<std::pair<int, std::pair<const int, int>>>({
-            { 1, { 1, 1 } },
-            { 2, { 2, 2 } },
-            { 3, { 3, 3 } } }));
-
-    /*
-    auto diffCollectionTest3 = eqx::zip(
-        std::unordered_map<int, std::string_view>({
-            { 0, "XX"sv },
-            { 10'000, "x"sv } }),
-        std::set<double>({ 0.001, 11.12234 }));
-    UnitTester::test(diffCollectionTest3,
-        std::vector<std::pair<
-        std::pair<const int, std::string_view>, double>>({
-            { { 0, "XX"sv }, 0.001 },
-            { { 10'000, "x"sv }, 11.12234 } }));
-*/
-    auto diffHeldTypeTest = eqx::zip(
-            std::vector<std::string_view>({ "Hello"sv, "Goodbye"sv }),
-            std::vector<double>({ 1.0, 2.0 }));
-    UnitTester::test(diffHeldTypeTest,
-        std::vector<std::pair<std::string_view, double>>({
-            { "Hello"sv, 1.0 },
-            { "Goodbye"sv, 2.0 } }));
 }
 
 inline void MiscTester::testAlloc() noexcept

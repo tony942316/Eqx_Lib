@@ -68,11 +68,12 @@ namespace eqx
 
     [[nodiscard]] std::string toLower(std::string_view str) noexcept
     {
-        auto result = std::string(str);
-        std::ranges::transform(result, std::ranges::begin(result),
+        auto result = std::string();
+        result.reserve(std::ranges::size(str));
+        std::ranges::transform(str, std::back_inserter(result),
             [](unsigned char c)
             {
-                return std::tolower(c);
+                return static_cast<char>(std::tolower(static_cast<int>(c)));
             });
         return result;
     }
@@ -206,32 +207,6 @@ namespace eqx
             std::abort();
         }
 #endif // EQX_NO_ASSERTS
-    }
-
-    template <typename C1, typename C2>
-        requires ConstCollection<C1> && ConstCollection<C2>
-    [[nodiscard]] auto zip(const C1& x, const C2& y)
-    {
-        runtimeAssert(std::ranges::size(x) == std::ranges::size(y),
-            "eqx::zip std::ranges::size(x) != std::ranges::size(y)!");
-
-        using C1HeldValue =
-            std::remove_cvref_t<decltype(*std::ranges::cbegin(x))>;
-        using C2HeldValue =
-            std::remove_cvref_t<decltype(*std::ranges::cbegin(y))>;
-
-        auto zippedRange =
-            std::vector<std::pair<C1HeldValue, C2HeldValue>>();
-        zippedRange.reserve(std::ranges::size(x));
-
-        auto xIter = std::ranges::cbegin(x);
-        auto yIter = std::ranges::cbegin(y);
-        for (; xIter != std::ranges::cend(x); xIter++, yIter++)
-        {
-            zippedRange.emplace_back(*xIter, *yIter);
-        }
-
-        return zippedRange;
     }
 
     template <typename T, typename... Args>
