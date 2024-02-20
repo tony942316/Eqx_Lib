@@ -52,14 +52,22 @@ namespace eqx
         requires ConstCollection<T>
     [[nodiscard]] std::string toString(const T& val)
     {
-        auto result = std::string("");
-        result += "{ ";
-        std::ranges::for_each(val,
-            [&result](const auto& x)
+        if (std::ranges::size(val) == 0)
+        {
+            return std::string("{ }");
+        }
+
+        auto result = std::string("{ ");
+
+        auto v = val |
+            std::views::transform([](const auto& x) { return toString(x); });
+
+        std::ranges::for_each(v, [&result](std::string_view str)
             {
-                result += toString(x);
+                result += str;
                 result += ", ";
             });
+
         result.pop_back();
         result.pop_back();
         result += " }";

@@ -73,6 +73,9 @@ inline void MiscTester::testToString()
 
     UnitTester::test(eqx::toString(vecWPairs),
         "{ (1, One), (2, Two), (3, Three), (4, Four) }"s);
+
+    UnitTester::test(eqx::toString(std::vector<int>()),
+        "{ }"s);
 }
 
 inline void MiscTester::testToLower() noexcept
