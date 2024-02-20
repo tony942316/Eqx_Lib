@@ -104,7 +104,47 @@ namespace eqx
             return static_cast<unsigned short>(x);
         }
 
-        constexpr unsigned long long operator""_KB (unsigned long long x)
+        consteval std::int8_t operator""_i8 (unsigned long long x) noexcept
+        {
+            return static_cast<std::int8_t>(x);
+        }
+
+        consteval std::int16_t operator""_i16 (unsigned long long x) noexcept
+        {
+            return static_cast<std::int16_t>(x);
+        }
+
+        consteval std::int32_t operator""_i32 (unsigned long long x) noexcept
+        {
+            return static_cast<std::int32_t>(x);
+        }
+
+        consteval std::int64_t operator""_i64 (unsigned long long x) noexcept
+        {
+            return static_cast<std::int64_t>(x);
+        }
+
+        consteval std::uint8_t operator""_u8 (unsigned long long x) noexcept
+        {
+            return static_cast<std::uint8_t>(x);
+        }
+
+        consteval std::uint16_t operator""_u16 (unsigned long long x) noexcept
+        {
+            return static_cast<std::uint16_t>(x);
+        }
+
+        consteval std::uint32_t operator""_u32 (unsigned long long x) noexcept
+        {
+            return static_cast<std::uint32_t>(x);
+        }
+
+        consteval std::uint64_t operator""_u64 (unsigned long long x) noexcept
+        {
+            return static_cast<std::uint64_t>(x);
+        }
+
+        consteval unsigned long long operator""_KB (unsigned long long x)
             noexcept
         {
             return x * 1024ULL;

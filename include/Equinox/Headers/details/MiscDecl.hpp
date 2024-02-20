@@ -212,9 +212,49 @@ namespace eqx
             noexcept;
 
         /**
+         * @brief 8 Byte Integer Literal
+         */
+        consteval std::int8_t operator""_i8 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 16 Byte Integer Literal
+         */
+        consteval std::int16_t operator""_i16 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 32 Byte Integer Literal
+         */
+        consteval std::int32_t operator""_i32 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 64 Byte Integer Literal
+         */
+        consteval std::int64_t operator""_i64 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 8 Byte Unsigned Integer Literal
+         */
+        consteval std::uint8_t operator""_u8 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 16 Byte Unsigned Integer Literal
+         */
+        consteval std::uint16_t operator""_u16 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 32 Byte Unsigned Integer Literal
+         */
+        consteval std::uint32_t operator""_u32 (unsigned long long x) noexcept;
+
+        /**
+         * @brief 64 Byte Unsigned Integer Literal
+         */
+        consteval std::uint64_t operator""_u64 (unsigned long long x) noexcept;
+
+        /**
          * @brief KiloBytes Literal Conversion
          */
-        constexpr unsigned long long operator""_KB(unsigned long long x)
+        consteval unsigned long long operator""_KB(unsigned long long x)
             noexcept;
     }
 

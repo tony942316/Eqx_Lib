@@ -177,6 +177,14 @@ constexpr void MiscTester::testLiterals() noexcept
     static_assert(std::same_as<decltype(1_size), std::size_t>);
     static_assert(std::same_as<decltype(1_short), short>);
     static_assert(std::same_as<decltype(1_ushort), unsigned short>);
+    static_assert(std::same_as<decltype(1_i8), std::int8_t>);
+    static_assert(std::same_as<decltype(1_i16), std::int16_t>);
+    static_assert(std::same_as<decltype(1_i32), std::int32_t>);
+    static_assert(std::same_as<decltype(1_i64), std::int64_t>);
+    static_assert(std::same_as<decltype(1_u8), std::uint8_t>);
+    static_assert(std::same_as<decltype(1_u16), std::uint16_t>);
+    static_assert(std::same_as<decltype(1_u32), std::uint32_t>);
+    static_assert(std::same_as<decltype(1_u64), std::uint64_t>);
 }
 
 constexpr void MiscTester::testConstexprAssert() noexcept
