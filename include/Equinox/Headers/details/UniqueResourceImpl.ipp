@@ -120,6 +120,20 @@ namespace eqx
     }
 
     template <class t_Resource, class t_Destructor>
+    [[nodiscard]] constexpr t_Resource
+        UniqueResource<t_Resource, t_Destructor>::operator-> () noexcept
+    {
+        return get();
+    }
+
+    template <class t_Resource, class t_Destructor>
+    [[nodiscard]] constexpr const t_Resource
+        UniqueResource<t_Resource, t_Destructor>::operator-> () const noexcept
+    {
+        return get();
+    }
+
+    template <class t_Resource, class t_Destructor>
     template <typename t_Constructor, typename... t_Args>
     constexpr void UniqueResource<t_Resource, t_Destructor>::init(
         t_Destructor&& destructor,

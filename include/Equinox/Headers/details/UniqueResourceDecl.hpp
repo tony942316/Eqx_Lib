@@ -102,6 +102,21 @@ namespace eqx
             operator* () const noexcept;
 
         /**
+         * @brief Arrow operator Overload
+         *
+         * @returns The Resource
+         */
+        [[nodiscard]] constexpr t_Resource operator-> () noexcept;
+
+        /**
+         * @brief Arrow operator Overload
+         *
+         * @returns The Const Resource
+         */
+        [[nodiscard]] constexpr const t_Resource
+            operator-> () const noexcept;
+
+        /**
          * @brief Allocate Resource With Constructor And Arguments
          *
          * @param destructor Function Called To Deallocate Resource

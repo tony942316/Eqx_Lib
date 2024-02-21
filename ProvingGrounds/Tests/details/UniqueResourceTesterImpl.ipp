@@ -49,6 +49,7 @@ inline void UniqueResourceTester::testUniquePointer() noexcept
     UnitTester::test(res2.get(), nullptr, UnitTesterFunctions::NE);
     UnitTester::test(*res2.get(), "Hello"s);
     UnitTester::test(*res2, "Hello"s);
+    UnitTester::test(res2->size(), static_cast<std::size_t>(5));
 
     res2.free();
 
