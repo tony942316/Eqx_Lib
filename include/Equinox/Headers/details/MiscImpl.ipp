@@ -86,6 +86,24 @@ namespace eqx
         return result;
     }
 
+    [[nodiscard]] inline std::vector<std::string>
+        parseString(const std::string_view str, const std::string_view c)
+    {
+        auto v = str |
+            std::views::split(c) |
+            std::views::transform([](const auto& val)
+                {
+                    return std::string_view(val.begin(), val.end());
+                }) |
+            std::views::filter([](const std::string_view str)
+                {
+                    return !std::ranges::empty(str);
+                });
+
+        return std::vector<std::string>(std::ranges::begin(v),
+            std::ranges::end(v));
+    }
+
     namespace pairPrint
     {
         template <typename T, typename U>

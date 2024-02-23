@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifdef __linux__
-
 #ifndef PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
 #define PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
 
@@ -35,6 +33,7 @@ inline void ClientServerTester::testSendReceive()
 {
     using namespace std::literals;
     auto serverTask = std::async(std::launch::async, serverLoop);
+    std::this_thread::sleep_for(1'000ms);
     auto clientTask = std::async(std::launch::async, clientLoop);
 
     UnitTester::test(serverTask.get(), "Hello Server!"s);
@@ -43,18 +42,19 @@ inline void ClientServerTester::testSendReceive()
 
 inline std::string ClientServerTester::clientLoop()
 {
-    auto client = eqx::Client("127.0.0.1", 4'000);
-    client.send("Hello Server!");
-    return client.receive();
+    using namespace eqx::literals;
+    auto client = eqx::Client("127.0.0.1"sv, 42'069_u16);
+    client.send("Hello Server!"sv);
+    return client.recv();
 }
 
 inline std::string ClientServerTester::serverLoop()
 {
-    auto server = eqx::Server(4'000);
-    server.send("Hello Client!");
-    return server.receive();
+    using namespace eqx::literals;
+    auto server = eqx::Server(42'069_u16);
+    auto client = server.getConnection();
+    client.send("Hello Client!"sv);
+    return client.recv();
 }
 
 #endif // PROVINGGROUNDS_TESTS_CLIENTSERVERTESTERIMPL_IPP
-
-#endif // __linux__

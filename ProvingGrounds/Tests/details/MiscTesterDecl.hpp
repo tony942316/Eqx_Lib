@@ -35,6 +35,7 @@ public:
 private:
     static inline void testToString();
     static inline void testToLower() noexcept;
+    static inline void testParseString() noexcept;
     static inline void testPairPrint();
     static inline void testAlloc() noexcept;
     static constexpr void testLiterals() noexcept;

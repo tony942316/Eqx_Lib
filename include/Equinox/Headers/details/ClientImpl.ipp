@@ -22,121 +22,72 @@
 
 namespace eqx
 {
-    using namespace eqx::literals;
-
     consteval Client::Client() noexcept
         :
         m_Socket()
     {
     }
 
-    inline Client::Client(std::string_view host, std::uint16_t port) noexcept
+    inline Client::Client(std::string_view ip,
+        std::uint16_t port) noexcept
         :
         m_Socket()
     {
-        init(host, port);
+        connect(ip, port);
     }
 
-#ifdef __linux__
-    inline void Client::init(std::string_view host, std::uint16_t port) noexcept
+    inline Client::Client(int socket) noexcept
+        :
+        m_Socket()
+    {
+        assign(socket);
+    }
+
+    inline void Client::connect(std::string_view ip,
+        std::uint16_t port) noexcept
     {
         m_Socket.init(close, socket, AF_INET, SOCK_STREAM, 0);
-        eqx::runtimeAssert(m_Socket.get() > -1,
-            "Client Socket Error!"sv);
+        eqx::runtimeAssert(*m_Socket != -1, "Error Creating Socket!"sv);
 
-        hostent* servEnt = gethostbyname(host.data());
-        eqx::runtimeAssert(servEnt != nullptr,
-            "Host Not Found!"sv);
+        sockaddr_in server_address;
+        server_address.sin_family = AF_INET;
+        server_address.sin_port = htons(port);
+        auto error_code = inet_pton(AF_INET, ip.data(),
+            &server_address.sin_addr);
+        eqx::runtimeAssert(error_code == 1, "Inet Conversion Error!"sv);
 
-        sockaddr_in serv = {};
-        serv.sin_family = AF_INET;
-        std::memcpy((char*)servEnt->h_addr,
-            (char*)&serv.sin_addr.s_addr,
-            static_cast<std::size_t>(servEnt->h_length));
-        serv.sin_port = htons(port);
-        eqx::runtimeAssert(
-            connect(m_Socket.get(), (sockaddr*)&serv, sizeof(serv)) == 0,
-            "Client Connect Error!"sv);
+        error_code = ::connect(*m_Socket, (sockaddr*)&server_address,
+            sizeof(server_address));
+        eqx::runtimeAssert(error_code != -1, "Connection Error!"sv);
+    }
+
+    inline void Client::assign(int socket) noexcept
+    {
+        *m_Socket = socket;
     }
 
     inline void Client::send(std::string_view msg) noexcept
     {
-        auto nBytes = write(m_Socket.get(), msg.data(), msg.size());
-        eqx::runtimeAssert(nBytes > -1,
-            "Client Write Error!"sv);
+        ::send(*m_Socket,
+            std::ranges::data(msg), std::ranges::size(msg), 0);
     }
 
-    inline std::string Client::receive(std::size_t bytes) noexcept
+    [[nodiscard]] inline std::string Client::recv() noexcept
     {
-        auto msg = std::string();
-        msg.resize(bytes);
-        auto nBytes = read(m_Socket.get(), msg.data(), bytes);
-        eqx::runtimeAssert(nBytes > -1,
-            "Client Read Error!"sv);
-        msg.resize(static_cast<std::size_t>(nBytes));
-        return msg;
-    }
-#endif // __linux__
-
-#ifdef _WIN32
-    inline void Client::init(std::string_view host, std::uint16_t port) noexcept
-    {
-        auto portStr = std::to_string(port);
-        WSADATA wsaDATA;
-        addrinfo* result = nullptr;
-        addrinfo* ptr = nullptr;
-        addrinfo hints;
-
-        eqx::runtimeAssert(WSAStartup(MAKEWORD(2, 2), &wsaDATA) == 0,
-            "WSA Failed To Initialize!"sv);
-        ZeroMemory(&hints, sizeof(hints));
-        hints.ai_family = AF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-        hints.ai_protocol = IPPROTO_TCP;
-
-        eqx::runtimeAssert(
-            getaddrinfo(host.data(), portStr.c_str(), &hints, &result) == 0,
-            "Couldn't Find Host!"sv);
-
-        for (ptr = result; ptr != nullptr; ptr = ptr->ai_next)
+        char buffer[1024];
+        auto bytes = ::recv(*m_Socket, buffer, sizeof(buffer), 0);
+        eqx::runtimeAssert(bytes != -1, "Error Receiving Message!"sv);
+        if (bytes == 0)
         {
-            m_Socket.init(closesocket, socket, ptr->ai_family, ptr->ai_socktype,
-                ptr->ai_protocol);
-            eqx::runtimeAssert(m_Socket.get() != INVALID_SOCKET,
-                "Socket Creation Error!"sv);
-
-            if (::connect(m_Socket.get(), ptr->ai_addr,
-                static_cast<int>(ptr->ai_addrlen)) != SOCKET_ERROR)
-            {
-                break;
-            }
+            std::strcpy(buffer, "Client Disconnect!");
+        }
+        else
+        {
+            buffer[bytes] = '\0';
         }
 
-        freeaddrinfo(result);
-
-        eqx::runtimeAssert(m_Socket.get() != INVALID_SOCKET,
-            "Unable To Connect!"sv);
+        return std::string(buffer);
     }
-
-    inline void Client::send(std::string_view msg) noexcept
-    {
-        ::send(m_Socket.get(), msg.data(), static_cast<int>(msg.size()), 0);
-    }
-
-    inline std::string Client::receive(std::size_t bytes) noexcept
-    {
-        static constexpr auto c_MaxBytes = 1024;
-        eqx::runtimeAssert(bytes < c_MaxBytes,
-            "1024 Bytes Is The Receive Limit!"sv);
-        char buf[c_MaxBytes] = {};
-        auto nBytes = ::recv(m_Socket.get(), buf, static_cast<int>(bytes), 0);
-        eqx::runtimeAssert(nBytes != SOCKET_ERROR,
-            "Client Receive Error!"sv);
-        auto result = std::string(buf);
-        result.resize(nBytes);
-        return result;
-    }
-#endif // _WIN32
 }
 
 #endif // EQUINOX_DETAILS_CLIENTIMPL_IPP

@@ -181,6 +181,14 @@ namespace eqx
      */
     [[nodiscard]] std::string toLower(std::string_view str) noexcept;
 
+    /**
+     * @brief Parse String With A Delimiter
+     *
+     * @returns std::vector<std::string> Of The Seperated Messages
+     */
+    [[nodiscard]] inline std::vector<std::string>
+        parseString(const std::string_view str, const std::string_view c);
+
     namespace pairPrint
     {
         /**

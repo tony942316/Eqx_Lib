@@ -20,4 +20,9 @@
 
 #include "../../EquinoxCppStd.hpp"
 
+namespace eqx
+{
+    using namespace std::literals;
+}
+
 #endif // EQUINOX_DETAILS_DEPENDENCIES_HPP

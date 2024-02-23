@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifdef __linux__
-
 #ifndef EQUINOX_DETAILS_SERVERDECL_HPP
 #define EQUINOX_DETAILS_SERVERDECL_HPP
 
@@ -24,60 +22,45 @@
 
 #include "../Misc.hpp"
 #include "../UniqueResource.hpp"
+#include "../Client.hpp"
 
 namespace eqx
 {
     /**
-     * @brief Server To Send And Receive Data From eqx::Client
+     * @brief Server To Listen For Incoming Connections
      */
     class Server
     {
-    private:
-        using Socket = UniqueResource<int, decltype(&close)>;
-
     public:
         /**
          * @brief Default Initialization
          */
-        explicit constexpr Server() noexcept;
+        explicit consteval Server() noexcept;
 
         /**
-         * @brief Initialize With Host And Port, Blocks Until Connection!
+         * @brief Initialize With Port
          *
-         * @param host IP Of The eqx::Client
-         * @param port Port Of The eqx::Client
+         * @param port Port Of The eqx::Server
          */
         explicit inline Server(std::uint16_t port) noexcept;
 
         /**
-         * @brief Initialize With Host And Port, Blocks Until Connection!
+         * @brief Initialize With Port
          *
-         * @param host IP Of The eqx::Client
-         * @param port Port Of The eqx::Client
+         * @param port Port Of The eqx::Server
          */
-        inline void init(std::uint16_t port) noexcept;
+        inline void start(std::uint16_t port) noexcept;
 
         /**
-         * @brief Send Data To The eqx::Client
+         * @brief Wait For Then Return Client Connection
          *
-         * @param msg Data To Send
+         * @returns eqx::Client For Communication
          */
-        inline void send(std::string_view msg) noexcept;
-
-        /**
-         * @brief Receive Data From The eqx::Client
-         *
-         * @param bytes Number Of Bytes Receiving From The eqx::Client
-         *
-         * @returns std::string With All The Bytes
-         */
-        inline std::string receive(std::size_t bytes = 128) noexcept;
+        [[nodiscard]] inline Client getConnection() noexcept;
 
     private:
-        Socket m_ServerSocket, m_ClientSocket;
+        eqx::UniqueResource<int, decltype(&close)> m_Socket;
     };
 }
 
 #endif // EQUINOX_DETAILS_SERVERDECL_HPP
-
-#endif // __linux__

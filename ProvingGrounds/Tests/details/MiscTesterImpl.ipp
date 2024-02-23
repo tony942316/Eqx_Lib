@@ -25,6 +25,7 @@ inline void MiscTester::test()
     std::cout << "Testing Misc..." << std::endl;
     testToString();
     testToLower();
+    testParseString();
     testPairPrint();
     testAlloc();
     UnitTester::printStatus();
@@ -89,6 +90,19 @@ inline void MiscTester::testToLower() noexcept
     UnitTester::test(eqx::toLower("alllowercasE"sv), expected);
     UnitTester::test(eqx::toLower("Alllowercase"sv), expected);
     UnitTester::test(eqx::toLower("alllowercase"sv), expected);
+}
+
+inline void MiscTester::testParseString() noexcept
+{
+    using namespace std::literals;
+
+    auto expected = std::vector<std::string>({ "Hello Server"s, "Exit"s });
+    auto produced = eqx::parseString("Hello Server;Exit;"sv, ";"sv);
+    UnitTester::test(produced, expected);
+
+    expected = std::vector<std::string>({ "Hello"s, "World!"s });
+    produced = eqx::parseString("Hello World!"sv, " "sv);
+    UnitTester::test(produced, expected);
 }
 
 inline void MiscTester::testPairPrint()

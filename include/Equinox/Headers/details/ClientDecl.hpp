@@ -24,18 +24,12 @@
 
 namespace eqx
 {
+
     /**
-     * @brief Client To Send And Receive Data From eqx::Server
+     * @brief Client To Send And Receive Data From Socket
      */
     class Client
     {
-    private:
-#ifdef __linux__
-        using Socket = UniqueResource<int, decltype(&close)>;
-#endif // __linux__
-#ifdef _WIN32
-        using Socket = UniqueResource<SOCKET, decltype(&closesocket)>;
-#endif // _WIN32
     public:
         /**
          * @brief Default Initialization
@@ -45,38 +39,50 @@ namespace eqx
         /**
          * @brief Initialize With Host And Port
          *
-         * @param host IP Of The eqx::Server
+         * @param ip IP Of The eqx::Server
          * @param port Port Of The eqx::Server
          */
-        explicit inline Client(std::string_view host,
+        explicit inline Client(std::string_view ip,
             std::uint16_t port) noexcept;
+
+        /**
+         * @brief Initialize With Active Socket
+         *
+         * @param socket Active Socket
+         */
+        explicit inline Client(int socket) noexcept;
 
         /**
          * @brief Initialize With Host And Port
          *
-         * @param host IP Of The eqx::Server
+         * @param ip IP Of The eqx::Server
          * @param port Port Of The eqx::Server
          */
-        inline void init(std::string_view host, std::uint16_t port) noexcept;
+        inline void connect(std::string_view ip, std::uint16_t port) noexcept;
 
         /**
-         * @brief Send Data To The eqx::Server
+         * @brief Initialize With Active Socket
+         *
+         * @param socket Active Socket
+         */
+        inline void assign(int socket) noexcept;
+
+        /**
+         * @brief Send Data To The Socket
          *
          * @param msg Data To Send
          */
         inline void send(std::string_view msg) noexcept;
 
         /**
-         * @brief Receive Data From The eqx::Server
+         * @brief Receive All Sent Data From The Socket
          *
-         * @param bytes Number Of Bytes Receiving From The eqx::Server
-         *
-         * @returns std::string With All The Bytes
+         * @returns std::string With All The Data
          */
-        inline std::string receive(std::size_t bytes = 128) noexcept;
+        [[nodiscard]] inline std::string recv() noexcept;
 
     private:
-        Socket m_Socket;
+        eqx::UniqueResource<int, decltype(&close)> m_Socket;
     };
 }
 

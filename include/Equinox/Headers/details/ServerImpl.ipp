@@ -15,8 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifdef __linux__
-
 #ifndef EQUINOX_DETAILS_SERVERIMPL_IPP
 #define EQUINOX_DETAILS_SERVERIMPL_IPP
 
@@ -24,68 +22,53 @@
 
 namespace eqx
 {
-    using namespace eqx::literals;
-
-    constexpr Server::Server() noexcept
+    consteval Server::Server() noexcept
         :
-        m_ServerSocket(),
-        m_ClientSocket()
+        m_Socket()
     {
     }
 
     inline Server::Server(std::uint16_t port) noexcept
         :
-        Server()
+        m_Socket()
     {
-        init(port);
+        start(port);
     }
 
-    inline void Server::init(std::uint16_t port) noexcept
+    inline void Server::start(std::uint16_t port) noexcept
     {
-        m_ServerSocket.init(close, socket, AF_INET, SOCK_STREAM, 0);
-        eqx::runtimeAssert(m_ServerSocket.get() > -1,
-            "Socket Creation Error!"sv);
+        m_Socket.init(close, socket, AF_INET, SOCK_STREAM, 0);
+        eqx::runtimeAssert(*m_Socket != -1, "Error Creating Socket!"sv);
 
-        static constexpr int enable = 1;
-        eqx::runtimeAssert(setsockopt(m_ServerSocket.get(), SOL_SOCKET,
-            SO_REUSEADDR, &enable, sizeof(int)) == 0,
-            "Socket Set Option Error"sv);
+        static auto enable = 1;
+        auto error_code = setsockopt(*m_Socket, SOL_SOCKET, SO_REUSEADDR,
+            (void*)&enable, sizeof(enable));
+        eqx::runtimeAssert(error_code == 0, "Error Setting Socket Option!"sv);
 
-        sockaddr_in serv = {};
-        serv.sin_family = AF_INET;
-        serv.sin_addr.s_addr = INADDR_ANY;
-        serv.sin_port = htons(port);
+        sockaddr_in server_address;
+        server_address.sin_family = AF_INET;
+        server_address.sin_addr.s_addr = INADDR_ANY;
+        server_address.sin_port = htons(port);
 
-        eqx::runtimeAssert(
-            bind(m_ServerSocket.get(), (sockaddr*)&serv, sizeof(serv)) == 0,
-            "Server Bind Error!\n"sv);
-        listen(m_ServerSocket.get(), 5);
+        error_code = bind(*m_Socket,
+            (sockaddr*)(&server_address), sizeof(server_address));
+        eqx::runtimeAssert(error_code != -1, "Error Binding Socket!"sv);
 
-        sockaddr_in client = {};
-        socklen_t clientLen = sizeof(client);
-        m_ClientSocket.init(close, accept,
-            m_ServerSocket.get(), (sockaddr*)&client, &clientLen);
-        eqx::runtimeAssert(m_ClientSocket.get() > -1,
-            "Server Accept Error!"sv);
+        error_code = listen(*m_Socket, 5);
+        eqx::runtimeAssert(error_code != -1, "Error Listening On Socket!"sv);
     }
 
-    inline void Server::send(std::string_view msg) noexcept
+    [[nodiscard]] inline Client Server::getConnection() noexcept
     {
-        auto nBytes = write(m_ClientSocket.get(), msg.data(), msg.size());
-        eqx::runtimeAssert(nBytes > -1, "Server Write Error!"sv);
-    }
+        sockaddr_in client_address;
+        socklen_t client_address_size = sizeof(client_address);
+        int client_socket = accept(*m_Socket, (sockaddr*)&client_address,
+            &client_address_size);
+        eqx::runtimeAssert(client_socket != -1,
+            "Error Accepting Connection!"sv);
 
-    inline std::string Server::receive(std::size_t bytes) noexcept
-    {
-        auto msg = std::string();
-        msg.resize(bytes);
-        auto nBytes = read(m_ClientSocket.get(), msg.data(), bytes);
-        eqx::runtimeAssert(nBytes > -1, "Server Read Error!"sv);
-        msg.resize(static_cast<std::size_t>(nBytes));
-        return msg;
+        return Client(client_socket);
     }
 }
 
 #endif //EQUINOX_DETAILS_SERVERIMPL_IPP
-
-#endif // __linux__
