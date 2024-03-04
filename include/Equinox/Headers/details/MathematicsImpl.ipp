@@ -26,7 +26,7 @@ namespace eqx
         requires Arithmetic<T>
     [[nodiscard]] constexpr T abs(T val) noexcept
     {
-        return val < zero<T> ? val * static_cast<T>(-1) : val;
+        return val < c_Zero<T> ? val * static_cast<T>(-1) : val;
     }
 
     template <typename T>
@@ -47,11 +47,11 @@ namespace eqx
         requires Arithmetic<T>
     [[nodiscard]] int constexpr getSign(T val) noexcept
     {
-        if (val > zero<T>)
+        if (val > c_Zero<T>)
         {
             return 1;
         }
-        else if (val < zero<T>)
+        else if (val < c_Zero<T>)
         {
             return -1;
         }
@@ -79,11 +79,11 @@ namespace eqx
         requires Arithmetic<T>
     [[nodiscard]] bool constexpr willOverflowAddition(T x, T y) noexcept
     {
-        if (x >= zero<T> && y >= zero<T>)
+        if (x >= c_Zero<T> && y >= c_Zero<T>)
         {
             return (std::numeric_limits<T>::max() - x) < y;
         }
-        else if (x <= zero<T> && y <= zero<T>)
+        else if (x <= c_Zero<T> && y <= c_Zero<T>)
         {
             return (std::numeric_limits<T>::lowest() - x) > y;
         }

@@ -30,7 +30,7 @@ namespace eqx
      */
     template <typename T>
         requires std::is_arithmetic_v<T>
-    inline constexpr auto zero = static_cast<T>(0);
+    inline constexpr auto c_Zero = static_cast<T>(0);
 
     /**
      * @brief Take The Absolute Value Of A Number

@@ -49,14 +49,14 @@ namespace eqx
         m_Socket.init(close, socket, AF_INET, SOCK_STREAM, 0);
         eqx::runtimeAssert(*m_Socket != -1, "Error Creating Socket!"sv);
 
-        sockaddr_in server_address;
+        auto server_address = sockaddr_in();
         server_address.sin_family = AF_INET;
         server_address.sin_port = htons(port);
         auto error_code = inet_pton(AF_INET, ip.data(),
             &server_address.sin_addr);
         eqx::runtimeAssert(error_code == 1, "Inet Conversion Error!"sv);
 
-        error_code = ::connect(*m_Socket, (sockaddr*)&server_address,
+        error_code = ::connect(*m_Socket, reinterpret_cast<sockaddr*>(&server_address),
             sizeof(server_address));
         eqx::runtimeAssert(error_code != -1, "Connection Error!"sv);
     }
@@ -74,19 +74,19 @@ namespace eqx
 
     [[nodiscard]] inline std::string Client::recv() noexcept
     {
-        char buffer[1024];
-        auto bytes = ::recv(*m_Socket, buffer, sizeof(buffer), 0);
+        auto buffer = std::array<char, 1024>();
+        auto bytes = ::recv(*m_Socket, buffer.data(), sizeof(buffer), 0);
         eqx::runtimeAssert(bytes != -1, "Error Receiving Message!"sv);
         if (bytes == 0)
         {
-            std::strcpy(buffer, "Client Disconnect!");
+            std::strcpy(buffer.data(), "Client Disconnect!");
         }
         else
         {
-            buffer[bytes] = '\0';
+            buffer.at(static_cast<std::size_t>(bytes)) = '\0';
         }
 
-        return std::string(buffer);
+        return std::string(buffer.data());
     }
 }
 

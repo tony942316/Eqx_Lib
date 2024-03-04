@@ -56,7 +56,7 @@ namespace eqx
         runtimeAssert(upperBound >= lowerBound,
             "Lower Bound Is Larger Than UpperBound!");
 
-        if (lowerBound >= zero<T> && upperBound >= zero<T>)
+        if (lowerBound >= c_Zero<T> && upperBound >= c_Zero<T>)
         {
             auto prevErr = errno;
             T decoyValue = std::nexttoward(lowerBound,
@@ -74,26 +74,26 @@ namespace eqx
                 return producedValue;
             }
         }
-        else if (lowerBound <= zero<T> && upperBound <= zero<T>)
+        else if (lowerBound <= c_Zero<T> && upperBound <= c_Zero<T>)
         {
             return -randomNumber(-upperBound, -lowerBound);
         }
-        else if (lowerBound < zero<T> && upperBound > zero<T>)
+        else if (lowerBound < c_Zero<T> && upperBound > c_Zero<T>)
         {
             T offset = (-upperBound - lowerBound) / static_cast<T>(2.0);
             if (flipCoin())
             {
-                return randomNumber(lowerBound + offset, zero<T>) - offset;
+                return randomNumber(lowerBound + offset, c_Zero<T>) - offset;
             }
             else
             {
-                return randomNumber(zero<T>, upperBound + offset) - offset;
+                return randomNumber(c_Zero<T>, upperBound + offset) - offset;
             }
         }
         else
         {
             runtimeAssert(false, "Code Should Never Reach This!");
-            return zero<T>;
+            return c_Zero<T>;
         }
     }
 

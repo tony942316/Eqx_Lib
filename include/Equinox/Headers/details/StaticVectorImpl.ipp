@@ -43,7 +43,8 @@ namespace eqx
             std::is_nothrow_invocable<decltype(&t_This::push_back<Args&&>),
                 t_This, Args&&>...>)
         :
-        StaticVector()
+        m_Storage(),
+        m_CurSize(0)
     {
         (push_back(std::forward<Args>(args)), ...);
     }

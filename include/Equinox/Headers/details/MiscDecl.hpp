@@ -94,16 +94,16 @@ namespace eqx
      */
     template <typename T>
     concept StringType =
-        std::is_same<std::remove_cvref_t<T>, std::string>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::wstring>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u8string>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u16string>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u32string>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::string_view>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::wstring_view>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u8string_view>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u16string_view>::value ||
-        std::is_same<std::remove_cvref_t<T>, std::u32string_view>::value;
+        std::is_same_v<std::remove_cvref_t<T>, std::string> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::wstring> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u8string> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u16string> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u32string> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::string_view> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::wstring_view> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u8string_view> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u16string_view> ||
+        std::is_same_v<std::remove_cvref_t<T>, std::u32string_view>;
 
     /**
      * @brief Constrain T To Be A Const Collection

@@ -26,7 +26,7 @@ namespace eqx
         requires Arithmetic<T>
     consteval Point<T>::Point() noexcept
         :
-        Point(zero<T>, zero<T>)
+        Point(c_Zero<T>, c_Zero<T>)
     {
     }
 

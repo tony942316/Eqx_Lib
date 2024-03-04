@@ -26,7 +26,7 @@ namespace eqx
         requires Arithmetic<T>
     consteval Rectangle<T>::Rectangle() noexcept
         :
-        Rectangle(zero<T>, zero<T>, zero<T>, zero<T>)
+        Rectangle(c_Zero<T>, c_Zero<T>, c_Zero<T>, c_Zero<T>)
     {
     }
 

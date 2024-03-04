@@ -42,16 +42,17 @@ namespace eqx
 
         static auto enable = 1;
         auto error_code = setsockopt(*m_Socket, SOL_SOCKET, SO_REUSEADDR,
-            (void*)&enable, sizeof(enable));
+            reinterpret_cast<void*>(&enable), sizeof(enable));
         eqx::runtimeAssert(error_code == 0, "Error Setting Socket Option!"sv);
 
-        sockaddr_in server_address;
+        auto server_address = sockaddr_in();
         server_address.sin_family = AF_INET;
         server_address.sin_addr.s_addr = INADDR_ANY;
         server_address.sin_port = htons(port);
 
         error_code = bind(*m_Socket,
-            (sockaddr*)(&server_address), sizeof(server_address));
+            reinterpret_cast<sockaddr*>(&server_address),
+            sizeof(server_address));
         eqx::runtimeAssert(error_code != -1, "Error Binding Socket!"sv);
 
         error_code = listen(*m_Socket, 5);
@@ -60,10 +61,11 @@ namespace eqx
 
     [[nodiscard]] inline Client Server::getConnection() noexcept
     {
-        sockaddr_in client_address;
+        auto client_address = sockaddr_in();
         socklen_t client_address_size = sizeof(client_address);
-        int client_socket = accept(*m_Socket, (sockaddr*)&client_address,
-            &client_address_size);
+        int client_socket = accept4(*m_Socket,
+            reinterpret_cast<sockaddr*>(&client_address),
+            &client_address_size, SOCK_CLOEXEC);
         eqx::runtimeAssert(client_socket != -1,
             "Error Accepting Connection!"sv);
 

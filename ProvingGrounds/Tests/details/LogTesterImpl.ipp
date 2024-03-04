@@ -69,6 +69,8 @@ inline void LogTester::testLog()
     eqx::Log::log(eqx::Log::Level::Error, "TestLog"sv,
         eqx::Log::Type::RuntimeError);
     UnitTester::test(eqx::Log::getLastLogType(), eqx::Log::Type::RuntimeError);
+
+    eqx::Log::setOutputStream(nullptr);
 }
 
 inline void LogTester::testSetLevel()
@@ -107,6 +109,8 @@ inline void LogTester::testSetOutputStream()
 
     std::getline(ss, produced);
     UnitTester::test(produced, ""s);
+
+    eqx::Log::setOutputStream(nullptr);
 }
 
 inline void LogTester::testSetOutputFile()
@@ -129,7 +133,9 @@ inline void LogTester::testSetOutputFile()
 
     UnitTester::test(produced, eqx::Log::getFormattedString(loc,
         eqx::Log::Level::Error, "testOutputFile"sv));
+
     file.close();
+    eqx::Log::setOutputStream(nullptr);
 }
 
 inline void LogTester::testClear()
@@ -148,6 +154,8 @@ inline void LogTester::testClear()
     eqx::Log::clear();
     UnitTester::test(eqx::Log::getLastLogType(), eqx::Log::Type::None);
     UnitTester::test(eqx::Log::getLastLogMessage(), ""sv);
+
+    eqx::Log::setOutputStream(nullptr);
 }
 
 inline void LogTester::testGetFormattedString()

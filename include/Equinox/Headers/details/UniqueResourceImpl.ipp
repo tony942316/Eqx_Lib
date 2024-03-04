@@ -52,6 +52,10 @@ namespace eqx
     template <typename... t_Args>
     constexpr UniqueResource<t_Resource, t_Destructor>::UniqueResource(
         t_Args&&... args) noexcept
+        :
+        m_Init(false),
+        m_Resource(),
+        m_Destructor()
     {
         init(std::forward<t_Args>(args)...);
     }
