@@ -44,7 +44,7 @@ namespace eqx
         timer.start();
         for (unsigned int i = 0U; i < runs; i++)
         {
-            std::invoke(func, args...);
+            std::invoke(func, std::forward<Args>(args)...);
         }
         timer.stop();
         m_Bench = static_cast<std::chrono::nanoseconds>(

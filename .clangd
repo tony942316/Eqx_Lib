@@ -1,0 +1,26 @@
+Diagnostics:
+  ClangTidy:
+    Add: "*"
+    Remove: [ llvmlibc-callee-namespace,
+      llvmlibc-implementation-in-namespace,
+      llvmlibc-inline-function-decl,
+      llvm-namespace-comment,
+      llvm-include-order,
+      llvm-else-after-return,
+      performance-avoid-endl,
+      modernize-use-trailing-return-type,
+      readability-identifier-length,
+      readability-else-after-return,
+      readability-magic-numbers,
+      bugprone-easily-swappable-parameters,
+      misc-non-private-member-variables-in-classes,
+      cppcoreguidelines-avoid-magic-numbers,
+      google-readability-namespace-comments,
+      google-runtime-int,
+      google-build-using-namespace,
+      altera-unroll-loops,
+      fuchsia-overloaded-operator,
+      fuchsia-default-arguments-declarations,
+      fuchsia-default-arguments-calls,
+      cert-dcl58-cpp ]
+  UnusedIncludes: None
