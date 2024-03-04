@@ -17,18 +17,34 @@
 
 cmake_minimum_required(VERSION 3.20)
 
-add_executable(ProvingGrounds Main.cpp)
+add_executable(ProvingGrounds_Debug Main.cpp)
 
-set_target_properties(ProvingGrounds PROPERTIES
+set_target_properties(ProvingGrounds_Debug PROPERTIES
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
 
-target_link_libraries(ProvingGrounds PRIVATE Equinox)
-target_link_libraries(ProvingGrounds PRIVATE UnitTester)
+target_link_libraries(ProvingGrounds_Debug PRIVATE Equinox)
+target_link_libraries(ProvingGrounds_Debug PRIVATE UnitTester)
 
 if (MSVC)
-    target_compile_options(ProvingGrounds PRIVATE /W4 /GR-)
+    target_compile_options(ProvingGrounds_Debug PRIVATE /W4 /GR- /EHsc)
 else ()
-    target_compile_options(ProvingGrounds PRIVATE -Wall -Wextra -Wpedantic
+    target_compile_options(ProvingGrounds_Debug PRIVATE -Wall -Wextra -Wpedantic
         -Wconversion -fno-rtti -fno-exceptions)
+endif()
+
+add_executable(ProvingGrounds_Release Main.cpp)
+
+set_target_properties(ProvingGrounds_Release PROPERTIES
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
+
+target_link_libraries(ProvingGrounds_Release PRIVATE Equinox)
+target_link_libraries(ProvingGrounds_Release PRIVATE UnitTester)
+
+if (MSVC)
+    target_compile_options(ProvingGrounds_Release PRIVATE /W4 /GR- /EHsc /O2t)
+else ()
+    target_compile_options(ProvingGrounds_Release PRIVATE -Wall -Wextra
+        -Wpedantic -Wconversion -fno-rtti -fno-exceptions -O3)
 endif()
