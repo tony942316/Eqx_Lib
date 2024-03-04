@@ -79,7 +79,7 @@ namespace eqx
         eqx::runtimeAssert(bytes != -1, "Error Receiving Message!"sv);
         if (bytes == 0)
         {
-            std::strcpy(buffer.data(), "Client Disconnect!");
+            std::strncpy(buffer.data(), "Client Disconnect!", 30);
         }
         else
         {
