@@ -1,0 +1,3 @@
+[submodule "EquinoxMod/Dependencies/Stdm"]
+	path = EquinoxMod/Dependencies/Stdm
+	url = git@github.com:tony942316/Stdm.git
