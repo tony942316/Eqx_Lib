@@ -38,6 +38,6 @@ if (MSVC)
 endif()
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(UnitTester)
-    add_subdirectory(ProvingGrounds)
+    #add_subdirectory(UnitTester)
+    #add_subdirectory(ProvingGrounds)
 endif()

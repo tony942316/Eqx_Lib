@@ -17,41 +17,25 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-add_executable(ProvingGroundsMod_Debug)
-target_sources(ProvingGroundsMod_Debug PRIVATE Main.cpp)
+add_library(EquinoxModTests STATIC)
+target_sources(EquinoxModTests
+    PUBLIC FILE_SET CXX_MODULES FILES
+        Tests/Misc.cpp)
+target_compile_features(EquinoxModTests PUBLIC cxx_std_20)
+target_link_libraries(EquinoxModTests PUBLIC EquinoxMod)
 
-set_target_properties(ProvingGroundsMod_Debug PROPERTIES
+set_target_properties(EquinoxModTests PROPERTIES
+    CXX_STANDARD_REQUIRED On
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
 
-target_link_libraries(ProvingGroundsMod_Debug PRIVATE EquinoxMod)
-target_compile_definitions(ProvingGroundsMod_Debug PRIVATE EQX_NO_ASSERTS)
-eqx_add_warnings(ProvingGroundsMod_Debug)
+add_executable(ProvingGroundsMod)
+target_sources(ProvingGroundsMod PRIVATE Main.cpp)
 
-if (MSVC)
-    target_compile_options(ProvingGroundsMod_Debug PRIVATE /W4 /GR- /EHsc)
-else ()
-    target_compile_options(ProvingGroundsMod_Debug PRIVATE
-        -g3
-        -fno-rtti -ffast-math -fno-exceptions)
-        #-Wall -Wextra -Wpedantic -Wconversion)
-endif()
+set_target_properties(ProvingGroundsMod PROPERTIES
+    CXX_STANDARD_REQUIRED On
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
 
-################################################################################
-
-#add_executable(ProvingGroundsMod_Release)
-#target_sources(ProvingGroundsMod_Release PRIVATE Main.cpp)
-
-#set_target_properties(ProvingGroundsMod_Debug PROPERTIES
-#    CXX_EXTENSIONS Off
-#    EXPORT_COMPILE_COMMANDS On)
-
-#target_link_libraries(ProvingGroundsMod_Release PRIVATE EquinoxMod)
-#target_compile_definitions(ProvingGroundsMod_Release PRIVATE EQX_NO_ASSERTS)
-
-#if (MSVC)
-#    target_compile_options(ProvingGroundsMod_Release PRIVATE /W4 /GR- /EHsc)
-#else ()
-#    target_compile_options(ProvingGroundsMod_Release PRIVATE -Wall -Wextra
-#        -Wpedantic -Wconversion)
-#endif()
+target_link_libraries(ProvingGroundsMod PRIVATE EquinoxModTests)
+target_link_libraries(GMF INTERFACE EQX-Typical)

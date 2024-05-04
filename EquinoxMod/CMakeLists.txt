@@ -18,5 +18,6 @@
 cmake_minimum_required(VERSION 3.28)
 
 add_subdirectory(Dependencies/Stdm)
+include(Dependencies/EQX-CMakeInterfaces/Interfaces.cmake)
 add_subdirectory(Equinox)
 add_subdirectory(ProvingGrounds)

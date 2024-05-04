@@ -2,60 +2,56 @@ import Equinox;
 
 using namespace eqx::literals;
 
-constexpr auto inc = 0.00001;
-constexpr auto pio2 = stdm::numbers::pi / 2.0;
-constexpr auto arrSize = static_cast<stdm::size_t>(pio2 / inc);
-constinit auto vals = stdm::array<double, arrSize>{};
-
-[[nodiscard]] double sineGen() noexcept
+[[nodiscard]] constexpr double myFMod(const double val, const double mod) noexcept
 {
-    constinit static auto i = 0.0;
+    return val - eqx::trunc(val / mod) * mod;
+}
 
-    auto result = stdm::sin(i);
-    i += inc;
-
+[[nodiscard]] constexpr double myPow(const double val, const double pow) noexcept
+{
+    auto result = 1.0;
+    for (int i = 0; i < pow; i++)
+    {
+        result *= val;
+    }
     return result;
 }
 
-[[nodiscard]] double mySine(double rad) noexcept
+[[nodiscard]] constexpr double mySine(const double rad) noexcept
 {
-    auto lb = static_cast<stdm::size_t>(rad / inc);
-    auto ub = static_cast<stdm::size_t>(rad / inc) + 1_uz;
-    auto floor = vals.at(lb);
-    auto ceil = vals.at(ub);
+    constexpr auto terms = 7;
+    constexpr auto taylordeg = (terms * 4) + 1;
+    auto mod = eqx::abs(myFMod(rad, 2 * stdm::numbers::pi));
+    auto result = 0.0;
 
-    eqx::print("lb: "sv);
-    eqx::println(lb);
-    eqx::print("floor: "sv);
-    eqx::println(floor);
-    eqx::print("ub: "sv);
-    eqx::println(ub);
-    eqx::print("ceil: "sv);
-    eqx::println(ceil);
-    eqx::print("t: "sv);
-    eqx::println(rad);
+    for (auto i = 1; i < taylordeg; i += 4)
+    {
+        result -= myPow(mod - stdm::numbers::pi, i) / fac(i);
+        result += myPow(mod - stdm::numbers::pi, i + 2) / fac(i + 2);
+    }
 
-    return stdm::lerp(floor, ceil, rad);
+    return rad < 0.0 ? -result : result;
 }
 
 int main()
 {
-    stdm::ranges::generate(vals, sineGen);
-
-    [[maybe_unused]] auto i = stdm::numeric_limits<int>::max();
-    i++;
-    stdm::cout << i << stdm::endl;
-
-    /*
-    constexpr auto val = 0.03;
-    auto myResult = mySine(val);
-    auto correct = stdm::sin(val);
-    auto error = stdm::abs(correct - myResult);
-    eqx::print("std::sin: "sv);
-    eqx::println(correct);
-    eqx::print("mySine: "sv);
-    eqx::println(myResult);
-    eqx::print("Error: "sv);
-    eqx::println(error);*/
+    constexpr auto val = (8.0 * stdm::numbers::pi);
+    constexpr auto inc = 0.001;
+    stdm::cout << stdm::setprecision(20);
+    auto stats = stdm::vector<double>{};
+    stats.reserve(static_cast<stdm::size_t>(stdm::ceil((2 * val) / inc)));
+    for (auto i = -val; i < val; i += inc)
+    {
+        auto error = stdm::abs(mySine(i) - stdm::sin(i));
+        stats.emplace_back(error);
+    }
+    stdm::cout << "(" << stats.front() << ") <=> (" << stats.back() << ")" << stdm::endl;
+    stdm::cout << "(" << mySine(stdm::numbers::pi) << ")" << "(" << stdm::sin(stdm::numbers::pi) << ")" << stdm::endl;
+    stdm::cout << "(" << mySine(val - 0.01) << ")" << "(" << stdm::sin(val - 0.01) << ")" << stdm::endl;
+    stdm::cout << "Median Error: " << median(stats) << stdm::endl;
+    stdm::cout << "Avg Error: " << avg(stats) << stdm::endl;
+    stdm::cout << "Max Error: " << stdm::ranges::max(stats) << stdm::endl;
+    stdm::cout << "Min Error: " << stdm::ranges::min(stats) << stdm::endl;
+    stdm::cout << "End" << stdm::endl;
     return 0;
 }

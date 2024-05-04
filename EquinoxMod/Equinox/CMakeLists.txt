@@ -17,81 +17,20 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-function (eqx_add_warnings TARGET SCOPE)
-
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        target_compile_options(${TARGET} ${SCOPE}
-            /W4)
-    else ()
-        target_compile_options(${TARGET} ${SCOPE}
-            -Wall -Wextra -Wpedantic -Wconversion)
-    endif()
-
-endfunction()
-
-function (eqx_add_debug_info TARGET SCOPE)
-
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        target_compile_options(${TARGET} ${SCOPE}
-            /Zi)
-    else ()
-        target_compile_options(${TARGET} ${SCOPE}
-            -g3)
-    endif()
-
-endfunction()
-
-function (eqx_export_compile_commands TARGET)
-
-    set_target_properties(${TARGET} PROPERTIES
-        EXPORT_COMPILE_COMMANDS On)
-
-endfunction()
-
-function (eqx_no_extensions TARGET)
-
-    set_target_properties(${TARGET} PROPERTIES
-        CXX_EXTENSIONS Off)
-
-endfunction()
-
-function (eqx_set_cxx_20 TARGET SCOPE)
-
-    target_compile_features(${TARGET} ${SCOPE} cxx_std_20)
-    set_target_properties(${TARGET} PROPERTIES
-        CXX_STANDARD_REQUIRED On)
-
-endfunction()
-
-function (eqx_set_optimizations TARGET SCOPE)
-
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-        target_compile_options(${TARGET} ${SCOPE}
-            /O2t)
-    else ()
-        target_compile_options(${TARGET} ${SCOPE}
-            -O3)
-    endif()
-
-    target_compile_definitions(${TARGET} ${SCOPE} NDEBUG)
-
-endfunction()
-
 add_library(EquinoxMod STATIC)
 target_sources(EquinoxMod
     PUBLIC FILE_SET CXX_MODULES FILES
         Equinox.cpp
         Math.cpp
-        Misc.cpp)
-
-eqx_add_warnings(Stdm)
-eqx_add_debug_info(Stdm)
-
-eqx_set_cxx_20(EquinoxMod PUBLIC)
-eqx_no_extensions(EquinoxMod)
-eqx_export_compile_commands(EquinoxMod)
-eqx_add_warnings(EquinoxMod PRIVATE)
-eqx_add_debug_info(EquinoxMod PRIVATE)
+            Decl/Math_Decl.cpp
+        Misc.cpp
+            Decl/Misc_Decl.cpp)
+target_include_directories(EquinoxMod PUBLIC include)
+target_compile_features(EquinoxMod PUBLIC cxx_std_20)
 
 target_link_libraries(EquinoxMod PUBLIC Stdm)
-target_include_directories(EquinoxMod PUBLIC include)
+
+set_target_properties(EquinoxMod PROPERTIES
+    CXX_STANDARD_REQUIRED On
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
