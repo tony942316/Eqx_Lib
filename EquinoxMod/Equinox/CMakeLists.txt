@@ -22,9 +22,16 @@ target_sources(EquinoxMod
     PUBLIC FILE_SET CXX_MODULES FILES
         Equinox.cpp
         Math.cpp
-            Decl/Math_Decl.cpp
+            Math/Core.cpp
+            Math/Core_Decl.cpp
+            Math/Modulator.cpp
+            Math/Modulator_Decl.cpp
+            Math/Range.cpp
+            Math/Range_Decl.cpp
+            Math/Trig.cpp
+            Math/Trig_Decl.cpp
         Misc.cpp
-            Decl/Misc_Decl.cpp)
+        Misc_Decl.cpp)
 target_include_directories(EquinoxMod PUBLIC include)
 target_compile_features(EquinoxMod PUBLIC cxx_std_20)
 

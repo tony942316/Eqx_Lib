@@ -10,11 +10,20 @@ import Eqx.Stdm;
 
 export namespace eqx
 {
+    template <typename T, typename F>
+        requires requires(const F& f) { static_cast<T>(f); }
+    [[nodiscard]] constexpr T staticCast(const F& f) noexcept
+    {
+        return static_cast<T>(f);
+    }
+
     template <typename T>
         requires StringConstructable<T>
-    [[nodiscard]] stdm::string toString(const T& val) noexcept
+    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept
     {
+        // NOLINTBEGIN(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
         return stdm::string{ val };
+        // NOLINTEND(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
     }
 
     template <typename T>
@@ -27,19 +36,20 @@ export namespace eqx
     template <typename T, typename U>
         requires requires(const stdm::pair<T, U>& val)
             { eqx::toString(val.first); eqx::toString(val.second); }
-    [[nodiscard]] stdm::string toString(const stdm::pair<T, U>& val) noexcept
+    [[nodiscard]] constexpr stdm::string toString(const stdm::pair<T, U>& val) noexcept
     {
-        return "( "s + eqx::toString(val.first) + ", "s +
-            eqx::toString(val.second) + " )"s;
+        return "("s + eqx::toString(val.first) + ", "s +
+            eqx::toString(val.second) + ")"s;
     }
 
     template <typename T>
         requires stdm::ranges::range<T>
             && (!StringConstructable<T>)
             && (!StringConvertable<T>)
-    [[nodiscard]] stdm::string toString(const T& val) noexcept
+    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept
     {
-        return stdm::transform_reduce(
+        return stdm::ranges::empty(val) ? "{ }"s
+            : stdm::transform_reduce(
             stdm::ranges::cbegin(val) + 1, stdm::ranges::cend(val),
             "{ "s + eqx::toString(val.front()),
             [](const stdm::string& left, const stdm::string& right)
@@ -53,18 +63,33 @@ export namespace eqx
 
     }
 
-    [[nodiscard]] stdm::string toLower(const stdm::string_view str) noexcept
+    [[nodiscard]] constexpr char toLower(char val) noexcept
+    {
+        if (stdm::is_constant_evaluated())
+        {
+            constexpr auto c_Offset = static_cast<char>(32);
+            return val < 'A' || val > 'Z' ?
+                val : static_cast<char>(val + c_Offset);
+        }
+        else
+        {
+            return stdm::tolower(val, stdm::locale{});
+        }
+    }
+
+    [[nodiscard]] constexpr stdm::string
+        toLower(const stdm::string_view str) noexcept
     {
         auto result = str
             | stdm::views::transform([](const char ele)
                 {
-                    return stdm::tolower(ele, stdm::locale{});
+                    return eqx::toLower(ele);
                 });
         return stdm::string{ stdm::ranges::cbegin(result),
             stdm::ranges::cend(result) };
     }
 
-    [[nodiscard]] stdm::vector<stdm::string> parseString(
+    [[nodiscard]] constexpr stdm::vector<stdm::string> parseString(
         const stdm::string_view str, const stdm::string_view pat) noexcept
     {
         auto result = str
@@ -74,10 +99,11 @@ export namespace eqx
                     return stdm::string_view{ stdm::ranges::cbegin(ele),
                         stdm::ranges::cend(ele) };
                 })
-            | stdm::views::filter([](const stdm::string_view str)
+            | stdm::views::filter([](const auto& ele)
                 {
-                    return !stdm::ranges::empty(str);
+                    return !stdm::ranges::empty(ele);
                 });
+
 
         return stdm::vector<stdm::string>{ stdm::ranges::begin(result),
             stdm::ranges::end(result) };
@@ -152,7 +178,9 @@ export namespace eqx::stream
         requires requires(const T& val) { eqx::toString(val); }
     stdm::ostream& operator<< (stdm::ostream& outStream, const T& val)
     {
-        return outStream << eqx::toString(val);
+        const auto str = eqx::toString(val);
+        return outStream.write(str.c_str(),
+            static_cast<stdm::streamsize>(stdm::ranges::size(str)));
     }
 }
 

@@ -6,6 +6,7 @@ target_sources(UnitTester
         UnitTester.cpp
             UnitTester_Decl.cpp)
 target_compile_features(UnitTester PUBLIC cxx_std_20)
+target_link_libraries(UnitTester PUBLIC Stdm)
 
 set_target_properties(UnitTester PROPERTIES
     CXX_STANDARD_REQUIRED On

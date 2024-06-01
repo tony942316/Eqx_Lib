@@ -10,6 +10,7 @@ Diagnostics:
       clang-analyzer-*,
       bugprone-* ]
     Remove: [ modernize-use-trailing-return-type,
+      modernize-use-std-numbers,
       readability-avoid-const-params-in-decls,
       readability-else-after-return,
       readability-identifier-length,

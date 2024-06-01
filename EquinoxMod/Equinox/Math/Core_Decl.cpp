@@ -1,4 +1,4 @@
-export module Equinox.Math:Decl;
+export module Equinox.Math.Core:Decl;
 
 import Eqx.Stdm;
 
@@ -17,13 +17,14 @@ export namespace eqx
     [[nodiscard]] constexpr T abs(const T val) noexcept;
 
     template <typename T>
-        requires stdm::integral<T>
-    [[nodiscard]] constexpr double factorial(const T val) noexcept;
+        requires requires(const T& x, const T& y)
+            { x == y; }
+            && (!stdm::floating_point<T>)
+    [[nodiscard]] constexpr bool equals(const T& x, const T& y) noexcept;
 
     template <typename T>
-        requires requires(const T& x, const T& y)
-            { stdm::ranges::equal_to{}(x, y); }
-    [[nodiscard]] constexpr bool equals(const T& x, const T& y) noexcept;
+    [[nodiscard]] constexpr bool equals(const stdm::pair<T, T>& x,
+        const stdm::pair<T, T>& y) noexcept;
 
     template <typename T>
         requires stdm::floating_point<T>
@@ -44,6 +45,11 @@ export namespace eqx
 
     template <typename T>
         requires stdm::is_arithmetic_v<T>
+            && (!stdm::unsigned_integral<T>)
+    [[nodiscard]] constexpr T distance(const T x, const T y) noexcept;
+
+    template <typename T>
+        requires stdm::unsigned_integral<T>
     [[nodiscard]] constexpr T distance(const T x, const T y) noexcept;
 
     template <typename T>
@@ -59,20 +65,18 @@ export namespace eqx
     [[nodiscard]] constexpr T ceil(const T x) noexcept;
 
     template <typename T>
-        requires stdm::is_arithmetic_v<T>
-    [[nodiscard]] constexpr double
-        median(const stdm::span<const T> range) noexcept;
+        requires stdm::integral<T>
+    [[nodiscard]] constexpr double factorial(const T val) noexcept;
 
     template <typename T>
         requires stdm::is_arithmetic_v<T>
-    [[nodiscard]] constexpr double
-        average(const stdm::span<const T> range) noexcept;
+    [[nodiscard]] constexpr T pow(const T val, const T deg) noexcept;
 
     template <typename T>
-        requires stdm::is_arithmetic_v<T>
-    [[nodiscard]] constexpr T degreesToRadians(const T degrees) noexcept;
+        requires stdm::floating_point<T>
+    [[nodiscard]] constexpr T fmod(const T val, const T mod) noexcept;
 
     template <typename T>
-        requires stdm::is_arithmetic_v<T>
-    [[nodiscard]] constexpr T radiansToDegrees(const T radians) noexcept;
+        requires stdm::floating_point<T>
+    [[nodiscard]] constexpr T sqrt(const T val) noexcept;
 }

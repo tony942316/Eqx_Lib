@@ -21,9 +21,13 @@ export namespace eqx
     concept Streamable =
         requires(const T& val, stdm::ostream& out) { out << val; };
 
+    template <typename T, typename F>
+        requires requires(const F& f) { static_cast<T>(f); }
+    [[nodiscard]] constexpr T staticCast(const F& f) noexcept;
+
     template <typename T>
         requires StringConstructable<T>
-    [[nodiscard]] stdm::string toString(const T& val) noexcept;
+    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept;
 
     template <typename T>
         requires StringConvertable<T> && (!StringConstructable<T>)
@@ -32,17 +36,21 @@ export namespace eqx
     template <typename T, typename U>
         requires requires(const stdm::pair<T, U>& val)
             { eqx::toString(val.first); eqx::toString(val.second); }
-    [[nodiscard]] stdm::string toString(const stdm::pair<T, U>& val) noexcept;
+    [[nodiscard]] constexpr stdm::string
+        toString(const stdm::pair<T, U>& val) noexcept;
 
     template <typename T>
         requires stdm::ranges::range<T>
             && (!StringConstructable<T>)
             && (!StringConvertable<T>)
-    [[nodiscard]] stdm::string toString(const T& val) noexcept;
+    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept;
 
-    [[nodiscard]] stdm::string toLower(const stdm::string_view str) noexcept;
+    [[nodiscard]] constexpr char toLower(char val) noexcept;
 
-    [[nodiscard]] stdm::vector<stdm::string> parseString(
+    [[nodiscard]] constexpr stdm::string
+        toLower(const stdm::string_view str) noexcept;
+
+    [[nodiscard]] constexpr stdm::vector<stdm::string> parseString(
         const stdm::string_view str, const stdm::string_view pat) noexcept;
 
     template <typename T>

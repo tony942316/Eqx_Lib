@@ -17,17 +17,21 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-add_subdirectory(UnitTester)
-add_subdirectory(Tests)
+add_library(EquinoxModTests STATIC)
+target_sources(EquinoxModTests
+    PUBLIC FILE_SET CXX_MODULES FILES
+        Math.cpp
+            Decl/Math_Decl.cpp
+            Math/Core.cpp
+            Math/Range.cpp
+            Math/Trig.cpp
+        Misc.cpp
+            Decl/Misc_Decl.cpp
+        Tests.cpp)
+target_compile_features(EquinoxModTests PUBLIC cxx_std_20)
+target_link_libraries(EquinoxModTests PUBLIC EquinoxMod UnitTester)
 
-add_executable(ProvingGroundsMod)
-target_sources(ProvingGroundsMod PRIVATE Main.cpp)
-
-set_target_properties(ProvingGroundsMod PROPERTIES
+set_target_properties(EquinoxModTests PROPERTIES
     CXX_STANDARD_REQUIRED On
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
-
-target_link_libraries(ProvingGroundsMod PRIVATE EquinoxModTests)
-target_link_libraries(GMF INTERFACE EQX-Typical)
-target_compile_options(GMF INTERFACE -fconstexpr-steps=100000000)
