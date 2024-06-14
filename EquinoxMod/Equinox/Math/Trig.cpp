@@ -111,9 +111,11 @@ export namespace eqx
                 && val <= static_cast<T>(1.0),
                 "Domain Error!"sv);
             // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
-            auto vax = (static_cast<T>(-1.3) * val)
+            //auto vax = (static_cast<T>(-1.3) * val)
+                //+ (stdm::numbers::pi_v<T> / static_cast<T>(2.0));
+            auto vax = (static_cast<T>(-0.95) * (eqx::sin(val) / eqx::cos(val)))
                 + (stdm::numbers::pi_v<T> / static_cast<T>(2.0));
-            for (auto i = 0; i < 15; i++)
+            for (auto i = 0; i < 10; i++)
             {
                 vax = vax - ((eqx::cos(vax) - val) / (-eqx::sin(vax)));
             }

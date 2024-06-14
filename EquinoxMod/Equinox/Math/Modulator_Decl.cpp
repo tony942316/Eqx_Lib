@@ -64,7 +64,7 @@ namespace eqx
         requires stdm::floating_point<T>
     constexpr auto c_2Pi = static_cast<T>(2.0) * stdm::numbers::pi_v<T>;
 
-    template <typename T, double mod>
+    template <typename T, T mod>
         requires stdm::floating_point<T>
     class Modulator
     {
@@ -84,6 +84,8 @@ namespace eqx
     export template <typename T>
     using Radian = Modulator<T, eqx::c_2Pi<T>>;
 
+    // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
     export template <typename T>
     using Degrees = Modulator<T, static_cast<T>(360.0)>;
+    // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
 }

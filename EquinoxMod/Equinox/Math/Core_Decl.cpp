@@ -79,4 +79,14 @@ export namespace eqx
     template <typename T>
         requires stdm::floating_point<T>
     [[nodiscard]] constexpr T sqrt(const T val) noexcept;
+
+    template <typename T>
+        requires stdm::floating_point<T>
+    [[nodiscard]] constexpr T hypot(const T x, const T y) noexcept;
+
+    template <typename T, typename F>
+        requires stdm::floating_point<T>
+            && stdm::invocable<F, T>
+    [[nodiscard]] constexpr T newtonsMethod(const T guess,
+        const stdm::size_t iters, const F& func) noexcept;
 }

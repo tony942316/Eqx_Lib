@@ -20,13 +20,16 @@ cmake_minimum_required(VERSION 3.28)
 add_library(EquinoxModTests STATIC)
 target_sources(EquinoxModTests
     PUBLIC FILE_SET CXX_MODULES FILES
-        Math.cpp
-            Decl/Math_Decl.cpp
+        Math/Math.cpp
             Math/Core.cpp
+            Math/Decl.cpp
             Math/Range.cpp
             Math/Trig.cpp
-        Misc.cpp
-            Decl/Misc_Decl.cpp
+        Misc/Misc.cpp
+            Misc/Decl.cpp
+        Point/Point.cpp
+            Point/Decl.cpp
+            Point/Core.cpp
         Tests.cpp)
 target_compile_features(EquinoxModTests PUBLIC cxx_std_20)
 target_link_libraries(EquinoxModTests PUBLIC EquinoxMod UnitTester)

@@ -21,7 +21,7 @@ add_library(EquinoxMod STATIC)
 target_sources(EquinoxMod
     PUBLIC FILE_SET CXX_MODULES FILES
         Equinox.cpp
-        Math.cpp
+        Math/Math.cpp
             Math/Core.cpp
             Math/Core_Decl.cpp
             Math/Modulator.cpp
@@ -30,8 +30,11 @@ target_sources(EquinoxMod
             Math/Range_Decl.cpp
             Math/Trig.cpp
             Math/Trig_Decl.cpp
-        Misc.cpp
-        Misc_Decl.cpp)
+        Misc/Misc.cpp
+            Misc/Misc_Decl.cpp
+        Point/Point.cpp
+            Point/Point_Decl.cpp)
+
 target_include_directories(EquinoxMod PUBLIC include)
 target_compile_features(EquinoxMod PUBLIC cxx_std_20)
 

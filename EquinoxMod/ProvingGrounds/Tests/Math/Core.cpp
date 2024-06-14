@@ -187,4 +187,14 @@ static_assert(eqx::equals(eqx::sqrt(10'000.0), 100.0));
 static_assert(eqx::equals(eqx::sqrt(100'000'000.0), 10'000.0));
 static_assert(eqx::equals(eqx::sqrt(5'489'632'148'524.0), 2'342'996.4038649));
 static_assert(eqx::equals(eqx::sqrt(10'000'000'000'000'000.0), 100'000'000.0));
+
+static_assert(eqx::equals(eqx::hypot(0.0F, 0.0F), 0.0F));
+static_assert(eqx::equals(eqx::hypot(0.0, 0.0), 0.0));
+static_assert(eqx::equals(eqx::hypot(0.0L, 0.0L), 0.0L));
+static_assert(eqx::equals(eqx::hypot(-10.0, -10.0), 14.142135));
+static_assert(eqx::equals(eqx::hypot(-3.0, -4.0), 5.0));
+static_assert(eqx::equals(eqx::hypot(-1.0, -1.0), stdm::numbers::sqrt2));
+static_assert(eqx::equals(eqx::hypot(1.0, 1.0), stdm::numbers::sqrt2));
+static_assert(eqx::equals(eqx::hypot(3.0, 4.0), 5.0));
+static_assert(eqx::equals(eqx::hypot(10.0, 10.0), 14.142135));
 // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)

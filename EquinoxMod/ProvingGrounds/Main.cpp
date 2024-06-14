@@ -27,18 +27,12 @@ void runTest(void (*test)()) noexcept
 
 int main()
 {
-    constexpr auto x = eqx::arcsin(-0.5);
-    constexpr auto y = eqx::arcsin(0.5);
-    constexpr auto z = eqx::arcsin(0.0);
-    constexpr auto a = eqx::arcsin(-1.0);
-    constexpr auto b = eqx::arcsin(1.0);
-    eqx::println(x);
-    eqx::println(y);
-    eqx::println(z);
-    eqx::println(a);
-    eqx::println(b);
+    constexpr auto val = eqx::acos(-1.0);
+    stdm::cout << stdm::setprecision(10) << stdm::endl;
+    stdm::cout << val << stdm::endl;
     runTest(test::misc::all);
     runTest(test::math::all);
+    runTest(test::point::all);
     stdm::cout << "*******************\n";
     /*
     auto stats = stdm::vector<double>{};

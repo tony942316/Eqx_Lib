@@ -67,11 +67,9 @@ export namespace eqx
         requires stdm::is_arithmetic_v<T>
     [[nodiscard]] constexpr bool isPositive(const T val) noexcept
     {
-        eqx::ENSURE_HARD(val != eqx::c_Zero<T>,
-            "Zero Is Not Positive Or Negative!"sv);
         if (stdm::is_constant_evaluated())
         {
-            return val > eqx::c_Zero<T>;
+            return val >= eqx::c_Zero<T>;
         }
         else
         {
@@ -259,22 +257,51 @@ export namespace eqx
         requires stdm::floating_point<T>
     [[nodiscard]] constexpr T sqrt(const T val) noexcept
     {
+        using namespace eqx::literals;
         if (stdm::is_constant_evaluated())
         {
             eqx::ENSURE_HARD(val >= eqx::c_Zero<T>,
                 "Negative Square Root!!!"sv);
-            auto x = static_cast<T>(1.0);
             // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
-            for (auto i = 0; i < 100; i++)
-            {
-                x = static_cast<T>(0.5) * (x + (val / x));
-            }
+            return newtonsMethod(
+                (val + static_cast<T>(1.0)) / static_cast<T>(2.0),
+                30_uz,
+                [val](const T x)
+                    { return static_cast<T>(0.5) * (x + (val / x)); });
             // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
-            return x;
         }
         else
         {
             return stdm::sqrt(val);
         }
+    }
+
+    template <typename T>
+        requires stdm::floating_point<T>
+    [[nodiscard]] constexpr T hypot(const T x, const T y) noexcept
+    {
+        if (stdm::is_constant_evaluated())
+        {
+            return eqx::sqrt(x * x + y * y);
+        }
+        else
+        {
+            return stdm::hypot(x, y);
+        }
+    }
+
+    template <typename T, typename F>
+        requires stdm::floating_point<T>
+            && stdm::invocable<F, T>
+    [[nodiscard]] constexpr T newtonsMethod(const T guess,
+        const stdm::size_t iters, const F& func) noexcept
+    {
+        using namespace eqx::literals;
+        auto x = guess;
+        for (auto i = 0_uz; i < iters; i++)
+        {
+            x = func(x);
+        }
+        return x;
     }
 }
