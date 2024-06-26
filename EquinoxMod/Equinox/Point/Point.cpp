@@ -26,6 +26,7 @@ export import :Decl;
 import Eqx.Stdm;
 import Equinox.Misc;
 import Equinox.Math.Core;
+import Equinox.Math.Modulator;
 import Equinox.Math.Trig;
 
 export namespace eqx
@@ -180,23 +181,16 @@ export namespace eqx
         requires stdm::floating_point<T>
     [[nodiscard]] constexpr Point<T> normalize(const Point<T>& point) noexcept
     {
-        eqx::ENSURE_HARD(point != Point<T>());
-        return point / distance(Point<T>(), point);
+        eqx::ENSURE_HARD(point != Point<T>{});
+        return point / distance(Point<T>{}, point);
     }
 
     template <typename T>
         requires stdm::floating_point<T>
-    [[nodiscard]] constexpr T angle(const Point<T>& point) noexcept
+    [[nodiscard]] constexpr eqx::Radians<T> angle(
+        const Point<T>& point) noexcept
     {
-        const auto normPoint = eqx::normalize(point);
-        const auto sinVals = eqx::arcsin(normPoint.y);
-        const auto cosVals = eqx::arccos(normPoint.x);
-
-        auto correctValue = eqx::equals(sinVals.first, cosVals.first) ||
-            eqx::equals(sinVals.second, cosVals.second) ?
-            sinVals.first : sinVals.second;
-
-        return correctValue;
+        return eqx::atan2(point.x, point.y);
     }
 
     template <typename T>

@@ -16,6 +16,6 @@ namespace test::point
     export void all() noexcept
     {
         stdm::cout << "Testing Point...\n";
-        //tester.print();
+        tester.print();
     }
 }

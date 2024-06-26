@@ -85,6 +85,21 @@ export namespace eqx
     }
 
     template <typename T>
+        requires stdm::floating_point<T>
+            || stdm::signed_integral<T>
+    [[nodiscard]] constexpr T sign(const T val) noexcept
+    {
+        return isPositive(val) ? static_cast<T>(1) : static_cast<T>(-1);
+    }
+
+    template <typename T>
+        requires stdm::unsigned_integral<T>
+    [[nodiscard]] constexpr T sign([[maybe_unused]] const T val) noexcept
+    {
+        return static_cast<T>(1);
+    }
+
+    template <typename T>
         requires stdm::integral<T>
     [[nodiscard]] constexpr bool isEven(const T val) noexcept
     {

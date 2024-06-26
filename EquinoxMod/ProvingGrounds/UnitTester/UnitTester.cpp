@@ -118,14 +118,18 @@ stdm::string UnitTester::fts([[maybe_unused]] const T& cmp) noexcept
 {
     if constexpr (stdm::same_as<T, decltype(stdm::ranges::equal_to{})>)
     {
-        return " == ";
+        return " == "s;
     }
     else if constexpr (stdm::same_as<T, decltype(stdm::ranges::not_equal_to{})>)
     {
-        return " != ";
+        return " != "s;
+    }
+    else if constexpr (stdm::same_as<T, decltype(stdm::ranges::less{})>)
+    {
+        return " < "s;
     }
     else
     {
-        return " ?? ";
+        return " ?? "s;
     }
 }

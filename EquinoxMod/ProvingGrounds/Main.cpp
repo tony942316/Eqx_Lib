@@ -25,11 +25,12 @@ void runTest(void (*test)()) noexcept
     stdm::invoke(test);
 }
 
+using namespace eqx::literals;
 int main()
 {
-    constexpr auto val = eqx::acos(-1.0);
+    constexpr auto var = eqx::atan2(1.0, 0.0);
     stdm::cout << stdm::setprecision(10) << stdm::endl;
-    stdm::cout << val << stdm::endl;
+    stdm::cout << var.get() << stdm::endl;
     runTest(test::misc::all);
     runTest(test::math::all);
     runTest(test::point::all);

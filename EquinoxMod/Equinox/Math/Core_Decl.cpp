@@ -44,6 +44,23 @@ export namespace eqx
     [[nodiscard]] constexpr bool isNegative(const T val) noexcept;
 
     template <typename T>
+        requires stdm::floating_point<T>
+            || stdm::signed_integral<T>
+    [[nodiscard]] constexpr T sign(const T val) noexcept;
+
+    template <typename T>
+        requires stdm::unsigned_integral<T>
+    [[nodiscard]] constexpr T sign([[maybe_unused]] const T val) noexcept;
+
+    template <typename T>
+        requires stdm::integral<T>
+    [[nodiscard]] constexpr bool isEven(const T val) noexcept;
+
+    template <typename T>
+        requires stdm::integral<T>
+    [[nodiscard]] constexpr bool isOdd(const T val) noexcept;
+
+    template <typename T>
         requires stdm::is_arithmetic_v<T>
             && (!stdm::unsigned_integral<T>)
     [[nodiscard]] constexpr T distance(const T x, const T y) noexcept;

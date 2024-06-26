@@ -2,7 +2,10 @@ module Eqx.Tests.Point:Core;
 
 import Eqx.Stdm;
 import Equinox.Math.Core;
+import Equinox.Math.Modulator;
 import Equinox.Point;
+
+using namespace eqx::literals;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 constexpr auto point0DI = eqx::Point<int>();
@@ -97,10 +100,16 @@ static_assert(eqx::equals(eqx::normalize(point3),
 static_assert(eqx::equals(eqx::normalize(point4),
     eqx::Point<double>(0.15916, 0.98725)));
 
-//static_assert(eqx::equals(eqx::angle(eqx::Point<float>(1.0F, 0.0F)), 0.0F));
-//static_assert(eqx::equals(eqx::angle(eqx::Point<double>(1.0, 0.0)), 0.0));
-//static_assert(
-    //eqx::equals(eqx::angle(eqx::Point<long double>(1.0L, 0.0L)), 0.0L));
+//static_assert(eqx::equals(eqx::angle(eqx::Point<float>{1.0F, 0.0F}), 0.0_radF));
+static_assert(eqx::equals(eqx::angle(eqx::Point<double>{1.0, 0.0}), 0.0_rad));
+static_assert(
+    eqx::equals(eqx::angle(eqx::Point<long double>(1.0L, 0.0L)), 0.0_radL));
+static_assert(eqx::equals(eqx::angle(point1), 1.20362_rad));
+static_assert(eqx::equals(eqx::angle(point2),
+    eqx::Radians<double>{eqx::c_Pi4<double>}));
+static_assert(eqx::equals(eqx::angle(point3),
+    eqx::Radians<double>{eqx::c_3Pi4<double>}));
+static_assert(eqx::equals(eqx::angle(point4), 1.410949_rad));
 
 
 static_assert(eqx::equals(point0I + point0I, point0I));

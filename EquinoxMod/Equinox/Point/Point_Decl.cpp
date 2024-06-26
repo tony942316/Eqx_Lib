@@ -1,6 +1,7 @@
 export module Equinox.Point:Decl;
 
 import Eqx.Stdm;
+import Equinox.Math.Modulator;
 import Equinox.Math.Core;
 
 export namespace eqx
@@ -223,7 +224,8 @@ export namespace eqx
      */
     template <typename T>
         requires stdm::floating_point<T>
-    [[nodiscard]] constexpr T angle(const Point<T>& point) noexcept;
+    [[nodiscard]] constexpr eqx::Radians<T> angle(
+        const Point<T>& point) noexcept;
 
     /**
      * @brief Convert A Point Into An Array Index

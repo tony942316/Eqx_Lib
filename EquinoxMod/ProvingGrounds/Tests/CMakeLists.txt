@@ -21,12 +21,14 @@ add_library(EquinoxModTests STATIC)
 target_sources(EquinoxModTests
     PUBLIC FILE_SET CXX_MODULES FILES
         Math/Math.cpp
-            Math/Core.cpp
             Math/Decl.cpp
+            Math/Core.cpp
+            Math/Modulator.cpp
             Math/Range.cpp
             Math/Trig.cpp
         Misc/Misc.cpp
             Misc/Decl.cpp
+            Misc/Core.cpp
         Point/Point.cpp
             Point/Decl.cpp
             Point/Core.cpp
