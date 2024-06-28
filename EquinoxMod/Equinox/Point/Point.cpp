@@ -143,8 +143,7 @@ export namespace eqx
         requires stdm::is_arithmetic_v<T>
     [[nodiscard]] stdm::string Point<T>::toString() const
     {
-        return (stdm::stringstream() << "(" << eqx::toString(x) <<
-            ", " << eqx::toString(y) << ")").str();
+        return "("s + eqx::toString(x) + ", "s + eqx::toString(y) + ")"s;
     }
 
     template <typename T>

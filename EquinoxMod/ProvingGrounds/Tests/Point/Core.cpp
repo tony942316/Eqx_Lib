@@ -8,19 +8,19 @@ import Equinox.Point;
 using namespace eqx::literals;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
-constexpr auto point0DI = eqx::Point<int>();
-constexpr auto point0DF = eqx::Point<float>();
-constexpr auto point0D = eqx::Point<double>();
-constexpr auto point0DL = eqx::Point<long double>();
+constexpr auto point0DI = eqx::Point<int>{};
+constexpr auto point0DF = eqx::Point<float>{};
+constexpr auto point0D = eqx::Point<double>{};
+constexpr auto point0DL = eqx::Point<long double>{};
 
-constexpr auto point0I = eqx::Point<int>(0, 0);
-constexpr auto point0F = eqx::Point<float>(0.0F, 0.0F);
-constexpr auto point0 = eqx::Point<double>(0.0, 0.0);
-constexpr auto point0L = eqx::Point<long double>(0.0L, 0.0L);
-constexpr auto point1 = eqx::Point<double>(1.5, 3.9);
-constexpr auto point2 = eqx::Point<double>(1.0, 1.0);
-constexpr auto point3 = eqx::Point<double>(-10.0, 10.0);
-constexpr auto point4 = eqx::Point<double>(1.234, 7.654);
+constexpr auto point0I = eqx::Point<int>{0, 0};
+constexpr auto point0F = eqx::Point<float>{0.0F, 0.0F};
+constexpr auto point0 = eqx::Point<double>{0.0, 0.0};
+constexpr auto point0L = eqx::Point<long double>{0.0L, 0.0L};
+constexpr auto point1 = eqx::Point<double>{1.5, 3.9};
+constexpr auto point2 = eqx::Point<double>{1.0, 1.0};
+constexpr auto point3 = eqx::Point<double>{-10.0, 10.0};
+constexpr auto point4 = eqx::Point<double>{1.234, 7.654};
 
 static_assert(point0DI.x == 0 && point0DI.y == 0);
 static_assert(point0DF.x == 0.0F && point0DF.y == 0.0F);

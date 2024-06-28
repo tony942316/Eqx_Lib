@@ -33,7 +33,9 @@ target_sources(EquinoxMod
         Misc/Misc.cpp
             Misc/Misc_Decl.cpp
         Point/Point.cpp
-            Point/Point_Decl.cpp)
+            Point/Point_Decl.cpp
+        Rectangle/Rectangle.cpp
+            Rectangle/Decl.cpp)
 
 target_include_directories(EquinoxMod PUBLIC include)
 target_compile_features(EquinoxMod PUBLIC cxx_std_20)

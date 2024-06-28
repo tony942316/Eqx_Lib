@@ -23,18 +23,19 @@ void runTest(void (*test)()) noexcept
 {
     stdm::cout << "*******************\n";
     stdm::invoke(test);
+    stdm::cout << "*******************\n\n";
 }
 
 using namespace eqx::literals;
 int main()
 {
-    constexpr auto var = eqx::atan2(1.0, 0.0);
-    stdm::cout << stdm::setprecision(10) << stdm::endl;
-    stdm::cout << var.get() << stdm::endl;
+    //constexpr auto var = rect5.getEmplaceCenter(rect4);
+    //stdm::cout << stdm::setprecision(10) << stdm::endl;
+    //stdm::cout << var.toString() << stdm::endl;
     runTest(test::misc::all);
     runTest(test::math::all);
     runTest(test::point::all);
-    stdm::cout << "*******************\n";
+    runTest(test::rectangle::all);
     /*
     auto stats = stdm::vector<double>{};
     stats.reserve(cnt);

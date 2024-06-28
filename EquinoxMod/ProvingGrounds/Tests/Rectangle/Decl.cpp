@@ -1,6 +1,6 @@
-export module Eqx.Tests.Point:Decl;
+export module Eqx.Tests.Rectangle:Decl;
 
-namespace test::point
+namespace test::rectangle
 {
     export void all() noexcept;
     void toString() noexcept;

@@ -32,6 +32,9 @@ target_sources(EquinoxModTests
         Point/Point.cpp
             Point/Decl.cpp
             Point/Core.cpp
+        Rectangle/Rectangle.cpp
+            Rectangle/Decl.cpp
+            Rectangle/Core.cpp
         Tests.cpp)
 target_compile_features(EquinoxModTests PUBLIC cxx_std_20)
 target_link_libraries(EquinoxModTests PUBLIC EquinoxMod UnitTester)
