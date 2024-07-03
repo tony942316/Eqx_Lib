@@ -36,6 +36,7 @@ int main()
     runTest(test::math::all);
     runTest(test::point::all);
     runTest(test::rectangle::all);
+    runTest(test::stopwatch::all);
     /*
     auto stats = stdm::vector<double>{};
     stats.reserve(cnt);

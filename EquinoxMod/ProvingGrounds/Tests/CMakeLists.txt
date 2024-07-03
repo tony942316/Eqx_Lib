@@ -35,6 +35,8 @@ target_sources(EquinoxModTests
         Rectangle/Rectangle.cpp
             Rectangle/Decl.cpp
             Rectangle/Core.cpp
+        StopWatch/StopWatch.cpp
+            StopWatch/Decl.cpp
         Tests.cpp)
 target_compile_features(EquinoxModTests PUBLIC cxx_std_20)
 target_link_libraries(EquinoxModTests PUBLIC EquinoxMod UnitTester)

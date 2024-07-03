@@ -35,7 +35,9 @@ target_sources(EquinoxMod
         Point/Point.cpp
             Point/Point_Decl.cpp
         Rectangle/Rectangle.cpp
-            Rectangle/Decl.cpp)
+            Rectangle/Decl.cpp
+        StopWatch/StopWatch.cpp
+            StopWatch/Decl.cpp)
 
 target_include_directories(EquinoxMod PUBLIC include)
 target_compile_features(EquinoxMod PUBLIC cxx_std_20)
