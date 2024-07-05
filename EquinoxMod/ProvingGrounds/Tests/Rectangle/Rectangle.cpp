@@ -1,6 +1,5 @@
 export module Eqx.Tests.Rectangle;
 
-export import :Decl;
 import :Core;
 
 import Eqx.Stdm;
@@ -11,17 +10,25 @@ import Eqx.UnitTester;
 namespace test::rectangle
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit auto tester = UnitTester{};
+    constinit inline auto tester = UnitTester{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
-    export void all() noexcept
+    export inline void all() noexcept;
+    inline void toString() noexcept;
+}
+
+// Implementations
+
+namespace test::rectangle
+{
+    export inline void all() noexcept
     {
         stdm::cout << "Testing Rectangle...\n";
         toString();
         tester.print();
     }
 
-    void toString() noexcept
+    inline void toString() noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =

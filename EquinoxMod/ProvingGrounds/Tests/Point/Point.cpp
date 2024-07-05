@@ -1,6 +1,5 @@
 export module Eqx.Tests.Point;
 
-export import :Decl;
 import :Core;
 
 import Eqx.Stdm;
@@ -10,17 +9,25 @@ import Eqx.UnitTester;
 namespace test::point
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit auto tester = UnitTester{};
+    constinit inline auto tester = UnitTester{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
-    export void all() noexcept
+    export inline void all() noexcept;
+    inline void toString() noexcept;
+}
+
+// Implementations
+
+namespace test::point
+{
+    export inline void all() noexcept
     {
         stdm::cout << "Testing Point...\n";
         toString();
         tester.print();
     }
 
-    void toString() noexcept
+    inline void toString() noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =

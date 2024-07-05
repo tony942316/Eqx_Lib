@@ -1,6 +1,5 @@
 export module Eqx.Tests.Misc;
 
-export import :Decl;
 import :Core;
 
 import Eqx.Stdm;
@@ -10,10 +9,21 @@ import Eqx.UnitTester;
 namespace test::misc
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit auto tester = UnitTester{};
+    constinit inline auto tester = UnitTester{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
-    export void all() noexcept
+    export inline void all() noexcept;
+    inline void toString() noexcept;
+    inline void println() noexcept;
+    inline void ensure() noexcept;
+    inline void stream() noexcept;
+}
+
+// Implementations
+
+namespace test::misc
+{
+    export inline void all() noexcept
     {
         stdm::cout << "Testing Misc...\n";
         toString();
@@ -23,7 +33,7 @@ namespace test::misc
         tester.print();
     }
 
-    void toString() noexcept
+    inline void toString() noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =
@@ -59,7 +69,7 @@ namespace test::misc
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
-    void println() noexcept
+    inline void println() noexcept
     {
         auto ss1 = stdm::stringstream{};
         eqx::println("Hello", ss1);
@@ -76,13 +86,13 @@ namespace test::misc
         tester.addTests(expected_actual);
     }
 
-    void ensure() noexcept
+    inline void ensure() noexcept
     {
         eqx::ensure(true);
         eqx::noOp();
     }
 
-    void stream() noexcept
+    inline void stream() noexcept
     {
         using namespace eqx::stream;
 

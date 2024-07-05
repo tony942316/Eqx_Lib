@@ -3,8 +3,7 @@ cmake_minimum_required(VERSION 3.28)
 add_library(UnitTester STATIC)
 target_sources(UnitTester
     PUBLIC FILE_SET CXX_MODULES FILES
-        UnitTester.cpp
-            UnitTester_Decl.cpp)
+        UnitTester.cpp)
 target_compile_features(UnitTester PUBLIC cxx_std_20)
 target_link_libraries(UnitTester PUBLIC Stdm)
 

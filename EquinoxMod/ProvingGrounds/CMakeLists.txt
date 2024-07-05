@@ -30,4 +30,11 @@ set_target_properties(ProvingGroundsMod PROPERTIES
 
 target_link_libraries(ProvingGroundsMod PRIVATE EquinoxModTests)
 target_link_libraries(GMF INTERFACE EQX-Typical)
-target_compile_options(GMF INTERFACE -fconstexpr-steps=100000000)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(GMF INTERFACE
+        /constexpr:steps100000000)
+else ()
+    target_compile_options(GMF INTERFACE
+        -fconstexpr-steps=100000000 -Wno-deprecated-declarations)
+endif()

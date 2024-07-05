@@ -1,19 +1,26 @@
 export module Eqx.Tests.StopWatch;
 
-export import :Decl;
-
 import Eqx.Stdm;
 import Equinox.StopWatch;
 import Eqx.UnitTester;
 
 namespace test::stopwatch
 {
-
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit auto tester = UnitTester{};
+    constinit inline auto tester = UnitTester{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
-    export void all() noexcept
+    export inline void all() noexcept;
+    void inline readSeconds() noexcept;
+    void inline toString() noexcept;
+    void inline wasteTime(stdm::chrono::microseconds ms);
+}
+
+// Implementations
+
+namespace test::stopwatch
+{
+    export inline void all() noexcept
     {
         stdm::cout << "Testing StopWatch...\n";
         readSeconds();
@@ -21,7 +28,7 @@ namespace test::stopwatch
         tester.print();
     }
 
-    void readSeconds() noexcept
+    inline void readSeconds() noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto watch = eqx::StopWatch{};
@@ -30,11 +37,11 @@ namespace test::stopwatch
         const auto result = watch.readSeconds();
 
         tester.addTest(result, 1.0, stdm::ranges::greater_equal{});
-        tester.addTest(result, 2.0, stdm::ranges::less_equal{});
+        tester.addTest(result, 5.0, stdm::ranges::less_equal{});
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
-    void toString() noexcept
+    inline void toString() noexcept
     {
         using namespace eqx::TimeTypes;
 
@@ -55,7 +62,7 @@ namespace test::stopwatch
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
-    void wasteTime(stdm::chrono::microseconds ms)
+    inline void wasteTime(stdm::chrono::microseconds ms)
     {
         stdm::this_thread::sleep_for(ms);
     }

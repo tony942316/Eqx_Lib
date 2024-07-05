@@ -1,6 +1,5 @@
 export module Eqx.Tests.Math;
 
-export import :Decl;
 import :Core;
 import :Modulator;
 import :Range;
@@ -13,10 +12,23 @@ import Eqx.UnitTester;
 namespace test::math
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit auto tester = UnitTester{};
+    constinit inline auto tester = UnitTester{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
-    export void all() noexcept
+    export inline void all() noexcept;
+    /*
+    void sin() noexcept;
+    void cos() noexcept;
+    void asin() noexcept;
+    void acos() noexcept;
+    */
+}
+
+// Implementations
+
+namespace test::math
+{
+    export inline void all() noexcept
     {
         stdm::cout << "Testing Math...\n";
         /*

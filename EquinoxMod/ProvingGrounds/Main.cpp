@@ -26,7 +26,6 @@ void runTest(void (*test)()) noexcept
     stdm::cout << "*******************\n\n";
 }
 
-using namespace eqx::literals;
 int main()
 {
     //constexpr auto var = rect5.getEmplaceCenter(rect4);
