@@ -83,6 +83,10 @@ void UnitTester::addTests(const stdm::vector<stdm::pair<T, U>>& expected_actual,
 
 inline bool UnitTester::passing() noexcept
 {
+    if (!m_FailedTests.has_value())
+    {
+        m_FailedTests.emplace();
+    }
     return stdm::ranges::empty(*m_FailedTests);
 }
 

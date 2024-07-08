@@ -2,6 +2,10 @@ module;
 
 #include <Equinox/Macros.hpp>
 
+#ifdef _MSC_VER
+
+#endif // _MSC_VER
+
 export module Equinox.Math.Core;
 
 import Eqx.Stdm;
@@ -121,20 +125,17 @@ export namespace eqx
         requires stdm::is_arithmetic_v<T>
     [[nodiscard]] constexpr T abs(const T val) noexcept
     {
-        if (stdm::is_constant_evaluated())
+        if constexpr (stdm::unsigned_integral<T>)
+        {
+            return val;
+        }
+        else if (stdm::is_constant_evaluated())
         {
             return val < eqx::c_Zero<T> ? -val : val;
         }
         else
         {
-            if constexpr (stdm::unsigned_integral<T>)
-            {
-                return val;
-            }
-            else
-            {
-                return stdm::abs(val);
-            }
+            return stdm::abs(val);
         }
     }
 
@@ -179,7 +180,11 @@ export namespace eqx
         }
         else
         {
+#ifdef _MSC_VER
+            return !stdm::signbit(static_cast<double>(val));
+#else
             return !stdm::signbit(val);
+#endif // _MSC_VER
         }
     }
 

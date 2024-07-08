@@ -151,17 +151,6 @@ export namespace eqx
     };
 
     /**
-     * @brief Convert An eqx::Rectangle To A std::string Of Form
-     *      "(rect.x, rect.y, rect.w, rect.h)"
-     *
-     * @param rect Rectangle To Be Converted
-     *
-     * @returns Rectangle Converted To A std::string
-     */
-    template <typename T>
-    [[nodiscard]] stdm::string toString(const Rectangle<T>& rect);
-
-    /**
      * @brief Compares Two eqx::Rectangles To Each Other Within A
      *      Given Tolerance
      *
@@ -384,12 +373,6 @@ export namespace eqx
         return (stdm::stringstream() << "(" << eqx::toString(x) <<
             ", " << eqx::toString(y) << ", " << eqx::toString(w) <<
             ", " << eqx::toString(h) << ")").str();
-    }
-
-    template <typename T>
-    [[nodiscard]] stdm::string toString(const Rectangle<T>& rect)
-    {
-        return rect.toString();
     }
 
     template <typename T>

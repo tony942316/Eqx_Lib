@@ -3,6 +3,7 @@ export module Eqx.Tests.Point;
 import :Core;
 
 import Eqx.Stdm;
+import Equinox.Misc;
 import Equinox.Point;
 import Eqx.UnitTester;
 

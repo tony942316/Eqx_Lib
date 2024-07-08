@@ -30,23 +30,6 @@ export namespace eqx
     [[nodiscard]] constexpr T staticCast(const F& f) noexcept;
 
     template <typename T>
-        requires StringConstructable<T>
-    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept;
-
-    template <typename T>
-        requires StringConvertable<T> && (!StringConstructable<T>)
-    [[nodiscard]] stdm::string toString(const T& val) noexcept;
-
-    template <typename T, typename U>
-        requires requires(const stdm::pair<T, U>& val)
-            { eqx::toString(val.first); eqx::toString(val.second); }
-    [[nodiscard]] constexpr stdm::string
-        toString(const stdm::pair<T, U>& val) noexcept;
-
-    template <typename T>
-        requires stdm::ranges::range<T>
-            && (!StringConstructable<T>)
-            && (!StringConvertable<T>)
     [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept;
 
     [[nodiscard]] constexpr char toLower(char val) noexcept;
@@ -135,50 +118,48 @@ export namespace eqx
     }
 
     template <typename T>
-        requires StringConstructable<T>
-    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept
-    {
-        // NOLINTBEGIN(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-        return stdm::string{ val };
-        // NOLINTEND(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
-    }
-
-    template <typename T>
-        requires StringConvertable<T> && (!StringConstructable<T>)
-    [[nodiscard]] stdm::string toString(const T& val) noexcept
-    {
-        return stdm::to_string(val);
-    }
-
-    template <typename T, typename U>
-        requires requires(const stdm::pair<T, U>& val)
-            { eqx::toString(val.first); eqx::toString(val.second); }
-    [[nodiscard]] constexpr stdm::string toString(const stdm::pair<T, U>& val) noexcept
-    {
-        return "("s + eqx::toString(val.first) + ", "s +
-            eqx::toString(val.second) + ")"s;
-    }
-
-    template <typename T>
-        requires stdm::ranges::range<T>
-            && (!StringConstructable<T>)
-            && (!StringConvertable<T>)
-    [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept
-    {
-        return stdm::ranges::empty(val) ? "{ }"s
-            : stdm::transform_reduce(
-            stdm::ranges::cbegin(val) + 1, stdm::ranges::cend(val),
-            "{ "s + eqx::toString(val.front()),
-            [](const stdm::string& left, const stdm::string& right)
-            {
-                return left + ", "s + right;
-            },
-            [](const auto& ele)
-            {
-                return eqx::toString(ele);
-            }) + " }"s;
-
-    }
+   [[nodiscard]] constexpr stdm::string toString(const T& val) noexcept
+   {
+        if constexpr (StringConstructable<T>)
+        {
+            // NOLINTBEGIN(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+            return stdm::string{ val };
+            // NOLINTEND(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+        }
+        else if constexpr (StringConvertable<T>)
+        {
+            return stdm::to_string(val);
+        }
+        else if constexpr (requires(const T& x) { x.first; x.second; })
+        {
+            return "("s + eqx::toString(val.first) + ", "s +
+                eqx::toString(val.second) + ")"s;
+        }
+        else if constexpr (stdm::ranges::range<T>)
+        {
+            return stdm::ranges::empty(val) ? "{ }"s
+                : stdm::transform_reduce(
+                stdm::ranges::cbegin(val) + 1, stdm::ranges::cend(val),
+                "{ "s + eqx::toString(val.front()),
+                [](const stdm::string& left, const stdm::string& right)
+                {
+                    return left + ", "s + right;
+                },
+                [](const auto& ele)
+                {
+                    return eqx::toString(ele);
+                }) + " }"s;
+        }
+        else if constexpr (requires(const T& x) { x.toString(); })
+        {
+            return val.toString();
+        }
+        else
+        {
+            eqx::ENSURE_HARD(false);
+            return stdm::string{};
+        }
+   }
 
     [[nodiscard]] constexpr char toLower(char val) noexcept
     {

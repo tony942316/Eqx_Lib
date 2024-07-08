@@ -177,17 +177,6 @@ export namespace eqx
     };
 
     /**
-     * @brief Convert An eqx::Point To A std::string Of Form
-     *      "(point.x, point.y)"
-     *
-     * @param point Point To Be Converted
-     *
-     * @returns Point Converted To A std::string
-     */
-    template <typename T>
-    [[nodiscard]] stdm::string toString(const Point<T>& point);
-
-    /**
      * @brief point1 == point2
      *
      * @param point1 First Point
@@ -398,12 +387,6 @@ export namespace eqx
     [[nodiscard]] stdm::string Point<T>::toString() const
     {
         return "("s + eqx::toString(x) + ", "s + eqx::toString(y) + ")"s;
-    }
-
-    template <typename T>
-    [[nodiscard]] stdm::string toString(const Point<T>& point)
-    {
-        return point.toString();
     }
 
     template <typename T>

@@ -3,6 +3,7 @@ export module Eqx.Tests.Rectangle;
 import :Core;
 
 import Eqx.Stdm;
+import Equinox.Misc;
 import Equinox.Point;
 import Equinox.Rectangle;
 import Eqx.UnitTester;
