@@ -86,8 +86,17 @@ export namespace eqx
         inline ~Socket() noexcept;
 
         [[nodiscard]] inline int get() const noexcept;
+
+        inline void send(const stdm::string_view msg) const noexcept;
+        [[nodiscard]] inline stdm::string recv() const noexcept;
     private:
+#ifdef __linux__
         int m_Socket;
+#endif // __linux__
+
+#ifdef _WIN32
+        SOCKET m_Socket;
+#endif // _WIN32
     };
 
     class Client
@@ -154,13 +163,61 @@ export namespace eqx
     {
         if (m_Socket != -1)
         {
+#ifdef __linux__
             close(m_Socket);
+#endif // __linux__
+
+#ifdef _WIN32
+            closesocket(m_Socket);
+#endif // _WIN32
         }
     }
 
     [[nodiscard]] inline int Socket::get() const noexcept
     {
         return m_Socket;
+    }
+
+    inline void Socket::send(const stdm::string_view msg) const noexcept
+    {
+#ifdef __linux__
+        const auto bytes = ::send(m_Socket, stdm::ranges::data(msg),
+            stdm::ranges::size(msg), 0);
+        eqx::ENSURE_HARD(bytes != -1, "Send Error!!!"sv);
+#endif // __linux__
+
+#ifdef _WIN32
+        const auto bytes = ::send(m_Socket, stdm::ranges::data(msg),
+            static_cast<int>(stdm::ranges::size(msg)), 0);
+        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Send Error!!!"sv);
+#endif // _WIN32
+    }
+
+    [[nodiscard]] inline stdm::string Socket::recv() const noexcept
+    {
+        auto buffer = stdm::array<char, 1024>{};
+
+#ifdef __linux__
+        auto bytes = ::recv(m_Socket, buffer.data(), sizeof(buffer), 0);
+        eqx::ENSURE_HARD(bytes != -1, "Error Receiving Message!"sv);
+#endif // __linux__
+
+#ifdef _WIN32
+        auto bytes = ::recv(m_Socket, buffer,
+            static_cast<int>(sizeof(buffer)), 0);
+        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Error Receiving Message!"sv);
+#endif // _WIN32
+
+        if (bytes == 0)
+        {
+            std::strncpy(buffer.data(), "Client Disconnect!", 30);
+        }
+        else
+        {
+            buffer.at(static_cast<stdm::size_t>(bytes)) = '\0';
+        }
+
+        return stdm::string{buffer.data()};
     }
 
     inline Client::Client(const stdm::string_view ip,
@@ -178,7 +235,7 @@ export namespace eqx
         const stdm::uint16_t port) noexcept
     {
         m_Socket.emplace();
-
+#ifdef __linux__
         auto server_address = sockaddr_in();
         server_address.sin_family = AF_INET;
         server_address.sin_port = htons(port);
@@ -190,6 +247,17 @@ export namespace eqx
             reinterpret_cast<sockaddr*>(&server_address),
             sizeof(server_address));
         eqx::ENSURE_HARD(error_code != -1, "Connection Error!"sv);
+#endif // __linux__
+
+#ifdef _WIN32
+        sockaddr_in clientService;
+        clientService.sin_family = AF_INET;
+        clientService.sin_addr.s_addr = inet_addr(ip.data());
+        clientService.sin_port = htons(port);
+
+        iResult = ::connect(m_Socket->get(), (SOCKADDR*)&clientService, sizeof(clientService));
+        eqx::ENSURE_HARD(iResult != SOCKET_ERROR, "Connection Error!"sv);
+#endif // _WIN32
     }
 
     inline void Client::assign(Socket&& socket) noexcept
@@ -199,24 +267,11 @@ export namespace eqx
 
     inline void Client::send(const stdm::string_view msg) const noexcept
     {
-        ::send(m_Socket->get(), stdm::ranges::data(msg),
-            stdm::ranges::size(msg), 0);
+        m_Socket->send(msg);
     }
 
     [[nodiscard]] stdm::string Client::recv() const noexcept
     {
-        auto buffer = stdm::array<char, 1024>{};
-        auto bytes = ::recv(m_Socket->get(), buffer.data(), sizeof(buffer), 0);
-        eqx::ENSURE_HARD(bytes != -1, "Error Receiving Message!"sv);
-        if (bytes == 0)
-        {
-            std::strncpy(buffer.data(), "Client Disconnect!", 30);
-        }
-        else
-        {
-            buffer.at(static_cast<stdm::size_t>(bytes)) = '\0';
-        }
-
-        return stdm::string{buffer.data()};
+        return m_Socket->recv();
     }
 }
