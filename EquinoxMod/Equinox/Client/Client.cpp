@@ -13,6 +13,9 @@ module;
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#define INVALID_SOCKET -1
+#define SOCKET_ERROR -1
+
 #endif // __linux__
 
 #ifdef _WIN32
@@ -74,8 +77,16 @@ export namespace eqx
     class Socket
     {
     public:
+#ifdef __linux__
+        using socket_type = int;
+#endif // __linux__
+
+#ifdef _WIN32
+        using socket_type = SOCKET;
+#endif // _WIN32
+
         explicit inline Socket() noexcept;
-        explicit inline Socket(const int socket) noexcept;
+        explicit inline Socket(const socket_type socket) noexcept;
 
         explicit inline Socket(Socket&& other) noexcept;
         inline Socket& operator= (Socket&& other) noexcept;
@@ -85,18 +96,12 @@ export namespace eqx
 
         inline ~Socket() noexcept;
 
-        [[nodiscard]] inline int get() const noexcept;
+        [[nodiscard]] inline socket_type get() const noexcept;
 
         inline void send(const stdm::string_view msg) const noexcept;
         [[nodiscard]] inline stdm::string recv() const noexcept;
     private:
-#ifdef __linux__
-        int m_Socket;
-#endif // __linux__
-
-#ifdef _WIN32
-        SOCKET m_Socket;
-#endif // _WIN32
+        socket_type m_Socket;
     };
 
     class Client
@@ -135,7 +140,8 @@ export namespace eqx
         :
         m_Socket(socket(AF_INET, SOCK_STREAM, 0))
     {
-        eqx::ENSURE_HARD(m_Socket != 1, "Error Creating Socket!"sv);
+        eqx::ENSURE_HARD(m_Socket != INVALID_SOCKET,
+            "Error Creating Socket!"sv);
     }
 
     inline Socket::Socket(const int socket) noexcept
@@ -148,20 +154,20 @@ export namespace eqx
         :
         m_Socket(other.m_Socket)
     {
-        other.m_Socket = -1;
+        other.m_Socket = INVALID_SOCKET;
     }
 
     inline Socket& Socket::operator= (Socket&& other) noexcept
     {
         eqx::ENSURE_HARD(this != &other, "Moving From Same Object!!!"sv);
         m_Socket = other.m_Socket;
-        other.m_Socket = -1;
+        other.m_Socket = INVALID_SOCKET;
         return *this;
     }
 
     inline Socket::~Socket() noexcept
     {
-        if (m_Socket != -1)
+        if (m_Socket != INVALID_SOCKET)
         {
 #ifdef __linux__
             close(m_Socket);
@@ -183,14 +189,14 @@ export namespace eqx
 #ifdef __linux__
         const auto bytes = ::send(m_Socket, stdm::ranges::data(msg),
             stdm::ranges::size(msg), 0);
-        eqx::ENSURE_HARD(bytes != -1, "Send Error!!!"sv);
 #endif // __linux__
 
 #ifdef _WIN32
         const auto bytes = ::send(m_Socket, stdm::ranges::data(msg),
             static_cast<int>(stdm::ranges::size(msg)), 0);
-        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Send Error!!!"sv);
 #endif // _WIN32
+
+        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Send Error!!!"sv);
     }
 
     [[nodiscard]] inline stdm::string Socket::recv() const noexcept
@@ -199,14 +205,14 @@ export namespace eqx
 
 #ifdef __linux__
         auto bytes = ::recv(m_Socket, buffer.data(), sizeof(buffer), 0);
-        eqx::ENSURE_HARD(bytes != -1, "Error Receiving Message!"sv);
 #endif // __linux__
 
 #ifdef _WIN32
-        auto bytes = ::recv(m_Socket, buffer,
+        auto bytes = ::recv(m_Socket, buffer.data(),
             static_cast<int>(sizeof(buffer)), 0);
-        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Error Receiving Message!"sv);
 #endif // _WIN32
+
+        eqx::ENSURE_HARD(bytes != SOCKET_ERROR, "Error Receiving Message!"sv);
 
         if (bytes == 0)
         {
@@ -235,29 +241,25 @@ export namespace eqx
         const stdm::uint16_t port) noexcept
     {
         m_Socket.emplace();
-#ifdef __linux__
-        auto server_address = sockaddr_in();
+        auto server_address = sockaddr_in{};
         server_address.sin_family = AF_INET;
         server_address.sin_port = htons(port);
         auto error_code = inet_pton(AF_INET, ip.data(),
             &server_address.sin_addr);
         eqx::ENSURE_HARD(error_code != -1, "Inet Conversion Error!"sv);
 
+#ifdef __linux__
         error_code = ::connect(m_Socket->get(),
             reinterpret_cast<sockaddr*>(&server_address),
             sizeof(server_address));
-        eqx::ENSURE_HARD(error_code != -1, "Connection Error!"sv);
 #endif // __linux__
 
 #ifdef _WIN32
-        sockaddr_in clientService;
-        clientService.sin_family = AF_INET;
-        clientService.sin_addr.s_addr = inet_addr(ip.data());
-        clientService.sin_port = htons(port);
-
-        iResult = ::connect(m_Socket->get(), (SOCKADDR*)&clientService, sizeof(clientService));
-        eqx::ENSURE_HARD(iResult != SOCKET_ERROR, "Connection Error!"sv);
+        error_code = ::connect(m_Socket->get(), (SOCKADDR*)&server_address,
+            sizeof(server_address));
 #endif // _WIN32
+
+        eqx::ENSURE_HARD(error_code != SOCKET_ERROR, "Connection Error!"sv);
     }
 
     inline void Client::assign(Socket&& socket) noexcept
