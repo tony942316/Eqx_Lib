@@ -1,8 +1,16 @@
 export module Eqx.Tests.StopWatch;
 
 import Eqx.Stdm;
+import Equinox.Misc;
 import Equinox.StopWatch;
 import Eqx.UnitTester;
+
+static_assert(stdm::is_standard_layout_v<eqx::StopWatch>);
+static_assert(!stdm::is_trivial_v<eqx::StopWatch>);
+
+static_assert(!stdm::is_trivially_default_constructible_v<eqx::StopWatch>);
+
+static_assert(stdm::is_trivially_copyable_v<eqx::StopWatch>);
 
 namespace test::stopwatch
 {

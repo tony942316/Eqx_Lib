@@ -21,6 +21,7 @@ add_library(EquinoxMod STATIC)
 target_sources(EquinoxMod
     PUBLIC FILE_SET CXX_MODULES FILES
         Equinox.cpp
+        Client/Client.cpp
         Math/Math.cpp
             Math/Core.cpp
             Math/Modulator.cpp
@@ -29,6 +30,7 @@ target_sources(EquinoxMod
         Misc/Misc.cpp
         Point/Point.cpp
         Rectangle/Rectangle.cpp
+        Server/Server.cpp
         StopWatch/StopWatch.cpp)
 
 target_include_directories(EquinoxMod PUBLIC include)

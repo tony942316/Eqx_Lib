@@ -23,11 +23,6 @@ export namespace eqx
     {
     public:
         /**
-         * @brief Initialized With Zeros i.e. ((T)0, ...)
-         */
-        explicit consteval Rectangle() noexcept;
-
-        /**
          * @brief Initalize With Values i.e. (x, y, w, h)
          *
          * @param x The x Value
@@ -48,8 +43,9 @@ export namespace eqx
             const eqx::Point<T>& bottomRight) noexcept;
 
         /**
-         * Trivial Move And Copy Operation
+         * Trivial Type
          */
+        Rectangle() = default;
         Rectangle(const Rectangle&) = default;
         Rectangle(Rectangle&&) = default;
         Rectangle& operator= (const Rectangle&) = default;
@@ -238,14 +234,6 @@ export namespace eqx
 
 export namespace eqx
 {
-    template <typename T>
-        requires stdm::is_arithmetic_v<T>
-    consteval Rectangle<T>::Rectangle() noexcept
-        :
-        Rectangle(c_Zero<T>, c_Zero<T>, c_Zero<T>, c_Zero<T>)
-    {
-    }
-
     template <typename T>
         requires stdm::is_arithmetic_v<T>
     constexpr Rectangle<T>::Rectangle(const T x, const T y, const T w,

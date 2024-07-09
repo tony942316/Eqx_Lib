@@ -8,12 +8,10 @@ import Equinox.Rectangle;
 
 using namespace eqx::literals;
 
-// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
-constexpr auto rect0DI = eqx::Rectangle<int>{};
-constexpr auto rect0DF = eqx::Rectangle<float>{};
-constexpr auto rect0D = eqx::Rectangle<double>{};
-constexpr auto rect0DL = eqx::Rectangle<long double>{};
+static_assert(stdm::is_trivial_v<eqx::Rectangle<double>>);
+static_assert(stdm::is_standard_layout_v<eqx::Rectangle<double>>);
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 constexpr auto rect0I = eqx::Rectangle<int>{0, 0, 0, 0};
 constexpr auto rect0F = eqx::Rectangle<float>{0.0F, 0.0F, 0.0F, 0.0F};
 constexpr auto rect0 = eqx::Rectangle<double>{0.0, 0.0, 0.0, 0.0};
@@ -29,15 +27,6 @@ constexpr auto rect5 = eqx::Rectangle<double>{eqx::Point<double>{-22.5, 15.3},
 constexpr auto point1 = eqx::Point<double>{1.5, 0.0};
 constexpr auto point2 = eqx::Point<double>{-9.0, -20.0};
 constexpr auto point3 = eqx::Point<double>{10, -12.5};
-
-static_assert(rect0DI.x == 0 && rect0DI.y == 0 && rect0DI.w == 0
-    && rect0DI.h == 0);
-static_assert(rect0DF.x == 0.0F && rect0DF.y == 0.0F && rect0DF.w == 0.0F
-    && rect0DF.h == 0.0F);
-static_assert(rect0D.x == 0.0 && rect0D.y == 0.0 && rect0D.w == 0.0
-    && rect0D.h == 0.0);
-static_assert(rect0DL.x == 0.0L && rect0DL.y == 0.0L && rect0DL.w == 0.0L
-    && rect0DL.h == 0.0L);
 
 static_assert(rect0I.x == 0 && rect0I.y == 0 && rect0I.w == 0
     && rect0I.h == 0);

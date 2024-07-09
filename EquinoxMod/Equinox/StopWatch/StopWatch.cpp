@@ -43,13 +43,9 @@ export namespace eqx
     {
     public:
         /**
-         * @brief Does NOT Start StopWatch On Construction
+         * Trivial Type
          */
-        explicit consteval StopWatch() noexcept = default;
-
-        /**
-         * Trivial Move And Copy Operation
-         */
+        StopWatch() = default;
         StopWatch(const StopWatch&) = default;
         StopWatch(StopWatch&&) = default;
         StopWatch& operator= (const StopWatch&) = default;
@@ -127,17 +123,6 @@ export namespace eqx
     private:
         stdm::chrono::steady_clock::time_point m_StartTime, m_EndTime;
     };
-
-    /**
-     * @brief Gives The String Representation Of An eqx::StopWatch
-     *
-     * @param watch StopWatch To Process
-     *
-     * @returns std::string "{TimePast}ms"
-     */
-    template <typename T = stdm::chrono::milliseconds>
-        requires TimeUnit<T>
-    [[nodiscard]] stdm::string toString(const StopWatch& watch);
 }
 
 // Implementations
@@ -196,12 +181,5 @@ export namespace eqx
     [[nodiscard]] stdm::string StopWatch::toString() const
     {
         return (stdm::stringstream{} << getDuration<T>()).str();
-    }
-
-    template <typename T>
-        requires TimeUnit<T>
-    [[nodiscard]] stdm::string toString(const StopWatch& watch)
-    {
-        return watch.toString<T>();
     }
 }

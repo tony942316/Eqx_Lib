@@ -28,14 +28,18 @@ void runTest(void (*test)()) noexcept
 
 int main()
 {
+    stdm::cout << "Start\n\n";
     //constexpr auto var = rect5.getEmplaceCenter(rect4);
     //stdm::cout << stdm::setprecision(10) << stdm::endl;
     //stdm::cout << var.toString() << stdm::endl;
-    runTest(test::misc::all);
+
+    runTest(test::clientserver::all);
     runTest(test::math::all);
+    runTest(test::misc::all);
     runTest(test::point::all);
     runTest(test::rectangle::all);
     runTest(test::stopwatch::all);
+
     /*
     auto stats = stdm::vector<double>{};
     stats.reserve(cnt);
@@ -54,5 +58,7 @@ int main()
     stdm::cout << "Min Error: " << stdm::ranges::min(stats) << stdm::endl;
     stdm::cout << "End" << stdm::endl;
     */
+    stdm::cout << "End: ";
+    stdm::cin.get();
     return 0;
 }

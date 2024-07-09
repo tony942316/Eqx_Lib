@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 3.28)
 add_library(EquinoxModTests STATIC)
 target_sources(EquinoxModTests
     PUBLIC FILE_SET CXX_MODULES FILES
+        ClientServer/ClientServer.cpp
         Math/Math.cpp
             Math/Core.cpp
             Math/Modulator.cpp

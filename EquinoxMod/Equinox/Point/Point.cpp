@@ -39,11 +39,6 @@ export namespace eqx
     {
     public:
         /**
-         * @brief Initialized With Zeros i.e. ((T)0, (T)0)
-         */
-        explicit consteval Point() noexcept;
-
-        /**
          * @brief Initialize With Values i.e. (x, y)
          *
          * @param x The x Value
@@ -52,8 +47,9 @@ export namespace eqx
         explicit constexpr Point(const T x, const T y) noexcept;
 
         /**
-         * Trivial Move And Copy Operation
+         * Trivial Type
          */
+        Point() = default;
         Point(const Point&) = default;
         Point(Point&&) = default;
         Point& operator= (const Point&) = default;
@@ -274,14 +270,6 @@ export namespace eqx
 
 export namespace eqx
 {
-    template <typename T>
-        requires stdm::is_arithmetic_v<T>
-    consteval Point<T>::Point() noexcept
-        :
-        Point(eqx::c_Zero<T>, eqx::c_Zero<T>)
-    {
-    }
-
     // NOLINTBEGIN(bugprone-easily-swappable-parameters)
     template <typename T>
         requires stdm::is_arithmetic_v<T>
