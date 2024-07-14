@@ -30,6 +30,7 @@ namespace test::clientserver
     export inline void all() noexcept
     {
         stdm::cout << "Testing Client & Server...\n";
+        eqx::Socket::init();
         sendReceive();
         tester.print();
     }
