@@ -108,8 +108,15 @@ export namespace eqx
         m_Socket.emplace();
 
         static auto enable = 1;
+#ifdef __linux__
         auto error_code = setsockopt(m_Socket->get(), SOL_SOCKET, SO_REUSEADDR,
             reinterpret_cast<void*>(&enable), sizeof(enable));
+#endif // __linux__
+
+#ifdef _WIN32
+        auto error_code = setsockopt(m_Socket->get(), SOL_SOCKET, SO_REUSEADDR,
+            (const char*)&enable), sizeof(enable));
+#endif // _WIN32
         eqx::ENSURE_HARD(error_code == 0, "Error Setting Socket Option!"sv);
 
         auto server_address = sockaddr_in();
@@ -130,9 +137,17 @@ export namespace eqx
     {
         auto client_address = sockaddr_in();
         socklen_t client_address_size = sizeof(client_address);
+#ifdef __linux__
         auto client_socket = accept4(m_Socket->get(),
             reinterpret_cast<sockaddr*>(&client_address),
             &client_address_size, SOCK_CLOEXEC);
+#endif // __linux__
+
+#ifdef _WIN32
+        auto client_socket = accept(m_Socket->get(),
+            reinterpret_cast<sockaddr*>(&client_address),
+            &client_address_size);
+#endif // _WIN32
         eqx::ENSURE_HARD(client_socket != -1, "Error Accepting Connection!"sv);
 
         return Client(eqx::Socket(client_socket));

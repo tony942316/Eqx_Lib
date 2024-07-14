@@ -2,6 +2,7 @@ module;
 
 #include <Equinox/Macros.hpp>
 
+#define _CRT_SECURE_NO_WARNINGS
 #include <cstring>
 
 #ifdef __linux__
@@ -100,6 +101,8 @@ export namespace eqx
 
         inline void send(const stdm::string_view msg) const noexcept;
         [[nodiscard]] inline stdm::string recv() const noexcept;
+
+        static inline void init() noexcept;
     private:
         socket_type m_Socket;
     };
@@ -144,7 +147,7 @@ export namespace eqx
             "Error Creating Socket!"sv);
     }
 
-    inline Socket::Socket(const int socket) noexcept
+    inline Socket::Socket(const Socket::socket_type socket) noexcept
         :
         m_Socket(socket)
     {
@@ -179,7 +182,7 @@ export namespace eqx
         }
     }
 
-    [[nodiscard]] inline int Socket::get() const noexcept
+    [[nodiscard]] inline Socket::socket_type Socket::get() const noexcept
     {
         return m_Socket;
     }
@@ -224,6 +227,14 @@ export namespace eqx
         }
 
         return stdm::string{buffer.data()};
+    }
+
+    inline void Socket::init() noexcept
+    {
+#ifdef _WIN32
+        WSADATA wsaData = {0};
+        WSAStartup(MAKEWORD(2, 2), &wsaData);
+#endif // _WIN32
     }
 
     inline Client::Client(const stdm::string_view ip,
