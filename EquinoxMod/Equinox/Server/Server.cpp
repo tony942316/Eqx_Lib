@@ -115,7 +115,7 @@ export namespace eqx
 
 #ifdef _WIN32
         auto error_code = setsockopt(m_Socket->get(), SOL_SOCKET, SO_REUSEADDR,
-            (const char*)&enable), sizeof(enable));
+            (const char*)&enable, sizeof(enable));
 #endif // _WIN32
         eqx::ENSURE_HARD(error_code == 0, "Error Setting Socket Option!"sv);
 
