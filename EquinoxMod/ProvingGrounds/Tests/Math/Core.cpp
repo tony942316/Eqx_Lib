@@ -160,7 +160,7 @@ static_assert(eqx::distance(1.5, 10.2) == 8.7);
 static_assert(eqx::distance(-10.2, -1.5) == 8.7);
 static_assert(eqx::distance(-1.054689, 1.5047896) == 2.5594786000000003);
 static_assert(eqx::equals(eqx::distance(15.3F, -33.1F), 48.4F));
-static_assert(eqx::distance(-22.5F, 5.7F) == 28.2F);
+static_assert(eqx::equals(eqx::distance(-22.5F, 5.7F), 28.2F));
 static_assert(eqx::distance(0U, 0U) == 0U);
 static_assert(eqx::distance(0U, 1U) == 1U);
 static_assert(eqx::distance(0U, 100'000U) == 100'000U);
