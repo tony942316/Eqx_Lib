@@ -14,13 +14,9 @@ static_assert(stdm::is_trivially_copyable_v<eqx::StopWatch>);
 
 namespace test::stopwatch
 {
-    // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit inline auto tester = UnitTester{};
-    // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
-
-    export inline void all() noexcept;
-    void inline readSeconds() noexcept;
-    void inline toString() noexcept;
+    export inline UnitTester all() noexcept;
+    void inline readSeconds(UnitTester& tester) noexcept;
+    void inline toString(UnitTester& tester) noexcept;
     void inline wasteTime(stdm::chrono::microseconds ms);
 }
 
@@ -28,15 +24,15 @@ namespace test::stopwatch
 
 namespace test::stopwatch
 {
-    export inline void all() noexcept
+    export inline UnitTester all() noexcept
     {
-        stdm::cout << "Testing StopWatch...\n";
-        readSeconds();
-        toString();
-        tester.print();
+        auto tester = UnitTester{};
+        readSeconds(tester);
+        toString(tester);
+        return tester;
     }
 
-    inline void readSeconds() noexcept
+    inline void readSeconds(UnitTester& tester) noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto watch = eqx::StopWatch{};
@@ -49,7 +45,7 @@ namespace test::stopwatch
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
-    inline void toString() noexcept
+    inline void toString(UnitTester& tester) noexcept
     {
         using namespace eqx::TimeTypes;
 

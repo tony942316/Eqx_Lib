@@ -25,7 +25,9 @@ public:
 
     inline bool passing() noexcept;
 
-    inline void print() noexcept;
+    inline stdm::string toString(
+        const stdm::string_view name = "N.A."sv) noexcept;
+    inline void print(const stdm::string_view name = "N.A."sv) noexcept;
 
 private:
     template <typename T, typename U, typename Cmp>
@@ -90,25 +92,41 @@ inline bool UnitTester::passing() noexcept
     return stdm::ranges::empty(*m_FailedTests);
 }
 
-inline void UnitTester::print() noexcept
+inline stdm::string UnitTester::toString(const stdm::string_view name) noexcept
 {
-    if (passing())
+    static constexpr auto limit = 5;
+
+    if (!m_FailedTests.has_value())
     {
-        stdm::cout << "All Pass!\n";
+        m_FailedTests.emplace();
     }
-    else
-    {
-        static constexpr auto c_Limit = 5;
-        stdm::ranges::for_each(*m_FailedTests | stdm::views::take(c_Limit),
-            [](const stdm::string_view str)
-            {
-                stdm::cout << str << '\n'
-                    << "===================\n";
-            });
-    }
-    stdm::cout << "-------------------\n"
-        << "Total: " << m_TotalTests - stdm::ranges::size(*m_FailedTests)
-        << '/' << m_TotalTests << '\n';
+
+    auto result = stdm::string{};
+
+    result += "Testing "sv;
+    result += name;
+    result += "... "sv;
+    result += stdm::to_string(m_TotalTests
+        - stdm::ranges::size(*m_FailedTests));
+    result += '/';
+    result += stdm::to_string(m_TotalTests);
+    result += '\n';
+
+    stdm::ranges::for_each(*m_FailedTests | stdm::views::take(limit),
+        [&result](const stdm::string_view str)
+        {
+            result += "======================\n"sv;
+            result += str;
+            result += '\n';
+            result += "======================\n"sv;
+        });
+
+    return result;
+}
+
+inline void UnitTester::print(const stdm::string_view name) noexcept
+{
+    stdm::cout << toString(name);
 }
 
 template <typename T, typename U, typename Cmp>

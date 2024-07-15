@@ -24,7 +24,7 @@ release branch r-X.X.X
 ## Adding Equinox To Your Project <a name="adding"></a>
 
 Please ensure that you are using a C++20 compiler, at the time of writing
-gcc version 12+ and MSVC with the `/Zc:preprocessor` flag have the required
+gcc version 12+ and MSVC 17.10+ with the `/Zc:preprocessor` flag have the required
 features for compilation.
 
 ### CMake

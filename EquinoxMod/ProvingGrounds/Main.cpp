@@ -19,26 +19,17 @@ using namespace eqx::literals;
         return result;
     });*/
 
-void runTest(void (*test)()) noexcept
-{
-    stdm::cout << "*******************\n";
-    stdm::invoke(test);
-    stdm::cout << "*******************\n\n";
-}
-
 int main()
 {
     stdm::cout << "Start\n\n";
-    //constexpr auto var = rect5.getEmplaceCenter(rect4);
-    //stdm::cout << stdm::setprecision(10) << stdm::endl;
-    //stdm::cout << var.toString() << stdm::endl;
 
-    runTest(test::clientserver::all);
-    runTest(test::math::all);
-    runTest(test::misc::all);
-    runTest(test::point::all);
-    runTest(test::rectangle::all);
-    runTest(test::stopwatch::all);
+    test::clientserver::all().print("Client & Server"sv);
+    test::math::all().print("Math"sv);
+    test::misc::all().print("Misc"sv);
+    test::point::all().print("Point"sv);
+    test::random::all().print("Random"sv);
+    test::rectangle::all().print("Rectangle"sv);
+    test::stopwatch::all().print("StopWatch"sv);
 
     /*
     auto stats = stdm::vector<double>{};
@@ -58,7 +49,7 @@ int main()
     stdm::cout << "Min Error: " << stdm::ranges::min(stats) << stdm::endl;
     stdm::cout << "End" << stdm::endl;
     */
-    stdm::cout << "End: ";
+    stdm::cout << "\nEnd: ";
     stdm::cin.get();
-    return 0;
+    return stdm::Exit_Success;
 }

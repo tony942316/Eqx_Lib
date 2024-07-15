@@ -11,11 +11,7 @@ import Eqx.UnitTester;
 
 namespace test::math
 {
-    // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit inline auto tester = UnitTester{};
-    // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
-
-    export inline void all() noexcept;
+    export inline UnitTester all() noexcept;
     /*
     void sin() noexcept;
     void cos() noexcept;
@@ -28,16 +24,16 @@ namespace test::math
 
 namespace test::math
 {
-    export inline void all() noexcept
+    export inline UnitTester all() noexcept
     {
-        stdm::cout << "Testing Math...\n";
+        auto tester = UnitTester{};
         /*
         sin();
         cos();
         asin();
         acos();
         */
-        tester.print();
+        return tester;
     }
 
     /*

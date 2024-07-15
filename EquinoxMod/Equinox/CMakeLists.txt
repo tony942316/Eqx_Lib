@@ -29,6 +29,7 @@ target_sources(EquinoxMod
             Math/Trig.cpp
         Misc/Misc.cpp
         Point/Point.cpp
+        Random/Random.cpp
         Rectangle/Rectangle.cpp
         Server/Server.cpp
         StopWatch/StopWatch.cpp)

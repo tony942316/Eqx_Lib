@@ -9,7 +9,6 @@ import Eqx.UnitTester;
 namespace test::clientserver
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit inline auto tester = UnitTester{};
     constinit inline auto client = eqx::Client{};
     constinit inline auto server = eqx::Server{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
@@ -17,8 +16,8 @@ namespace test::clientserver
     using namespace eqx::literals;
     inline constexpr auto port = 42'069_u16;
 
-    export inline void all() noexcept;
-    inline void sendReceive() noexcept;
+    export inline UnitTester all() noexcept;
+    inline void sendReceive(UnitTester& tester) noexcept;
     inline stdm::string clientLoop() noexcept;
     inline stdm::string serverLoop() noexcept;
 }
@@ -27,15 +26,15 @@ namespace test::clientserver
 
 namespace test::clientserver
 {
-    export inline void all() noexcept
+    export inline UnitTester all() noexcept
     {
-        stdm::cout << "Testing Client & Server...\n";
+        auto tester = UnitTester{};
         eqx::Socket::init();
-        sendReceive();
-        tester.print();
+        sendReceive(tester);
+        return tester;
     }
 
-    inline void sendReceive() noexcept
+    inline void sendReceive(UnitTester& tester) noexcept
     {
         auto serverTask = stdm::async(stdm::launch::async, serverLoop);
         stdm::this_thread::sleep_for(1'000ms);

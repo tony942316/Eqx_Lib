@@ -9,26 +9,22 @@ import Eqx.UnitTester;
 
 namespace test::point
 {
-    // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit inline auto tester = UnitTester{};
-    // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
-
-    export inline void all() noexcept;
-    inline void toString() noexcept;
+    export inline UnitTester all() noexcept;
+    inline void toString(UnitTester& tester) noexcept;
 }
 
 // Implementations
 
 namespace test::point
 {
-    export inline void all() noexcept
+    export inline UnitTester all() noexcept
     {
-        stdm::cout << "Testing Point...\n";
-        toString();
-        tester.print();
+        auto tester = UnitTester{};
+        toString(tester);
+        return tester;
     }
 
-    inline void toString() noexcept
+    inline void toString(UnitTester& tester) noexcept
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =
@@ -51,7 +47,6 @@ namespace test::point
             };
 
         tester.addTests(expected_actual);
-
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 }
