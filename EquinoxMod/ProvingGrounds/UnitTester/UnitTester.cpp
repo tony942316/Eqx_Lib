@@ -5,7 +5,7 @@ import Eqx.Stdm;
 export class UnitTester
 {
 public:
-    explicit consteval UnitTester() noexcept;
+    explicit constexpr UnitTester() noexcept;
 
     template <typename T, typename U,
         typename Cmp = decltype(stdm::ranges::equal_to{})>
@@ -48,7 +48,7 @@ private:
 
 // Implementations
 
-consteval UnitTester::UnitTester() noexcept
+constexpr UnitTester::UnitTester() noexcept
     :
     m_TotalTests(static_cast<stdm::size_t>(0))
 {
