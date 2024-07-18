@@ -9,12 +9,12 @@ import Eqx.UnitTester;
 namespace test::clientserver
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    constinit inline auto client = eqx::Client{};
-    constinit inline auto server = eqx::Server{};
+    constinit auto client = eqx::Client{};
+    constinit auto server = eqx::Server{};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
     using namespace eqx::literals;
-    inline constexpr auto port = 42'069_u16;
+    constexpr auto port = 42'069_u16;
 
     export inline UnitTester all() noexcept;
     inline void sendReceive(UnitTester& tester) noexcept;
@@ -54,8 +54,8 @@ namespace test::clientserver
     inline stdm::string serverLoop() noexcept
     {
         server.start(port);
-        auto client = server.getConnection();
-        client.send("Hello Client!"sv);
-        return client.recv();
+        auto subClient = server.getConnection();
+        subClient.send("Hello Client!"sv);
+        return subClient.recv();
     }
 }

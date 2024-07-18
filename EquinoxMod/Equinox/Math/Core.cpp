@@ -15,11 +15,11 @@ export namespace eqx
 {
     template <typename T>
         requires requires() { static_cast<T>(0); }
-    inline constexpr auto c_Zero = static_cast<T>(0);
+    constexpr auto c_Zero = static_cast<T>(0);
 
     template <typename T>
         requires stdm::floating_point<T>
-    inline constexpr auto c_FPT = static_cast<T>(0.00001);
+    constexpr auto c_FPT = static_cast<T>(0.00001);
 
     template <typename T>
         requires stdm::is_arithmetic_v<T>

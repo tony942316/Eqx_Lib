@@ -23,6 +23,8 @@ int main()
 {
     stdm::cout << "Start\n\n";
 
+    auto r = stdm::ranges::equal_to{}("Hello Server"s, "Hello Server"s);
+
     test::clientserver::all().print("Client & Server"sv);
     test::math::all().print("Math"sv);
     test::misc::all().print("Misc"sv);

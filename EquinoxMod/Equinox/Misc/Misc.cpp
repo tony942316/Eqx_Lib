@@ -11,7 +11,7 @@ export namespace eqx
     using ssize_t = stdm::make_signed_t<stdm::size_t>;
 
     template <typename T>
-    inline constexpr auto nullp = static_cast<T*>(nullptr);
+    constexpr auto nullp = static_cast<T*>(nullptr);
 
     template <typename T>
     concept StringConvertable =

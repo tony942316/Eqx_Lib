@@ -9,8 +9,8 @@ import Eqx.Stdm;
 namespace eqx
 {
     // NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
-    inline auto rd = stdm::random_device{};
-    inline auto eng = stdm::mt19937_64{stdm::random_device{}()};
+    auto rd = stdm::random_device{};
+    auto eng = stdm::mt19937_64{rd()};
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 }
 

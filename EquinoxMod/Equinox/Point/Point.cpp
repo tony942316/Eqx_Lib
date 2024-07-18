@@ -169,7 +169,9 @@ export namespace eqx
          */
         [[nodiscard]] stdm::string toString() const;
 
+        // NOLINTBEGIN(misc-non-private-member-variables-in-classes)
         T x, y;
+        // NOLINTEND(misc-non-private-member-variables-in-classes)
     };
 
     /**

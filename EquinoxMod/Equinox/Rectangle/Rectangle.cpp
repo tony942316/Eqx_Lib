@@ -143,7 +143,9 @@ export namespace eqx
          */
         [[nodiscard]] stdm::string toString() const;
 
+        // NOLINTBEGIN(misc-non-private-member-variables-in-classes)
         T x, y, w, h;
+        // NOLINTEND(misc-non-private-member-variables-in-classes)
     };
 
     /**
@@ -234,6 +236,7 @@ export namespace eqx
 
 export namespace eqx
 {
+    // NOLINTBEGIN(bugprone-easily-swappable-parameters)
     template <typename T>
         requires stdm::is_arithmetic_v<T>
     constexpr Rectangle<T>::Rectangle(const T x, const T y, const T w,
@@ -245,6 +248,7 @@ export namespace eqx
         h(h)
     {
     }
+    // NOLINTEND(bugprone-easily-swappable-parameters)
 
     template <typename T>
         requires stdm::is_arithmetic_v<T>
