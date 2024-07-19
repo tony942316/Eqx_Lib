@@ -31,7 +31,6 @@ target_sources(EquinoxModTests
         Point/Point.cpp
             Point/Core.cpp
         Random/Random.cpp
-            Random/Core.cpp
         Rectangle/Rectangle.cpp
             Rectangle/Core.cpp
         StopWatch/StopWatch.cpp

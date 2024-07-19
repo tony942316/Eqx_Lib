@@ -5,6 +5,7 @@ module;
 export module Equinox.Random;
 
 import Eqx.Stdm;
+import Equinox.Misc;
 
 namespace eqx
 {
@@ -18,15 +19,15 @@ export namespace eqx
 {
     template <typename T>
         requires stdm::integral<T>
-    [[nodiscard]] constexpr T randomNumber(const T lb, const T ub) noexcept;
+    [[nodiscard]] inline T randomNumber(const T lb, const T ub) noexcept;
 
     template <typename T>
         requires stdm::floating_point<T>
-    [[nodiscard]] constexpr T randomNumber(const T lb, const T ub) noexcept;
+    [[nodiscard]] inline T randomNumber(const T lb, const T ub) noexcept;
 
-    [[nodiscard]] constexpr unsigned int flipCoin() noexcept;
+    [[nodiscard]] inline unsigned int flipCoin() noexcept;
 
-    [[nodiscard]] constexpr unsigned int rollDice(unsigned int sides) noexcept;
+    [[nodiscard]] inline unsigned int rollDice(unsigned int sides) noexcept;
 
     [[nodiscard]] constexpr unsigned int generateSeed(
         const stdm::string_view timeMacro = "10:10:10"sv) noexcept;
@@ -38,39 +39,31 @@ export namespace eqx
 {
     template <typename T>
         requires stdm::integral<T>
-    [[nodiscard]] constexpr T randomNumber(const T lb, const T ub) noexcept
+    [[nodiscard]] inline T randomNumber(const T lb, const T ub) noexcept
     {
-        if (stdm::is_constant_evaluated())
-        {
-            return T{};
-        }
-        else
-        {
-            return stdm::uniform_int_distribution<T>{lb, ub}(eng);
-        }
+        eqx::ENSURE_HARD(lb <= ub, "Upper Bound Less Than Lower Bound!!!"sv);
+        return stdm::uniform_int_distribution<T>{lb, ub}(eng);
     }
 
     template <typename T>
         requires stdm::floating_point<T>
-    [[nodiscard]] constexpr T randomNumber(const T lb, const T ub) noexcept
+    [[nodiscard]] inline T randomNumber(const T lb, const T ub) noexcept
     {
-        if (stdm::is_constant_evaluated())
-        {
-            return T{};
-        }
-        else
-        {
-            return stdm::uniform_real_distribution<T>{lb, ub}(eng);
-        }
+        eqx::ENSURE_HARD(lb < ub, "Upper Bound Less Than Lower Bound!!!"sv);
+        eqx::ENSURE_HARD(ub < stdm::numeric_limits<T>::max(),
+            "Upper Bound Too Large!!!"sv);
+        return stdm::uniform_real_distribution<T>{
+            lb, stdm::nextafter(ub, stdm::numeric_limits<T>::max())}(eng);
     }
 
-    [[nodiscard]] constexpr unsigned int flipCoin() noexcept
+    [[nodiscard]] inline unsigned int flipCoin() noexcept
     {
         return randomNumber(0U, 1U);
     }
 
-    [[nodiscard]] constexpr unsigned int rollDice(unsigned int sides) noexcept
+    [[nodiscard]] inline unsigned int rollDice(unsigned int sides) noexcept
     {
+        eqx::ENSURE_HARD(sides >= 3, "Too Few Sides!!!"sv);
         return randomNumber(1U, sides);
     }
 
