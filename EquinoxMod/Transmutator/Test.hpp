@@ -15,19 +15,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
+#ifndef EQX_POINT_123
+#define EQX_POINT_123
+
+#include <stdh.hpp>
+
 
 #include "Equinox/Macros.hpp"
 
-export module Equinox.Point;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
-import Equinox.Math.Trig;
 
-export namespace eqx
+
+
+
+
+
+
+namespace eqx
 {
     /**
      * @brief Point On The Cartesian Plane i.e. (X, Y), Note T
@@ -265,12 +269,12 @@ export namespace eqx
 
     template <typename T>
         requires std::floating_point<T>
-    inline constexpr auto c_Origin = eqx::Point<T>();
+    constexpr auto c_Origin = eqx::Point<T>();
 }
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     // NOLINTBEGIN(bugprone-easily-swappable-parameters)
     template <typename T>
@@ -441,3 +445,5 @@ export namespace eqx
         return Point<T>(index % rowLength, index / rowLength);
     }
 }
+
+#endif 

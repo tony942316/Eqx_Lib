@@ -8,8 +8,8 @@ import Equinox.Rectangle;
 
 using namespace eqx::literals;
 
-static_assert(stdm::is_trivial_v<eqx::Rectangle<double>>);
-static_assert(stdm::is_standard_layout_v<eqx::Rectangle<double>>);
+static_assert(std::is_trivial_v<eqx::Rectangle<double>>);
+static_assert(std::is_standard_layout_v<eqx::Rectangle<double>>);
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 constexpr auto rect0I = eqx::Rectangle<int>{0, 0, 0, 0};

@@ -33,12 +33,12 @@ namespace test::random
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto testRange =
             [&tester]<typename T>
-                requires stdm::is_arithmetic_v<T>
+                requires std::is_arithmetic_v<T>
             (const T lb, const T ub)
             {
                 constexpr auto trials = 1'000'000;
 
-                const auto tolerance = (stdm::abs((static_cast<double>(ub)
+                const auto tolerance = (std::abs((static_cast<double>(ub)
                     * static_cast<double>(trials))
                     - (static_cast<double>(lb) * static_cast<double>(trials))))
                     * 0.005;
@@ -55,10 +55,10 @@ namespace test::random
                 }
 
                 const auto error =
-                    stdm::abs(total - expectedCount)
+                    std::abs(total - expectedCount)
                     / tolerance;
 
-                tester.addTest(error, 1.0, stdm::ranges::less{});
+                tester.addTest(error, 1.0, std::ranges::less{});
             };
 
         testRange(0, 1);
@@ -103,9 +103,9 @@ namespace test::random
             total += eqx::flipCoin();
         }
 
-        auto error = stdm::abs(1.0
+        auto error = std::abs(1.0
             - (expectedCount / static_cast<double>(total)));
-        tester.addTest(error, 0.01, stdm::ranges::less{});
+        tester.addTest(error, 0.01, std::ranges::less{});
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
@@ -124,9 +124,9 @@ namespace test::random
             total += eqx::rollDice(sides);
         }
 
-        auto error = stdm::abs(1.0
+        auto error = std::abs(1.0
             - (expectedCount / static_cast<double>(total)));
-        tester.addTest(error, 0.01, stdm::ranges::less{});
+        tester.addTest(error, 0.01, std::ranges::less{});
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 
@@ -135,7 +135,7 @@ namespace test::random
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         constexpr auto trials = 1'000'000;
 
-        auto values = stdm::unordered_set<unsigned int>{};
+        auto values = std::unordered_set<unsigned int>{};
         values.reserve(trials);
         auto collisions = 0U;
         auto value = 0U;
@@ -154,7 +154,7 @@ namespace test::random
 
         auto error = static_cast<double>(collisions)
             / static_cast<double>(trials);
-        tester.addTest(error, 0.001, stdm::ranges::less{});
+        tester.addTest(error, 0.001, std::ranges::less{});
         // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
     }
 }

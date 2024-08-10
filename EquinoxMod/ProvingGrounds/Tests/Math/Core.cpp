@@ -29,22 +29,22 @@ static_assert(eqx::abs(5.5L) == 5.5L);
 static_assert(eqx::abs(-5.5L) == 5.5L);
 static_assert(eqx::abs(100.05) == 100.05);
 static_assert(eqx::abs(-100.05) == 100.05);
-static_assert(eqx::abs(stdm::numeric_limits<int>::lowest() + 1)
-    == (stdm::numeric_limits<int>::min() + 1) * -1);
-static_assert(eqx::abs(stdm::numeric_limits<int>::max())
-    == stdm::numeric_limits<int>::max());
-static_assert(eqx::abs(stdm::numeric_limits<double>::lowest())
-    == stdm::numeric_limits<double>::max());
+static_assert(eqx::abs(std::numeric_limits<int>::lowest() + 1)
+    == (std::numeric_limits<int>::min() + 1) * -1);
+static_assert(eqx::abs(std::numeric_limits<int>::max())
+    == std::numeric_limits<int>::max());
+static_assert(eqx::abs(std::numeric_limits<double>::lowest())
+    == std::numeric_limits<double>::max());
 
 static_assert(eqx::equals(5, 5));
-static_assert(eqx::equals(stdm::vector<int>{ 1, 2 },
-    stdm::vector<int>{ 1, 2 }));
-static_assert(eqx::equals(stdm::pair<stdm::string, int>("Hello"s, 5),
-    stdm::pair<stdm::string, int>("Hello"s, 5)));
-static_assert(eqx::equals(stdm::make_pair(5.000001, 0.0),
-    stdm::make_pair(5.000002, 0.0)));
-static_assert(!eqx::equals(stdm::make_pair(5.00001, 0.0),
-    stdm::make_pair(5.00002, 0.0)));
+static_assert(eqx::equals(std::vector<int>{ 1, 2 },
+    std::vector<int>{ 1, 2 }));
+static_assert(eqx::equals(std::pair<std::string, int>("Hello"s, 5),
+    std::pair<std::string, int>("Hello"s, 5)));
+static_assert(eqx::equals(std::make_pair(5.000001, 0.0),
+    std::make_pair(5.000002, 0.0)));
+static_assert(!eqx::equals(std::make_pair(5.00001, 0.0),
+    std::make_pair(5.00002, 0.0)));
 static_assert(eqx::equals(0.01, 0.01));
 static_assert(!eqx::equals(1.01, 0.01));
 static_assert(!eqx::equals(0.01, 0.02));
@@ -242,10 +242,10 @@ static_assert(eqx::equals(eqx::sqrt(0.0), 0.0));
 static_assert(eqx::equals(eqx::sqrt(0.0001), 0.01));
 static_assert(eqx::equals(eqx::sqrt(0.1), 0.31622776));
 static_assert(eqx::equals(eqx::sqrt(0.5), 0.7071067));
-static_assert(eqx::equals(eqx::sqrt(2.0), stdm::numbers::sqrt2));
-static_assert(eqx::equals(eqx::sqrt(stdm::numbers::e), 1.64872127));
-static_assert(eqx::equals(eqx::sqrt(3.0), stdm::numbers::sqrt3));
-static_assert(eqx::equals(eqx::sqrt(stdm::numbers::pi), 1.77245385));
+static_assert(eqx::equals(eqx::sqrt(2.0), std::numbers::sqrt2));
+static_assert(eqx::equals(eqx::sqrt(std::numbers::e), 1.64872127));
+static_assert(eqx::equals(eqx::sqrt(3.0), std::numbers::sqrt3));
+static_assert(eqx::equals(eqx::sqrt(std::numbers::pi), 1.77245385));
 static_assert(eqx::equals(eqx::sqrt(4.0), 2.0));
 static_assert(eqx::equals(eqx::sqrt(9.0), 3.0));
 static_assert(eqx::equals(eqx::sqrt(10.0), 3.16227766));
@@ -262,8 +262,8 @@ static_assert(eqx::equals(eqx::hypot(0.0, 0.0), 0.0));
 static_assert(eqx::equals(eqx::hypot(0.0L, 0.0L), 0.0L));
 static_assert(eqx::equals(eqx::hypot(-10.0, -10.0), 14.142135));
 static_assert(eqx::equals(eqx::hypot(-3.0, -4.0), 5.0));
-static_assert(eqx::equals(eqx::hypot(-1.0, -1.0), stdm::numbers::sqrt2));
-static_assert(eqx::equals(eqx::hypot(1.0, 1.0), stdm::numbers::sqrt2));
+static_assert(eqx::equals(eqx::hypot(-1.0, -1.0), std::numbers::sqrt2));
+static_assert(eqx::equals(eqx::hypot(1.0, 1.0), std::numbers::sqrt2));
 static_assert(eqx::equals(eqx::hypot(3.0, 4.0), 5.0));
 static_assert(eqx::equals(eqx::hypot(10.0, 10.0), 14.142135));
 // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)

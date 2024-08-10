@@ -29,7 +29,7 @@ namespace test::rectangle
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =
-            stdm::vector<stdm::pair<stdm::string, stdm::string>>{
+            std::vector<std::pair<std::string, std::string>>{
                 { "(1.000000, 1.000000, 1.000000, 1.000000)"s,
                     eqx::toString(eqx::Rectangle<double>{1.0, 1.0, 1.0, 1.0}) },
                 { "(-10.000000, -10.000000, 3.000000, 15.000000)"s,

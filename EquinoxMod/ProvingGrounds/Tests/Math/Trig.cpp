@@ -48,7 +48,7 @@ static_assert(eqx::equals(eqx::radiansToDegrees(
 static_assert(eqx::equals(eqx::radiansToDegrees(
     eqx::Radians<double>{eqx::c_5Pi6<double>}), 150.0_deg));
 static_assert(eqx::equals(eqx::radiansToDegrees(
-    eqx::Radians<double>{stdm::numbers::pi}), 180.0_deg));
+    eqx::Radians<double>{std::numbers::pi}), 180.0_deg));
 static_assert(eqx::equals(eqx::radiansToDegrees(
     eqx::Radians<double>{eqx::c_7Pi6<double>}), 210.0_deg));
 static_assert(eqx::equals(eqx::radiansToDegrees(
@@ -84,7 +84,7 @@ static_assert(eqx::equals(eqx::sin(
 static_assert(eqx::equals(eqx::sin(
     eqx::Radians<double>{eqx::c_5Pi6<double>}), 0.5));
 static_assert(eqx::equals(eqx::sin(
-    eqx::Radians<double>{stdm::numbers::pi}), 0.0));
+    eqx::Radians<double>{std::numbers::pi}), 0.0));
 static_assert(eqx::equals(eqx::sin(
     eqx::Radians<double>{eqx::c_7Pi6<double>}), -0.5));
 static_assert(eqx::equals(eqx::sin(
@@ -116,7 +116,7 @@ static_assert(eqx::equals(eqx::sin(
 static_assert(eqx::equals(eqx::sin(
     eqx::Radians<double>{-eqx::c_5Pi6<double>}), -0.5));
 static_assert(eqx::equals(eqx::sin(
-    eqx::Radians<double>{-stdm::numbers::pi}), 0.0));
+    eqx::Radians<double>{-std::numbers::pi}), 0.0));
 static_assert(eqx::equals(eqx::sin(
     eqx::Radians<double>{-eqx::c_7Pi6<double>}), 0.5));
 static_assert(eqx::equals(eqx::sin(
@@ -152,7 +152,7 @@ static_assert(eqx::equals(eqx::cos(
 static_assert(eqx::equals(eqx::cos(
     eqx::Radians<double>{eqx::c_5Pi6<double>}), -0.866025));
 static_assert(eqx::equals(eqx::cos(
-    eqx::Radians<double>{stdm::numbers::pi}), -1.0));
+    eqx::Radians<double>{std::numbers::pi}), -1.0));
 static_assert(eqx::equals(eqx::cos(
     eqx::Radians<double>{eqx::c_7Pi6<double>}), -0.866025));
 static_assert(eqx::equals(eqx::cos(
@@ -184,7 +184,7 @@ static_assert(eqx::equals(eqx::cos(
 static_assert(eqx::equals(eqx::cos(
     eqx::Radians<double>{-eqx::c_5Pi6<double>}), -0.866025));
 static_assert(eqx::equals(eqx::cos(
-    eqx::Radians<double>{-stdm::numbers::pi}), -1.0));
+    eqx::Radians<double>{-std::numbers::pi}), -1.0));
 static_assert(eqx::equals(eqx::cos(
     eqx::Radians<double>{-eqx::c_7Pi6<double>}), -0.866025));
 static_assert(eqx::equals(eqx::cos(
@@ -218,7 +218,7 @@ static_assert(eqx::equals(eqx::tan(
 static_assert(eqx::equals(eqx::tan(
     eqx::Radians<double>{eqx::c_5Pi6<double>}), -0.57735));
 static_assert(eqx::equals(eqx::tan(
-    eqx::Radians<double>{stdm::numbers::pi}), 0.0));
+    eqx::Radians<double>{std::numbers::pi}), 0.0));
 static_assert(eqx::equals(eqx::tan(
     eqx::Radians<double>{eqx::c_7Pi6<double>}), 0.57735));
 static_assert(eqx::equals(eqx::tan(
@@ -246,7 +246,7 @@ static_assert(eqx::equals(eqx::tan(
 static_assert(eqx::equals(eqx::tan(
     eqx::Radians<double>{-eqx::c_5Pi6<double>}), 0.57735));
 static_assert(eqx::equals(eqx::tan(
-    eqx::Radians<double>{-stdm::numbers::pi}), 0.0));
+    eqx::Radians<double>{-std::numbers::pi}), 0.0));
 static_assert(eqx::equals(eqx::tan(
     eqx::Radians<double>{-eqx::c_7Pi6<double>}), -0.57735));
 static_assert(eqx::equals(eqx::tan(
@@ -289,7 +289,7 @@ static_assert(eqx::equals(eqx::acos(0.0),
 static_assert(eqx::equals(eqx::acos(0.0L),
     eqx::Radians<long double>{eqx::c_Pi2<long double>}));
 static_assert(eqx::equals(eqx::acos(-1.0),
-    eqx::Radians<double>{stdm::numbers::pi}));
+    eqx::Radians<double>{std::numbers::pi}));
 static_assert(eqx::equals(eqx::acos(-0.866025),
     eqx::Radians<double>{eqx::c_5Pi6<double>}));
 static_assert(eqx::equals(eqx::acos(-0.707107),
@@ -340,7 +340,7 @@ static_assert(eqx::equals(eqx::atan2(-0.707107, 0.707107),
 static_assert(eqx::equals(eqx::atan2(-0.866025, 0.5),
     eqx::Radians<double>{eqx::c_5Pi6<double>}));
 static_assert(eqx::equals(eqx::atan2(-1.0, 0.0),
-    eqx::Radians<double>{stdm::numbers::pi}));
+    eqx::Radians<double>{std::numbers::pi}));
 static_assert(eqx::equals(eqx::atan2(-0.866025, -0.5),
     eqx::Radians<double>{eqx::c_7Pi6<double>}));
 static_assert(eqx::equals(eqx::atan2(-0.707107, -0.707107),
@@ -357,69 +357,69 @@ static_assert(eqx::equals(eqx::atan2(0.866025, -0.5),
     eqx::Radians<double>{eqx::c_11Pi6<double>}));
 
 static_assert(eqx::equals(eqx::arcsin(0.0F),
-    stdm::make_pair(0.0_radF,
-        eqx::Radians<float>{stdm::numbers::pi_v<float>})));
+    std::make_pair(0.0_radF,
+        eqx::Radians<float>{std::numbers::pi_v<float>})));
 static_assert(eqx::equals(eqx::arcsin(0.0),
-    stdm::make_pair(0.0_rad,
-        eqx::Radians<double>{stdm::numbers::pi})));
+    std::make_pair(0.0_rad,
+        eqx::Radians<double>{std::numbers::pi})));
 static_assert(eqx::equals(eqx::arcsin(0.0L),
-    stdm::make_pair(0.0_radL,
-        eqx::Radians<long double>{stdm::numbers::pi_v<long double>})));
+    std::make_pair(0.0_radL,
+        eqx::Radians<long double>{std::numbers::pi_v<long double>})));
 
 static_assert(eqx::equals(eqx::arcsin(-1.0),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_3Pi2<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_3Pi2<double>},
         eqx::Radians<double>{eqx::c_3Pi2<double>})));
 static_assert(eqx::equals(eqx::arcsin(-0.866025),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_5Pi3<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_5Pi3<double>},
         eqx::Radians<double>{eqx::c_4Pi3<double>})));
 static_assert(eqx::equals(eqx::arcsin(-0.707107),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_7Pi4<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_7Pi4<double>},
         eqx::Radians<double>{eqx::c_5Pi4<double>})));
 static_assert(eqx::equals(eqx::arcsin(-0.5),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_11Pi6<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_11Pi6<double>},
         eqx::Radians<double>{eqx::c_7Pi6<double>})));
 static_assert(eqx::equals(eqx::arcsin(0.5),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi6<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi6<double>},
         eqx::Radians<double>{eqx::c_5Pi6<double>})));
 static_assert(eqx::equals(eqx::arcsin(0.707107),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi4<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi4<double>},
         eqx::Radians<double>{eqx::c_3Pi4<double>})));
 static_assert(eqx::equals(eqx::arcsin(0.866025),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi3<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi3<double>},
         eqx::Radians<double>{eqx::c_2Pi3<double>})));
 static_assert(eqx::equals(eqx::arcsin(1.0),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi2<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi2<double>},
         eqx::Radians<double>{eqx::c_Pi2<double>})));
 
 static_assert(eqx::equals(eqx::arccos(0.0F),
-    stdm::make_pair(eqx::Radians<float>{eqx::c_Pi2<float>},
+    std::make_pair(eqx::Radians<float>{eqx::c_Pi2<float>},
         eqx::Radians<float>{eqx::c_3Pi2<float>})));
 static_assert(eqx::equals(eqx::arccos(0.0),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi2<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi2<double>},
         eqx::Radians<double>{eqx::c_3Pi2<double>})));
 static_assert(eqx::equals(eqx::arccos(0.0L),
-    stdm::make_pair(eqx::Radians<long double>{eqx::c_Pi2<long double>},
+    std::make_pair(eqx::Radians<long double>{eqx::c_Pi2<long double>},
         eqx::Radians<long double>{eqx::c_3Pi2<long double>})));
 static_assert(eqx::equals(eqx::arccos(-1.0),
-    stdm::make_pair(eqx::Radians<double>{stdm::numbers::pi},
-        eqx::Radians<double>{stdm::numbers::pi})));
+    std::make_pair(eqx::Radians<double>{std::numbers::pi},
+        eqx::Radians<double>{std::numbers::pi})));
 static_assert(eqx::equals(eqx::arccos(-0.866025),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_5Pi6<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_5Pi6<double>},
         eqx::Radians<double>{eqx::c_7Pi6<double>})));
 static_assert(eqx::equals(eqx::arccos(-0.707107),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_3Pi4<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_3Pi4<double>},
         eqx::Radians<double>{eqx::c_5Pi4<double>})));
 static_assert(eqx::equals(eqx::arccos(-0.5),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_2Pi3<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_2Pi3<double>},
         eqx::Radians<double>{eqx::c_4Pi3<double>})));
 static_assert(eqx::equals(eqx::arccos(0.5),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi3<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi3<double>},
         eqx::Radians<double>{eqx::c_5Pi3<double>})));
 static_assert(eqx::equals(eqx::arccos(0.707107),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi4<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi4<double>},
         eqx::Radians<double>{eqx::c_7Pi4<double>})));
 static_assert(eqx::equals(eqx::arccos(0.866025),
-    stdm::make_pair(eqx::Radians<double>{eqx::c_Pi6<double>},
+    std::make_pair(eqx::Radians<double>{eqx::c_Pi6<double>},
         eqx::Radians<double>{eqx::c_11Pi6<double>})));
-static_assert(eqx::equals(eqx::arccos(1.0), stdm::make_pair(0.0_rad, 0.0_rad)));
+static_assert(eqx::equals(eqx::arccos(1.0), std::make_pair(0.0_rad, 0.0_rad)));
 // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)

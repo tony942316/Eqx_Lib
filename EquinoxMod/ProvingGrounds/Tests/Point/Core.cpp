@@ -7,8 +7,8 @@ import Equinox.Point;
 
 using namespace eqx::literals;
 
-static_assert(stdm::is_trivial_v<eqx::Point<double>>);
-static_assert(stdm::is_standard_layout_v<eqx::Point<double>>);
+static_assert(std::is_trivial_v<eqx::Point<double>>);
+static_assert(std::is_standard_layout_v<eqx::Point<double>>);
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 constexpr auto point0I = eqx::Point<int>{0, 0};
@@ -64,7 +64,7 @@ static_assert(eqx::equals(eqx::distance(point0F, point0F), 0.0F));
 static_assert(eqx::equals(eqx::distance(point0, point0), 0.0));
 static_assert(eqx::equals(eqx::distance(point0L, point0L), 0.0L));
 static_assert(eqx::equals(eqx::distance(point0, point1), 4.17851));
-static_assert(eqx::equals(eqx::distance(point0, point2), stdm::numbers::sqrt2));
+static_assert(eqx::equals(eqx::distance(point0, point2), std::numbers::sqrt2));
 static_assert(eqx::equals(eqx::distance(point0, point3), 14.14213));
 static_assert(eqx::equals(eqx::distance(point0, point4), 7.75283));
 static_assert(eqx::equals(eqx::distance(point1, point1), 0.0));

@@ -17,8 +17,19 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-add_subdirectory(Dependencies/Stdm)
-include(Dependencies/EQX-CMakeInterfaces/Interfaces.cmake)
-add_subdirectory(Equinox)
-add_subdirectory(ProvingGrounds)
-add_subdirectory(Transmutator)
+add_executable(Transmutator)
+target_sources(Transmutator PRIVATE Main.cpp)
+
+set_target_properties(Transmutator PROPERTIES
+    CXX_STANDARD_REQUIRED On
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
+
+target_link_libraries(Transmutator PRIVATE EquinoxMod)
+target_link_libraries(GMF INTERFACE EQX-Typical)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+else ()
+    target_compile_options(GMF INTERFACE
+        -Wno-deprecated-declarations)
+endif()

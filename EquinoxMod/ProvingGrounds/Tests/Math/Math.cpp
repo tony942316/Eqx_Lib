@@ -39,13 +39,13 @@ namespace test::math
     /*
     void sin() noexcept
     {
-        static constexpr auto val = (8.0 * stdm::numbers::pi);
+        static constexpr auto val = (8.0 * std::numbers::pi);
         static constexpr auto inc = 0.01;
         static constexpr auto cnt =
-            static_cast<stdm::size_t>(eqx::ceil((2 * val / inc)) + 1);
-        static constexpr auto myValues = stdm::invoke([]() consteval
+            static_cast<std::size_t>(eqx::ceil((2 * val / inc)) + 1);
+        static constexpr auto myValues = std::invoke([]() consteval
             {
-                auto result = stdm::array<double, cnt>{};
+                auto result = std::array<double, cnt>{};
                 auto i = 0ULL;
                 for (auto v = -val; v < val; v += inc)
                 {
@@ -54,35 +54,35 @@ namespace test::math
                 }
                 return result;
             });
-        auto result = stdm::array<double, cnt>{};
+        auto result = std::array<double, cnt>{};
         auto i = 0ULL;
         for (auto v = -val; v < val; v += inc)
         {
-            result.at(i) = stdm::abs(stdm::sin(v) - myValues.at(i));
+            result.at(i) = std::abs(std::sin(v) - myValues.at(i));
             i++;
         }
 
-        stdm::ranges::sort(result);
+        std::ranges::sort(result);
 
-        tester.addTest(eqx::average(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::average(result), 0.00001, std::ranges::less{},
             "Average Error"sv);
-        tester.addTest(eqx::median(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::median(result), 0.00001, std::ranges::less{},
             "Median Error"sv);
-        tester.addTest(stdm::ranges::max(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::max(result), 0.00001, std::ranges::less{},
             "Max Error"sv);
-        tester.addTest(stdm::ranges::min(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::min(result), 0.00001, std::ranges::less{},
             "Min Error"sv);
     }
 
     void cos() noexcept
     {
-        static constexpr auto val = (8.0 * stdm::numbers::pi);
+        static constexpr auto val = (8.0 * std::numbers::pi);
         static constexpr auto inc = 0.01;
         static constexpr auto cnt =
-            static_cast<stdm::size_t>(eqx::ceil((2 * val / inc)) + 1);
-        static constexpr auto myValues = stdm::invoke([]() consteval
+            static_cast<std::size_t>(eqx::ceil((2 * val / inc)) + 1);
+        static constexpr auto myValues = std::invoke([]() consteval
             {
-                auto result = stdm::array<double, cnt>{};
+                auto result = std::array<double, cnt>{};
                 auto i = 0ULL;
                 for (auto v = -val; v < val; v += inc)
                 {
@@ -91,23 +91,23 @@ namespace test::math
                 }
                 return result;
             });
-        auto result = stdm::array<double, cnt>{};
+        auto result = std::array<double, cnt>{};
         auto i = 0ULL;
         for (auto v = -val; v < val; v += inc)
         {
-            result.at(i) = stdm::abs(stdm::cos(v) - myValues.at(i));
+            result.at(i) = std::abs(std::cos(v) - myValues.at(i));
             i++;
         }
 
-        stdm::ranges::sort(result);
+        std::ranges::sort(result);
 
-        tester.addTest(eqx::average(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::average(result), 0.00001, std::ranges::less{},
             "Average Error"sv);
-        tester.addTest(eqx::median(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::median(result), 0.00001, std::ranges::less{},
             "Median Error"sv);
-        tester.addTest(stdm::ranges::max(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::max(result), 0.00001, std::ranges::less{},
             "Max Error"sv);
-        tester.addTest(stdm::ranges::min(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::min(result), 0.00001, std::ranges::less{},
             "Min Error"sv);
     }
 
@@ -116,11 +116,11 @@ namespace test::math
         static constexpr auto val = 1.0;
         static constexpr auto inc = 0.01;
         static constexpr auto cnt =
-            static_cast<stdm::size_t>(eqx::ceil((2 * val / inc)) + 1);
-        static constexpr auto myValues = stdm::invoke([]() consteval
+            static_cast<std::size_t>(eqx::ceil((2 * val / inc)) + 1);
+        static constexpr auto myValues = std::invoke([]() consteval
             {
-                auto result = stdm::array<double, cnt>{};
-                auto i = static_cast<stdm::size_t>(0ULL);
+                auto result = std::array<double, cnt>{};
+                auto i = static_cast<std::size_t>(0ULL);
                 for (auto v = -val; v < val; v += inc)
                 {
                     result.at(i) = eqx::asin(v);
@@ -129,23 +129,23 @@ namespace test::math
                 return result;
             });
 
-        auto result = stdm::array<double, cnt>{};
-        auto i = static_cast<stdm::size_t>(0ULL);
+        auto result = std::array<double, cnt>{};
+        auto i = static_cast<std::size_t>(0ULL);
         for (auto v = -val; v < val; v += inc)
         {
-            result.at(i) = stdm::abs(stdm::asin(v) - myValues.at(i));
+            result.at(i) = std::abs(std::asin(v) - myValues.at(i));
             i++;
         }
 
-        stdm::ranges::sort(result);
+        std::ranges::sort(result);
 
-        tester.addTest(eqx::average(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::average(result), 0.00001, std::ranges::less{},
             "Average Error"sv);
-        tester.addTest(eqx::median(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::median(result), 0.00001, std::ranges::less{},
             "Median Error"sv);
-        tester.addTest(stdm::ranges::max(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::max(result), 0.00001, std::ranges::less{},
             "Max Error"sv);
-        tester.addTest(stdm::ranges::min(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::min(result), 0.00001, std::ranges::less{},
             "Min Error"sv);
     }
 
@@ -154,11 +154,11 @@ namespace test::math
         static constexpr auto val = 1.0;
         static constexpr auto inc = 0.01;
         static constexpr auto cnt =
-            static_cast<stdm::size_t>(eqx::ceil((2 * val / inc)) + 1);
-        static constexpr auto myValues = stdm::invoke([]() consteval
+            static_cast<std::size_t>(eqx::ceil((2 * val / inc)) + 1);
+        static constexpr auto myValues = std::invoke([]() consteval
             {
-                auto result = stdm::array<double, cnt>{};
-                auto i = static_cast<stdm::size_t>(0ULL);
+                auto result = std::array<double, cnt>{};
+                auto i = static_cast<std::size_t>(0ULL);
                 for (auto v = -val; v < val; v += inc)
                 {
                     result.at(i) = eqx::acos(v);
@@ -167,23 +167,23 @@ namespace test::math
                 return result;
             });
 
-        auto result = stdm::array<double, cnt>{};
-        auto i = static_cast<stdm::size_t>(0ULL);
+        auto result = std::array<double, cnt>{};
+        auto i = static_cast<std::size_t>(0ULL);
         for (auto v = -val; v < val; v += inc)
         {
-            result.at(i) = stdm::abs(stdm::acos(v) - myValues.at(i));
+            result.at(i) = std::abs(std::acos(v) - myValues.at(i));
             i++;
         }
 
-        stdm::ranges::sort(result);
+        std::ranges::sort(result);
 
-        tester.addTest(eqx::average(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::average(result), 0.00001, std::ranges::less{},
             "Average Error"sv);
-        tester.addTest(eqx::median(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(eqx::median(result), 0.00001, std::ranges::less{},
             "Median Error"sv);
-        tester.addTest(stdm::ranges::max(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::max(result), 0.00001, std::ranges::less{},
             "Max Error"sv);
-        tester.addTest(stdm::ranges::min(result), 0.00001, stdm::ranges::less{},
+        tester.addTest(std::ranges::min(result), 0.00001, std::ranges::less{},
             "Min Error"sv);
     }
     */

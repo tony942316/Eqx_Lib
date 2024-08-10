@@ -28,7 +28,7 @@ namespace test::point
     {
         // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
         auto expected_actual =
-            stdm::vector<stdm::pair<stdm::string, stdm::string>>{
+            std::vector<std::pair<std::string, std::string>>{
                 { "(0, 0)"s, eqx::toString(eqx::Point<int>{0, 0}) },
                 { "(0.000000, 0.000000)"s,
                     eqx::toString(eqx::Point<float>{0.0F, 0.0F}) },
