@@ -15,29 +15,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.28)
 
-project(
-    Equinox
-    VERSION 1.1.3
+project(Equinox
+    VERSION 1.2.0
     DESCRIPTION "Drop In C++ Extension"
     LANGUAGES CXX)
 
+add_subdirectory(Dependencies/Stdm)
+include(Dependencies/EQX-CMakeInterfaces/Interfaces.cmake)
+
 add_subdirectory(EquinoxMod)
-
-add_library(Equinox INTERFACE include/Equinox/Equinox.hpp)
-
-set_target_properties(Equinox PROPERTIES
-    CXX_STANDARD_REQUIRED On)
-
-target_include_directories(Equinox INTERFACE include)
-
-target_compile_features(Equinox INTERFACE cxx_std_20)
-if (MSVC)
-    target_compile_options(Equinox INTERFACE /Zc:preprocessor)
-endif()
+add_subdirectory(EquinoxHol/include/Equinox)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    #add_subdirectory(UnitTester)
-    #add_subdirectory(ProvingGrounds)
+    add_subdirectory(ProvingGrounds)
+    add_subdirectory(Transmutator)
 endif()

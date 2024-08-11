@@ -17,9 +17,29 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-add_subdirectory(Dependencies/Stdm)
-include(Dependencies/EQX-CMakeInterfaces/Interfaces.cmake)
-add_subdirectory(Equinox)
-add_subdirectory(ProvingGrounds)
-add_subdirectory(EquinoxHol/include/Equinox)
-add_subdirectory(Transmutator)
+add_library(EquinoxMod STATIC)
+target_sources(EquinoxMod
+    PUBLIC FILE_SET CXX_MODULES FILES
+        Equinox.cpp
+        Client/Client.cpp
+        Math/Math.cpp
+            Math/Core.cpp
+            Math/Modulator.cpp
+            Math/Range.cpp
+            Math/Trig.cpp
+        Misc/Misc.cpp
+        Point/Point.cpp
+        Random/Random.cpp
+        Rectangle/Rectangle.cpp
+        Server/Server.cpp
+        StopWatch/StopWatch.cpp)
+
+target_include_directories(EquinoxMod PUBLIC include)
+target_compile_features(EquinoxMod PUBLIC cxx_std_20)
+
+target_link_libraries(EquinoxMod PUBLIC Stdm OSm)
+
+set_target_properties(EquinoxMod PROPERTIES
+    CXX_STANDARD_REQUIRED On
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)

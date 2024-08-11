@@ -1,8 +1,8 @@
 [submodule "EquinoxMod/Dependencies/Stdm"]
-	path = EquinoxMod/Dependencies/Stdm
+	path = Dependencies/Stdm
 	url = git@github.com:tony942316/Stdm.git
 	branch = main
 [submodule "EquinoxMod/Dependencies/EQX-CMakeInterfaces"]
-	path = EquinoxMod/Dependencies/EQX-CMakeInterfaces
+	path = Dependencies/EQX-CMakeInterfaces
 	url = git@github.com:tony942316/EQX-CMakeInterfaces.git
 	branch = main

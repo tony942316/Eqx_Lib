@@ -1,35 +1,55 @@
-/*
- * Copyright (C) 2023 Anthony H. Grasso
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+import Equinox;
+import Eqx.Tests;
 
-#include "Equinox/Equinox.hpp"
-#include "Tests/FullTester.hpp"
+using namespace eqx::literals;
+
+//constexpr auto val = (8.0 * std::numbers::pi);
+//constexpr auto inc = 0.01;
+//constexpr auto cnt = static_cast<std::size_t>(eqx::ceil((2 * val / inc)) + 1);
+
+/*constexpr auto values = std::invoke([]() consteval
+    {
+        auto result = std::array<double, cnt>{};
+        auto i = 0ULL;
+        for (auto v = -val; v < val; v += inc)
+        {
+            result.at(i) = eqx::sin(v);
+            i++;
+        }
+        return result;
+    });*/
 
 int main()
 {
-    using namespace std::literals;
-    std::cout << std::boolalpha;
+    std::cout << "Start\n\n"sv;
 
-    std::cout << "Start: ";
-    std::cin.get();
-    std::cout << std::endl;
+    test::clientserver::all().print("Client & Server"sv);
+    test::math::all().print("Math"sv);
+    test::misc::all().print("Misc"sv);
+    test::point::all().print("Point"sv);
+    test::random::all().print("Random"sv);
+    test::rectangle::all().print("Rectangle"sv);
+    test::stopwatch::all().print("StopWatch"sv);
 
-    FullTester::test();
-
-    std::cout << "\nEnd: ";
+    /*
+    auto stats = std::vector<double>{};
+    stats.reserve(cnt);
+    std::cout << cnt << std::endl;
+    //auto i = 0ULL;
+    for (auto v = -val; v < val; v += inc)
+    {
+        //auto error = std::abs(values.at(i) - std::sin(v));
+        //stats.emplace_back(error);
+        //i++;
+    }
+    std::ranges::sort(stats);
+    std::cout << "Median Error: " << eqx::median(stats) << std::endl;
+    std::cout << "Avg Error: " << eqx::average(stats) << std::endl;
+    std::cout << "Max Error: " << std::ranges::max(stats) << std::endl;
+    std::cout << "Min Error: " << std::ranges::min(stats) << std::endl;
+    std::cout << "End" << std::endl;
+    */
+    std::cout << "\nEnd: "sv;
     std::cin.get();
     return 0;
 }
