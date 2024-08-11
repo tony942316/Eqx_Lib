@@ -26,20 +26,79 @@ void license(const std::string_view file)
     std::cout << (GPL3 == li) << std::endl;
 }
 
-std::string pruneMod(std::stringstream& file)
+std::string getParentDir(const std::filesystem::path& path)
 {
-    auto result = std::string{};
+    auto pos = path.parent_path().string().rfind('/');
+    return path.parent_path().string().substr(pos + 1);
+}
+
+void convertModule(const std::filesystem::path& path)
+{
+    auto fileKey = "EQX_"s;
+    fileKey += getParentDir(path);
+    fileKey += '_';
+    fileKey += path.stem().string();
+    fileKey += '_';
+    fileKey += "123"sv;
+
+    auto file = std::ifstream{path.string(), std::ios::in};
+    auto newPath = path;
+    newPath.replace_extension(".hpp"sv);
+    auto newFile = std::ofstream(newPath.string(),
+        std::ios::out | std::ios::trunc);
+
     auto temp = std::string{};
 
     while (!file.eof())
     {
         std::getline(file, temp);
-        if (temp.find("module;"sv) != std::string::npos)
+        if (temp.find("module;"sv) != std::string::npos
+            || temp.find("#include") != std::string::npos)
         {
-            temp = "#ifndef EQX_POINT_123\n"sv
-                "#define EQX_POINT_123\n"sv
-                "\n"sv
-                "#include <stdh.hpp>\n"sv;
+            temp = "";
+        }
+        else if (temp.find("import") != std::string::npos)
+        {
+            if (temp.find("Eqx.Stdm") != std::string::npos)
+            {
+                temp = "#include <stdh.hpp>";
+                if (path.stem() == "Misc"sv)
+                {
+                    temp += "\n#include <Equinox/Macros.hpp>";
+                }
+            }
+            else if (temp.find("Eqx.OSm") != std::string::npos)
+            {
+                temp = "#include <osh.hpp>";
+            }
+            else
+            {
+                if (temp.find("export import") != std::string::npos)
+                {
+                    temp.replace(0, 14, "#include <");
+                }
+                else
+                {
+                    temp.replace(0, 7, "#include <");
+                }
+                std::ranges::replace(temp, '.', '/');
+                temp.pop_back();
+                if (std::ranges::count(temp, '/') == 1)
+                {
+                    temp += temp.substr(temp.find('/'));
+                }
+                temp += ".hpp>"sv;
+            }
+        }
+        else if (temp.find("export module") != std::string::npos)
+        {
+            temp = "#ifndef "sv;
+            temp += fileKey;
+            temp += '\n';
+
+            temp += "#define "sv;
+            temp += fileKey;
+            temp += '\n';
         }
         else if (temp.find("module"sv) != std::string::npos
             || temp.find("import"sv) != std::string::npos)
@@ -51,13 +110,10 @@ std::string pruneMod(std::stringstream& file)
             temp.replace(temp.find("export "sv), 7, ""sv);
         }
 
-        result += temp;
-        result += '\n';
+        newFile << temp << '\n';
     }
 
-    result += "#endif // Guard"sv;
-
-    return result;
+    newFile << "#endif // "sv << fileKey;
 }
 
 int main()
@@ -65,12 +121,45 @@ int main()
     std::cout << "Start\n\n"sv;
 
     auto root = std::filesystem::path{
-        "/home/anthony/C++/Equinox/EquinoxMod/EquinoxHol/"sv };
-    auto modRoot = std::filesystem::path{
-        "/home/anthony/C++/Equinox/EquinoxMod/Equinox/"sv };
+        "/home/anthony/C++/Equinox/EquinoxMod/"sv };
+    auto hol = std::filesystem::path{
+        root / "EquinoxHol/include/Equinox/"sv };
+    auto mod = std::filesystem::path{
+        root / "Equinox/"sv };
+    auto transmutator = std::filesystem::path{
+        root / "Transmutator/"sv };
 
-    std::filesystem::copy(modRoot, root,
-        std::filesystem::copy_options::recursive);
+    std::filesystem::remove_all(root / "EquinoxHol/"sv);
+
+    std::filesystem::create_directory(root / "EquinoxHol/"sv);
+    std::filesystem::create_directory(root / "EquinoxHol/include/"sv);
+    std::filesystem::create_directory(root / "EquinoxHol/include/Equinox/"sv);
+
+    std::filesystem::copy(mod, hol,
+        std::filesystem::copy_options::recursive
+        | std::filesystem::copy_options::overwrite_existing);
+
+    std::filesystem::copy(hol / "include/Equinox/Macros.hpp"sv,
+        hol / "Macros.hpp"sv,
+        std::filesystem::copy_options::overwrite_existing);
+    std::filesystem::copy(transmutator / "holcml.txt"sv,
+        hol / "CMakeLists.txt"sv,
+        std::filesystem::copy_options::overwrite_existing);
+
+    std::filesystem::remove_all(hol / "include/"sv);
+
+    auto dir = std::filesystem::recursive_directory_iterator{hol};
+    for (const auto& entry : dir)
+    {
+        if (entry.path().extension() == ".cpp"sv)
+        {
+            std::cout << "Converting: "
+                << getParentDir(entry.path())
+                << entry.path().filename() << '\n';
+            convertModule(entry.path());
+            std::filesystem::remove(entry.path());
+        }
+    }
 
     std::cout << "\nEnd: "sv;
     std::cin.get();

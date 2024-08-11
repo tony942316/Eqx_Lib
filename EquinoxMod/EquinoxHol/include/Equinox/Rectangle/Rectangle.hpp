@@ -1,15 +1,17 @@
-module;
 
-#include "Equinox/Macros.hpp"
 
-export module Equinox.Rectangle;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Point;
 
-export namespace eqx
+#ifndef EQX_Rectangle_Rectangle_123
+#define EQX_Rectangle_Rectangle_123
+
+
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+#include <Equinox/Math/Core.hpp>
+#include <Equinox/Point/Point.hpp>
+
+namespace eqx
 {
     /**
      * @brief Rectangle On The Cartesian Plane Stored As Top Left Coordinates
@@ -234,7 +236,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     // NOLINTBEGIN(bugprone-easily-swappable-parameters)
     template <typename T>
@@ -461,3 +463,5 @@ export namespace eqx
         toMove.setLocation(source.getEmplaceCenter(toMove));
     }
 }
+
+#endif // EQX_Rectangle_Rectangle_123

@@ -1,11 +1,13 @@
-module;
 
-#include <Equinox/Macros.hpp>
 
-export module Equinox.Random;
 
-import Eqx.Stdm;
-import Equinox.Misc;
+
+#ifndef EQX_Random_Random_123
+#define EQX_Random_Random_123
+
+
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
 
 namespace eqx
 {
@@ -15,7 +17,7 @@ namespace eqx
     // NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 }
 
-export namespace eqx
+namespace eqx
 {
     template <typename T>
         requires std::integral<T>
@@ -35,7 +37,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     template <typename T>
         requires std::integral<T>
@@ -90,3 +92,5 @@ export namespace eqx
         }
     }
 }
+
+#endif // EQX_Random_Random_123

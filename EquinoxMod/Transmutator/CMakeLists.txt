@@ -28,6 +28,14 @@ set_target_properties(Transmutator PROPERTIES
 target_link_libraries(Transmutator PRIVATE EquinoxMod)
 target_link_libraries(GMF INTERFACE EQX-Typical)
 
+add_executable(TestHol)
+target_sources(TestHol PRIVATE TestHol.cpp)
+target_link_libraries(TestHol PRIVATE EquinoxHol)
+
+set_target_properties(TestHol PROPERTIES
+    CXX_EXTENSIONS Off
+    EXPORT_COMPILE_COMMANDS On)
+
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 else ()
     target_compile_options(GMF INTERFACE

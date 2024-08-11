@@ -15,15 +15,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
 
-#include "Equinox/Macros.hpp"
 
-export module Equinox.StopWatch;
 
-import Eqx.Stdm;
 
-export namespace eqx
+#ifndef EQX_StopWatch_StopWatch_123
+#define EQX_StopWatch_StopWatch_123
+
+
+#include <stdh.hpp>
+
+namespace eqx
 {
     namespace TimeTypes
     {
@@ -127,7 +129,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     inline void StopWatch::start() noexcept
     {
@@ -183,3 +185,5 @@ export namespace eqx
         return (std::stringstream{} << getDuration<T>()).str();
     }
 }
+
+#endif // EQX_StopWatch_StopWatch_123

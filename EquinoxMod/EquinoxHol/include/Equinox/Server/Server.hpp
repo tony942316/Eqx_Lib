@@ -1,15 +1,17 @@
-module;
 
-#include <Equinox/Macros.hpp>
 
-export module Equinox.Server;
 
-import Eqx.Stdm;
-import Eqx.OSm;
-import Equinox.Misc;
-import Equinox.Client;
 
-export namespace eqx
+#ifndef EQX_Server_Server_123
+#define EQX_Server_Server_123
+
+
+#include <stdh.hpp>
+#include <osh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+#include <Equinox/Client/Client.hpp>
+
+namespace eqx
 {
     class Server
     {
@@ -35,7 +37,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     inline Server::Server(const std::uint16_t port) noexcept
     {
@@ -68,3 +70,5 @@ export namespace eqx
         return Client(eqx::Socket(client_socket));
     }
 }
+
+#endif // EQX_Server_Server_123

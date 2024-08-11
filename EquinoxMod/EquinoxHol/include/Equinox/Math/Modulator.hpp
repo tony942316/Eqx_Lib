@@ -1,67 +1,69 @@
-export module Equinox.Math.Modulator;
+#ifndef EQX_Math_Modulator_123
+#define EQX_Math_Modulator_123
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
+
+#include <stdh.hpp>
+#include <Equinox/Math/Core.hpp>
 
 namespace eqx
 {
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_Pi6 = std::numbers::pi_v<T> / static_cast<T>(6.0);
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_Pi4 = std::numbers::pi_v<T> / static_cast<T>(4.0);
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_Pi3 = std::numbers::pi_v<T> / static_cast<T>(3.0);
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_Pi2 = std::numbers::pi_v<T> / static_cast<T>(2.0);
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_2Pi3 = static_cast<T>(2.0) * c_Pi3<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_3Pi4 = static_cast<T>(3.0) * c_Pi4<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_5Pi6 = static_cast<T>(5.0) * c_Pi6<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_7Pi6 = static_cast<T>(7.0) * c_Pi6<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_5Pi4 = static_cast<T>(5.0) * c_Pi4<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_4Pi3 = static_cast<T>(4.0) * c_Pi3<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_3Pi2 = static_cast<T>(3.0) * c_Pi2<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_5Pi3 = static_cast<T>(5.0) * c_Pi3<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_7Pi4 = static_cast<T>(7.0) * c_Pi4<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_11Pi6 = static_cast<T>(11.0) * c_Pi6<T>;
 
-    export template <typename T>
+    template <typename T>
         requires std::floating_point<T>
     constexpr auto c_2Pi = static_cast<T>(2.0) * std::numbers::pi_v<T>;
 
@@ -81,21 +83,21 @@ namespace eqx
         T m_Value;
     };
 
-    export template <typename T>
+    template <typename T>
     using Radians = Modulator<T, eqx::c_2Pi<T>>;
 
     // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
-    export template <typename T>
+    template <typename T>
     using Degrees = Modulator<T, static_cast<T>(360.0)>;
     // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
 
-    export template <typename T, T mod>
+    template <typename T, T mod>
         requires std::floating_point<T>
     [[nodiscard]] constexpr bool equals(const Modulator<T, mod>& lhs,
         const Modulator<T, mod>& rhs) noexcept;
 }
 
-export namespace eqx::literals
+namespace eqx::literals
 {
     consteval Radians<float> operator""_radF (const long double val) noexcept;
 
@@ -114,7 +116,7 @@ export namespace eqx::literals
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
 
     template <typename T, T mod>
@@ -155,7 +157,7 @@ export namespace eqx
     }
 }
 
-export namespace eqx::literals
+namespace eqx::literals
 {
     consteval Radians<float> operator""_radF (const long double val) noexcept
     {
@@ -189,3 +191,5 @@ export namespace eqx::literals
         return Degrees<long double>{val};
     }
 }
+
+#endif // EQX_Math_Modulator_123

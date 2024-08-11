@@ -1,14 +1,16 @@
-module;
 
-#include <Equinox/Macros.hpp>
 
-export module Equinox.Client;
 
-import Eqx.Stdm;
-import Eqx.OSm;
-import Equinox.Misc;
 
-export namespace eqx
+#ifndef EQX_Client_Client_123
+#define EQX_Client_Client_123
+
+
+#include <stdh.hpp>
+#include <osh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+
+namespace eqx
 {
     class Socket
     {
@@ -64,7 +66,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     inline Socket::Socket() noexcept
         :
@@ -179,3 +181,5 @@ export namespace eqx
         return m_Socket->recv();
     }
 }
+
+#endif // EQX_Client_Client_123

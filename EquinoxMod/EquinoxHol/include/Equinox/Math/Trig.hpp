@@ -1,15 +1,17 @@
-module;
 
-#include <Equinox/Macros.hpp>
 
-export module Equinox.Math.Trig;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
 
-export namespace eqx
+#ifndef EQX_Math_Trig_123
+#define EQX_Math_Trig_123
+
+
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+#include <Equinox/Math/Core.hpp>
+#include <Equinox/Math/Modulator.hpp>
+
+namespace eqx
 {
     template <typename T>
         requires std::floating_point<T>
@@ -62,7 +64,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     template <typename T>
         requires std::floating_point<T>
@@ -257,3 +259,5 @@ export namespace eqx
         return std::make_pair(result, eqx::Radians<T>{-result.get()});
     }
 }
+
+#endif // EQX_Math_Trig_123

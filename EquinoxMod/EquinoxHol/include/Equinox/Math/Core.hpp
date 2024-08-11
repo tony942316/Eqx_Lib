@@ -1,17 +1,19 @@
-module;
 
-#include <Equinox/Macros.hpp>
+
+
 
 #ifdef _MSC_VER
 
 #endif // _MSC_VER
 
-export module Equinox.Math.Core;
+#ifndef EQX_Math_Core_123
+#define EQX_Math_Core_123
 
-import Eqx.Stdm;
-import Equinox.Misc;
 
-export namespace eqx
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+
+namespace eqx
 {
     template <typename T>
         requires requires() { static_cast<T>(0); }
@@ -119,7 +121,7 @@ export namespace eqx
 
 // Implementions
 
-export namespace eqx
+namespace eqx
 {
     template <typename T>
         requires std::is_arithmetic_v<T>
@@ -431,3 +433,5 @@ export namespace eqx
         return x;
     }
 }
+
+#endif // EQX_Math_Core_123

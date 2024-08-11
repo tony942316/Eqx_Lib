@@ -1,12 +1,15 @@
-module;
 
+
+
+
+#ifndef EQX_Misc_Misc_123
+#define EQX_Misc_Misc_123
+
+
+#include <stdh.hpp>
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Misc;
-
-import Eqx.Stdm;
-
-export namespace eqx
+namespace eqx
 {
     using ssize_t = std::make_signed_t<std::size_t>;
 
@@ -66,14 +69,14 @@ export namespace eqx
     consteval void noOp() noexcept;
 }
 
-export namespace eqx::stream
+namespace eqx::stream
 {
     template <typename T>
         requires requires(const T& val) { eqx::toString(val); }
     std::ostream& operator<< (std::ostream& outStream, const T& val);
 }
 
-export namespace eqx::literals
+namespace eqx::literals
 {
     consteval std::size_t operator""_size (unsigned long long val) noexcept;
 
@@ -108,7 +111,7 @@ export namespace eqx::literals
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     template <typename T, typename F>
         requires requires(const F& f) { static_cast<T>(f); }
@@ -270,7 +273,7 @@ export namespace eqx
     consteval void noOp() noexcept {};
 }
 
-export namespace eqx::stream
+namespace eqx::stream
 {
     template <typename T>
         requires requires(const T& val) { eqx::toString(val); }
@@ -282,7 +285,7 @@ export namespace eqx::stream
     }
 }
 
-export namespace eqx::literals
+namespace eqx::literals
 {
     consteval std::size_t operator""_size (unsigned long long val) noexcept
     {
@@ -357,3 +360,5 @@ export namespace eqx::literals
         return val * bytes;
     }
 }
+
+#endif // EQX_Misc_Misc_123

@@ -15,19 +15,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
 
-#include "Equinox/Macros.hpp"
 
-export module Equinox.Point;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
-import Equinox.Math.Trig;
 
-export namespace eqx
+#ifndef EQX_Point_Point_123
+#define EQX_Point_Point_123
+
+
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+#include <Equinox/Math/Core.hpp>
+#include <Equinox/Math/Modulator.hpp>
+#include <Equinox/Math/Trig.hpp>
+
+namespace eqx
 {
     /**
      * @brief Point On The Cartesian Plane i.e. (X, Y), Note T
@@ -270,7 +272,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     // NOLINTBEGIN(bugprone-easily-swappable-parameters)
     template <typename T>
@@ -441,3 +443,5 @@ export namespace eqx
         return Point<T>(index % rowLength, index / rowLength);
     }
 }
+
+#endif // EQX_Point_Point_123

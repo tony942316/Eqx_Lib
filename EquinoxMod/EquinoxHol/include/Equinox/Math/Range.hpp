@@ -1,14 +1,16 @@
-module;
 
-#include <Equinox/Macros.hpp>
 
-export module Equinox.Math.Range;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
 
-export namespace eqx
+#ifndef EQX_Math_Range_123
+#define EQX_Math_Range_123
+
+
+#include <stdh.hpp>
+#include <Equinox/Misc/Misc.hpp>
+#include <Equinox/Math/Core.hpp>
+
+namespace eqx
 {
     template <typename T>
     concept ArithmeticRange = std::ranges::range<T>
@@ -25,7 +27,7 @@ export namespace eqx
 
 // Implementations
 
-export namespace eqx
+namespace eqx
 {
     template <typename T>
         requires eqx::ArithmeticRange<T>
@@ -57,3 +59,5 @@ export namespace eqx
             / static_cast<double>(std::ranges::size(range));
     }
 }
+
+#endif // EQX_Math_Range_123
