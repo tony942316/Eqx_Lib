@@ -26,4 +26,26 @@
 #define EQX_NO_ASSERTS false
 #endif // EQX_NO_ASSERTS
 
+#if defined(_WIN32)
+#define EQX_LINUX false
+#define EQX_WINDOWS true
+#elif defined(__linux__)
+#define EQX_LINUX true
+#define EQX_WINDOWS false
+#endif
+
+#if defined(__clang__)
+#define EQX_CLANG true
+#define EQX_GCC false
+#define EQX_MSVC false
+#elif defined(__GNUC__) || defined(__GNUG__)
+#define EQX_CLANG false
+#define EQX_GCC true
+#define EQX_MSVC false
+#elif defined(_MSC_VER)
+#define EQX_CLANG false
+#define EQX_GCC false
+#define EQX_MSVC true
+#endif
+
 #endif // EQUINOX_MACROS_HPP
