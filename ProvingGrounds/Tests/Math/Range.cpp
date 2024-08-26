@@ -1,7 +1,8 @@
 module Eqx.Tests.Math:Range;
 
-import Eqx.Stdm;
-import Equinox.Math.Range;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Math.Range;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 static_assert(eqx::median(std::vector<int>{ 1 }) == 1.0);

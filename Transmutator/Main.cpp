@@ -1,4 +1,6 @@
-import Equinox;
+#include <Stdh/std.hpp>
+
+import Eqx.Lib;
 
 constexpr auto GPL3 = std::string_view{
  "/*\n"sv

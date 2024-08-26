@@ -15,15 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export module Equinox;
+export module Eqx.Lib;
 
-export import Eqx.Stdm;
-
-export import Equinox.Client;
-export import Equinox.Math;
-export import Equinox.Misc;
-export import Equinox.Point;
-export import Equinox.Random;
-export import Equinox.Rectangle;
-export import Equinox.Server;
-export import Equinox.StopWatch;
+export import Eqx.Lib.Client;
+export import Eqx.Lib.Math;
+export import Eqx.Lib.Misc;
+export import Eqx.Lib.Point;
+export import Eqx.Lib.Random;
+export import Eqx.Lib.Rectangle;
+export import Eqx.Lib.Server;
+export import Eqx.Lib.Socket;
+export import Eqx.Lib.StopWatch;

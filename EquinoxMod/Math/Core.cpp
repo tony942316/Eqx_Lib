@@ -19,14 +19,13 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-#ifdef _MSC_VER
+export module Eqx.Lib.Math.Core;
 
-#endif // _MSC_VER
+#include <Eqx/std.hpp>
 
-export module Equinox.Math.Core;
+import Eqx.Lib.Misc;
 
-import Eqx.Stdm;
-import Equinox.Misc;
+using namespace std::literals;
 
 export namespace eqx
 {

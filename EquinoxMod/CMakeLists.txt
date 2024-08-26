@@ -32,12 +32,12 @@ target_sources(EquinoxMod
         Random/Random.cpp
         Rectangle/Rectangle.cpp
         Server/Server.cpp
+        Socket/Socket.cpp
         StopWatch/StopWatch.cpp)
 
 target_include_directories(EquinoxMod PUBLIC include)
 target_compile_features(EquinoxMod PUBLIC cxx_std_20)
-
-target_link_libraries(EquinoxMod PUBLIC Stdm OSm)
+target_link_libraries(EquinoxMod PUBLIC GMF Stdm)
 
 set_target_properties(EquinoxMod PROPERTIES
     CXX_STANDARD_REQUIRED On

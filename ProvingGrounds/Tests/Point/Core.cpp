@@ -1,9 +1,10 @@
 module Eqx.Tests.Point:Core;
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
-import Equinox.Point;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Math.Modulator;
+import Eqx.Lib.Point;
 
 using namespace eqx::literals;
 

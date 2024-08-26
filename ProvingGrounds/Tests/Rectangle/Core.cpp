@@ -1,10 +1,11 @@
 module Eqx.Tests.Rectangle:Core;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Point;
-import Equinox.Rectangle;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Point;
+import Eqx.Lib.Rectangle;
 
 using namespace eqx::literals;
 

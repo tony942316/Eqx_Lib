@@ -19,12 +19,13 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Server;
+export module Eqx.Lib.Server;
 
-import Eqx.Stdm;
-import Eqx.OSm;
-import Equinox.Misc;
-import Equinox.Client;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Socket;
+import Eqx.Lib.Client;
 
 export namespace eqx
 {
@@ -63,25 +64,11 @@ export namespace eqx
     {
         m_Socket.emplace();
 
-        auto error_code = osm::socket::setsockopt(m_Socket->get(),
-            osm::socket::level::socket, osm::socket::option::reuseaddr);
-
-        eqx::ENSURE_HARD(error_code == 0, "Error Setting Socket Option!"sv);
-
-        error_code = osm::socket::bind(m_Socket->get(), port);
-
-        eqx::ENSURE_HARD(error_code != -1, "Error Binding Socket!"sv);
-
-        error_code = osm::socket::listen(m_Socket->get());
-        eqx::ENSURE_HARD(error_code != -1, "Error Listening On Socket!"sv);
+        m_Socket->makeListener(port);
     }
 
     [[nodiscard]] inline eqx::Client Server::getConnection() noexcept
     {
-        auto client_socket = osm::socket::accept(m_Socket->get(),
-            osm::socket::flag::cloexec);
-        eqx::ENSURE_HARD(client_socket != -1, "Error Accepting Connection!"sv);
-
-        return Client(eqx::Socket(client_socket));
+        return Client{m_Socket->accept()};
     }
 }

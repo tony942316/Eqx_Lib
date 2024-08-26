@@ -19,10 +19,13 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Random;
+export module Eqx.Lib.Random;
 
-import Eqx.Stdm;
-import Equinox.Misc;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+
+using namespace std::literals;
 
 namespace eqx
 {

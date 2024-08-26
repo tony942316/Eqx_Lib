@@ -1,9 +1,12 @@
+module;
+
 module Eqx.Tests.Math:Trig;
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
-import Equinox.Math.Trig;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Math.Modulator;
+import Eqx.Lib.Math.Trig;
 
 using namespace eqx::literals;
 

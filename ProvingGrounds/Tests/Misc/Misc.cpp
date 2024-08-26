@@ -1,10 +1,13 @@
 export module Eqx.Tests.Misc;
 
+#include <Eqx/std.hpp>
+
 import :Core;
 
-import Eqx.Stdm;
-import Equinox.Misc;
+import Eqx.Lib.Misc;
 import Eqx.UnitTester;
+
+using namespace std::literals;
 
 namespace test::misc
 {

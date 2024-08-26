@@ -12,7 +12,7 @@ set_target_properties(ProvingGroundsMod PROPERTIES
     EXPORT_COMPILE_COMMANDS On)
 
 target_link_libraries(ProvingGroundsMod PRIVATE EquinoxModTests)
-target_link_libraries(GMF INTERFACE EQX-Typical)
+#target_link_libraries(GMF INTERFACE EQX-Typical)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(GMF INTERFACE

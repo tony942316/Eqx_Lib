@@ -1,8 +1,9 @@
 export module Eqx.Tests.Random;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Random;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Random;
 import Eqx.UnitTester;
 
 namespace test::random

@@ -1,7 +1,10 @@
 module Eqx.Tests.Misc:Core;
 
-import Eqx.Stdm;
-import Equinox.Misc;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+
+using namespace std::literals;
 
 constexpr auto testStaticCast =
     []<typename T>() consteval noexcept -> bool

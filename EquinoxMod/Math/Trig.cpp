@@ -19,12 +19,15 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Math.Trig;
+export module Eqx.Lib.Math.Trig;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Math.Modulator;
+
+using namespace std::literals;
 
 export namespace eqx
 {

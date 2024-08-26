@@ -1,11 +1,14 @@
 export module Eqx.Tests.Point;
 
+#include <Eqx/std.hpp>
+
 import :Core;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Point;
+import Eqx.Lib.Misc;
+import Eqx.Lib.Point;
 import Eqx.UnitTester;
+
+using namespace std::literals;
 
 namespace test::point
 {

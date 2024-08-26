@@ -19,11 +19,14 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Math.Range;
+export module Eqx.Lib.Math.Range;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Math.Core;
+
+using namespace std::literals;
 
 export namespace eqx
 {

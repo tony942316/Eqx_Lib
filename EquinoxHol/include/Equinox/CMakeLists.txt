@@ -36,7 +36,7 @@ target_sources(EquinoxHol INTERFACE
 target_include_directories(EquinoxHol INTERFACE ..)
 target_compile_features(EquinoxHol INTERFACE cxx_std_20)
 
-target_link_libraries(EquinoxHol INTERFACE StdHeader OSHeader)
+target_link_libraries(EquinoxHol INTERFACE Stdh)
 
 set_target_properties(EquinoxHol PROPERTIES
     CXX_STANDARD_REQUIRED On

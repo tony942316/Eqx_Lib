@@ -19,13 +19,16 @@ module;
 
 #include "Equinox/Macros.hpp"
 
-export module Equinox.Point;
+export module Eqx.Lib.Point;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
-import Equinox.Math.Trig;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Math.Modulator;
+import Eqx.Lib.Math.Trig;
+
+using namespace std::literals;
 
 export namespace eqx
 {

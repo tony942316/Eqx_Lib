@@ -1,12 +1,13 @@
 export module Eqx.Tests.Math;
 
+#include <Eqx/std.hpp>
+
 import :Core;
 import :Modulator;
 import :Range;
 import :Trig;
 
-import Eqx.Stdm;
-import Equinox.Math;
+import Eqx.Lib.Math;
 import Eqx.UnitTester;
 
 namespace test::math

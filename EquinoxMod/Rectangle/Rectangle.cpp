@@ -19,12 +19,15 @@ module;
 
 #include "Equinox/Macros.hpp"
 
-export module Equinox.Rectangle;
+export module Eqx.Lib.Rectangle;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Math.Core;
-import Equinox.Point;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Misc;
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Point;
+
+using namespace std::literals;
 
 export namespace eqx
 {

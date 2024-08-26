@@ -1,12 +1,15 @@
 export module Eqx.Tests.Rectangle;
 
+#include <Eqx/std.hpp>
+
 import :Core;
 
-import Eqx.Stdm;
-import Equinox.Misc;
-import Equinox.Point;
-import Equinox.Rectangle;
+import Eqx.Lib.Misc;
+import Eqx.Lib.Point;
+import Eqx.Lib.Rectangle;
 import Eqx.UnitTester;
+
+using namespace std::literals;
 
 namespace test::rectangle
 {

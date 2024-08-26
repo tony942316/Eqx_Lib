@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+export module Eqx.Lib.Math.Modulator;
 
-export module Equinox.Math.Modulator;
+#include <Eqx/std.hpp>
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
+import Eqx.Lib.Math.Core;
 
 namespace eqx
 {

@@ -1,7 +1,11 @@
-import Equinox;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib;
 import Eqx.Tests;
 
-using namespace eqx::literals;
+using namespace std::literals;
+
+//using namespace eqx::literals;
 
 //constexpr auto val = (8.0 * std::numbers::pi);
 //constexpr auto inc = 0.01;

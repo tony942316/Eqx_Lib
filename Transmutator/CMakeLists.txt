@@ -25,12 +25,12 @@ set_target_properties(Transmutator PROPERTIES
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
 
-target_link_libraries(Transmutator PRIVATE EquinoxMod)
-target_link_libraries(GMF INTERFACE EQX-Typical)
+target_link_libraries(Transmutator PRIVATE GMF EquinoxMod)
+#target_link_libraries(GMF INTERFACE EQX-Typical)
 
 add_executable(TestHol)
 target_sources(TestHol PRIVATE TestHol.cpp)
-target_link_libraries(TestHol PRIVATE EquinoxHol)
+target_link_libraries(TestHol PRIVATE GMF EquinoxHol)
 
 set_target_properties(TestHol PROPERTIES
     CXX_EXTENSIONS Off

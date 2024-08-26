@@ -15,9 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-export module Equinox.Math;
+export module Eqx.Lib.Math;
 
-export import Equinox.Math.Core;
-export import Equinox.Math.Modulator;
-export import Equinox.Math.Range;
-export import Equinox.Math.Trig;
+export import Eqx.Lib.Math.Core;
+export import Eqx.Lib.Math.Modulator;
+export import Eqx.Lib.Math.Range;
+export import Eqx.Lib.Math.Trig;

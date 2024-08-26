@@ -19,9 +19,9 @@ module;
 
 #include "Equinox/Macros.hpp"
 
-export module Equinox.StopWatch;
+export module Eqx.Lib.StopWatch;
 
-import Eqx.Stdm;
+#include <Eqx/std.hpp>
 
 export namespace eqx
 {

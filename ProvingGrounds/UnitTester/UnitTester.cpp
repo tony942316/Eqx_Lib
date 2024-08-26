@@ -1,6 +1,8 @@
 export module Eqx.UnitTester;
 
-import Eqx.Stdm;
+#include <Eqx/std.hpp>
+
+using namespace std::literals;
 
 export class UnitTester
 {

@@ -19,9 +19,11 @@ module;
 
 #include <Equinox/Macros.hpp>
 
-export module Equinox.Misc;
+export module Eqx.Lib.Misc;
 
-import Eqx.Stdm;
+#include <Eqx/std.hpp>
+
+using namespace std::literals;
 
 export namespace eqx
 {

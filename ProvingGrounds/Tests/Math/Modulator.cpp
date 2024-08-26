@@ -1,8 +1,9 @@
 export module Eqx.Tests.Math:Modulator;
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
-import Equinox.Math.Modulator;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Math.Core;
+import Eqx.Lib.Math.Modulator;
 
 constexpr auto rF = eqx::Radians<float>{std::numbers::pi_v<float>};
 constexpr auto r = eqx::Radians<double>{std::numbers::pi_v<double>};

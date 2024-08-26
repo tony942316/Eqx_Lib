@@ -1,7 +1,10 @@
 module Eqx.Tests.Math:Core;
 
-import Eqx.Stdm;
-import Equinox.Math.Core;
+#include <Eqx/std.hpp>
+
+import Eqx.Lib.Math.Core;
+
+using namespace std::literals;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
 static_assert(eqx::abs(0) == 0);
