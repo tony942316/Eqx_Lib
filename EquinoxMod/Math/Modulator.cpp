@@ -16,7 +16,7 @@
  */
 export module Eqx.Lib.Math.Modulator;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Math.Core;
 

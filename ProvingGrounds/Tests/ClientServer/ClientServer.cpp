@@ -1,14 +1,12 @@
 export module Eqx.Tests.ClientServer;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Misc;
 import Eqx.Lib.Socket;
 import Eqx.Lib.Client;
 import Eqx.Lib.Server;
 import Eqx.UnitTester;
-
-using namespace std::literals;
 
 namespace test::clientserver
 {

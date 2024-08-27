@@ -1,6 +1,6 @@
 export module Eqx.Tests.Math;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import :Core;
 import :Modulator;

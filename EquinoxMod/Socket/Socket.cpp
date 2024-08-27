@@ -1,6 +1,10 @@
-module;
+export module Eqx.Lib.Socket;
 
-#include "Equinox/Macros.hpp"
+import <Eqx/std.hpp>;
+import <Eqx/os.hpp>;
+
+import <Eqx/Lib/Macros.hpp>;
+import Eqx.Lib.Misc;
 
 #if EQX_LINUX
 
@@ -8,15 +12,6 @@ module;
 #define SOCKET_ERROR -1
 
 #endif // EQX_LINUX
-
-export module Eqx.Lib.Socket;
-
-#include <Eqx/std.hpp>
-#include <Eqx/os.hpp>
-
-import Eqx.Lib.Misc;
-
-using namespace std::literals;
 
 export namespace eqx
 {

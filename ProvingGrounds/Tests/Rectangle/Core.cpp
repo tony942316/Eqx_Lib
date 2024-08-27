@@ -1,13 +1,11 @@
 module Eqx.Tests.Rectangle:Core;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Misc;
 import Eqx.Lib.Math.Core;
 import Eqx.Lib.Point;
 import Eqx.Lib.Rectangle;
-
-using namespace eqx::literals;
 
 static_assert(std::is_trivial_v<eqx::Rectangle<double>>);
 static_assert(std::is_standard_layout_v<eqx::Rectangle<double>>);

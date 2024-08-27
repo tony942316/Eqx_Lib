@@ -17,6 +17,41 @@
 
 cmake_minimum_required(VERSION 3.28)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+else ()
+    add_custom_target("CT_macros"
+        DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm")
+
+    add_custom_command(
+        OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm"
+        COMMENT "Build Macros Header Unit"
+        COMMAND clang++ -std=c++20
+            $<TARGET_PROPERTY:GMF,INTERFACE_COMPILE_OPTIONS>
+            -Wno-user-defined-literals
+            -Wno-implicit-int-conversion
+            -Wno-shorten-64-to-32
+            -Wno-sign-conversion
+            -Wno-unknown-warning-option
+            -Wno-inline-namespace-reopened-noninline
+            -Wno-deprecated-builtins
+            -Wno-implicit-float-conversion
+            -Wno-keyword-compat
+            -Wno-gnu-include-next
+            -Wno-ambiguous-ellipsis
+            -Wno-pragma-system-header-outside-header
+
+            -I${CMAKE_CURRENT_SOURCE_DIR}/include/
+            -xc++-system-header --precompile Eqx/Lib/Macros.hpp
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/Eqx/Lib/Macros.hpp"
+        COMMAND_EXPAND_LISTS)
+
+    add_library(HUmacros INTERFACE)
+    add_dependencies(HUmacros CT_macros)
+    target_compile_options(HUmacros INTERFACE
+        -Wno-experimental-header-units
+        -fmodule-file=${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm)
+endif()
+
 add_library(EquinoxMod STATIC)
 target_sources(EquinoxMod
     PUBLIC FILE_SET CXX_MODULES FILES
@@ -43,3 +78,8 @@ set_target_properties(EquinoxMod PROPERTIES
     CXX_STANDARD_REQUIRED On
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+else ()
+    target_link_libraries(EquinoxMod PUBLIC HUmacros)
+endif()

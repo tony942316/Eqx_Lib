@@ -1,6 +1,6 @@
 module Eqx.Tests.Math:Range;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Math.Range;
 

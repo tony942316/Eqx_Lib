@@ -15,15 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
-
-#include <Equinox/Macros.hpp>
-
 export module Eqx.Lib.Misc;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
-using namespace std::literals;
+import <Eqx/Lib/Macros.hpp>;
 
 export namespace eqx
 {

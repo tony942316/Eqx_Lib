@@ -1,6 +1,6 @@
 export module Eqx.Tests.Rectangle;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import :Core;
 
@@ -8,8 +8,6 @@ import Eqx.Lib.Misc;
 import Eqx.Lib.Point;
 import Eqx.Lib.Rectangle;
 import Eqx.UnitTester;
-
-using namespace std::literals;
 
 namespace test::rectangle
 {

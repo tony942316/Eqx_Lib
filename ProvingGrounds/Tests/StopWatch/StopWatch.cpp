@@ -1,12 +1,10 @@
 export module Eqx.Tests.StopWatch;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Misc;
 import Eqx.Lib.StopWatch;
 import Eqx.UnitTester;
-
-using namespace std::literals;
 
 static_assert(std::is_standard_layout_v<eqx::StopWatch>);
 static_assert(!std::is_trivial_v<eqx::StopWatch>);

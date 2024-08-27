@@ -1,10 +1,8 @@
 module Eqx.Tests.Misc:Core;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Misc;
-
-using namespace std::literals;
 
 constexpr auto testStaticCast =
     []<typename T>() consteval noexcept -> bool

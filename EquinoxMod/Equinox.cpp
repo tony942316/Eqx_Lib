@@ -26,3 +26,5 @@ export import Eqx.Lib.Rectangle;
 export import Eqx.Lib.Server;
 export import Eqx.Lib.Socket;
 export import Eqx.Lib.StopWatch;
+
+export using namespace eqx::literals;

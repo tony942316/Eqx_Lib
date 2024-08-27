@@ -1,6 +1,6 @@
 export module Eqx.Tests.Random;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Misc;
 import Eqx.Lib.Random;

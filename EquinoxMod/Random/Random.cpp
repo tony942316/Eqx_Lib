@@ -15,17 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
-
-#include <Equinox/Macros.hpp>
-
 export module Eqx.Lib.Random;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
+import <Eqx/Lib/Macros.hpp>;
 import Eqx.Lib.Misc;
-
-using namespace std::literals;
 
 namespace eqx
 {

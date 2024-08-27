@@ -1,6 +1,6 @@
 module Eqx.Tests.Point:Core;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Math.Core;
 import Eqx.Lib.Math.Modulator;

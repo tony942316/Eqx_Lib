@@ -1,8 +1,6 @@
-module;
-
 module Eqx.Tests.Math:Trig;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import Eqx.Lib.Math.Core;
 import Eqx.Lib.Math.Modulator;

@@ -1,6 +1,6 @@
 export module Eqx.Tests.Point;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
 import :Core;
 
@@ -8,7 +8,7 @@ import Eqx.Lib.Misc;
 import Eqx.Lib.Point;
 import Eqx.UnitTester;
 
-using namespace std::literals;
+using namespace eqx::literals;
 
 namespace test::point
 {

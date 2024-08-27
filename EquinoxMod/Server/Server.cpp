@@ -15,14 +15,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
-
-#include <Equinox/Macros.hpp>
-
 export module Eqx.Lib.Server;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
+import <Eqx/Lib/Macros.hpp>;
 import Eqx.Lib.Misc;
 import Eqx.Lib.Socket;
 import Eqx.Lib.Client;

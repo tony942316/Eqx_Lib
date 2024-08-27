@@ -15,19 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module;
-
-#include "Equinox/Macros.hpp"
-
 export module Eqx.Lib.Rectangle;
 
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
+import <Eqx/Lib/Macros.hpp>;
 import Eqx.Lib.Misc;
 import Eqx.Lib.Math.Core;
 import Eqx.Lib.Point;
-
-using namespace std::literals;
 
 export namespace eqx
 {

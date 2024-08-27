@@ -1,11 +1,8 @@
-#include <Eqx/std.hpp>
+import <Eqx/std.hpp>;
 
+import <Eqx/Lib/Macros.hpp>;
 import Eqx.Lib;
 import Eqx.Tests;
-
-using namespace std::literals;
-
-//using namespace eqx::literals;
 
 //constexpr auto val = (8.0 * std::numbers::pi);
 //constexpr auto inc = 0.01;
