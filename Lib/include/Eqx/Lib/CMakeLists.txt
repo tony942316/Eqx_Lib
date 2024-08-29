@@ -19,14 +19,14 @@ cmake_minimum_required(VERSION 3.28)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 else ()
-    add_custom_target("CT_macros"
+    add_custom_target(P_EQX_CT_MACROS
         DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm")
 
     add_custom_command(
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm"
         COMMENT "Build Macros Header Unit"
         COMMAND clang++ -std=c++20
-            $<TARGET_PROPERTY:GMF,INTERFACE_COMPILE_OPTIONS>
+        $<TARGET_PROPERTY:Eqx_GMF,INTERFACE_COMPILE_OPTIONS>
             -Wno-user-defined-literals
             -Wno-implicit-int-conversion
             -Wno-shorten-64-to-32
@@ -45,17 +45,17 @@ else ()
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/include/Eqx/Lib/Macros.hpp"
         COMMAND_EXPAND_LISTS)
 
-    add_library(HUmacros INTERFACE)
-    add_dependencies(HUmacros CT_macros)
-    target_compile_options(HUmacros INTERFACE
+    add_library(P_EQX_HU_MACROS INTERFACE)
+    add_dependencies(P_EQX_HU_MACROS P_EQX_CT_MACROS)
+    target_compile_options(P_EQX_HU_MACROS INTERFACE
         -Wno-experimental-header-units
         -fmodule-file=${CMAKE_CURRENT_BINARY_DIR}/Macros.pcm)
 endif()
 
-add_library(EquinoxMod STATIC)
-target_sources(EquinoxMod
+add_library(Eqx_Lib STATIC)
+target_sources(Eqx_Lib
     PUBLIC FILE_SET CXX_MODULES FILES
-        Equinox.cpp
+        Eqx_Lib.cpp
         Client/Client.cpp
         Math/Math.cpp
             Math/Core.cpp
@@ -70,16 +70,16 @@ target_sources(EquinoxMod
         Socket/Socket.cpp
         StopWatch/StopWatch.cpp)
 
-target_include_directories(EquinoxMod PUBLIC include)
-target_compile_features(EquinoxMod PUBLIC cxx_std_20)
-target_link_libraries(EquinoxMod PUBLIC GMF Stdm)
+target_include_directories(Eqx_Lib PUBLIC include)
+target_compile_features(Eqx_Lib PUBLIC cxx_std_20)
+target_link_libraries(Eqx_Lib PUBLIC Eqx_Std)
 
-set_target_properties(EquinoxMod PROPERTIES
+set_target_properties(Eqx_Lib PROPERTIES
     CXX_STANDARD_REQUIRED On
     CXX_EXTENSIONS Off
     EXPORT_COMPILE_COMMANDS On)
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 else ()
-    target_link_libraries(EquinoxMod PUBLIC HUmacros)
+    target_link_libraries(Eqx_Lib PUBLIC P_EQX_HU_MACROS)
 endif()

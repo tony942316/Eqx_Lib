@@ -17,21 +17,15 @@
 
 cmake_minimum_required(VERSION 3.28)
 
-project(Equinox
+project(Eqx_Lib
     VERSION 1.2.0
     DESCRIPTION "Drop In C++ Extension"
     LANGUAGES CXX)
 
-#target_compile_options(GMF INTERFACE -stdlib=libc++)
-#target_link_options(GMF INTERFACE -stdlib=libc++)
-
-add_subdirectory(Dependencies/Stdm)
-include(Dependencies/EQX-CMakeInterfaces/Interfaces.cmake)
-
-add_subdirectory(EquinoxMod)
-#add_subdirectory(EquinoxHol/include/Equinox)
+add_subdirectory(Dependencies/)
+add_subdirectory(Lib/include/Eqx/Lib/)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(ProvingGrounds)
+    add_subdirectory(ProvingGrounds/)
     #add_subdirectory(Transmutator)
 endif()

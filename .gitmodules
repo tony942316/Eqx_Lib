@@ -2,6 +2,7 @@
 	path = Dependencies/EQX-CMakeInterfaces
 	url = https://github.com/tony942316/EQX-CMakeInterfaces.git
 	branch = main
-[submodule "Dependencies/Stdm"]
-	path = Dependencies/Stdm
-	url = https://github.com/tony942316/Stdm.git
+[submodule "Dependencies/Eqx_Std"]
+	path = Dependencies/Eqx_Std
+	url = https://github.com/tony942316/Eqx_Std.git
+	branch = main

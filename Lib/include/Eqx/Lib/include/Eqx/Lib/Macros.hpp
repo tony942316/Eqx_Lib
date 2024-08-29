@@ -15,8 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef EQUINOX_MACROS_HPP
-#define EQUINOX_MACROS_HPP
+#ifndef EQX_LIB_MACROS_HPP
+#define EQX_LIB_MACROS_HPP
 
 #ifdef EQX_NO_ASSERTS
 #define ENSURE_HARD(...) noOp();
@@ -48,4 +48,4 @@
 #define EQX_MSVC true
 #endif
 
-#endif // EQUINOX_MACROS_HPP
+#endif // EQX_LIB_MACROS_HPP
