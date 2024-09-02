@@ -143,11 +143,9 @@ namespace eqx
 
         inet_pton(AF_INET, std::ranges::data(ip), &server_address.sin_addr);
 
-        // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
         auto error_code = ::connect(m_Socket,
-            reinterpret_cast<sockaddr*>(&server_address),
+            std::bit_cast<sockaddr*>(&server_address),
             sizeof(server_address));
-        // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 
         eqx::ENSURE_HARD(error_code != SOCKET_ERROR,
             "Connection Error!"sv);
@@ -158,13 +156,11 @@ namespace eqx
     {
         static auto enable = 1;
 #if EQX_LINUX
-        // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
         auto error_code = ::setsockopt(m_Socket, SOL_SOCKET, SO_REUSEADDR,
-            reinterpret_cast<void*>(&enable), sizeof(enable));
-        // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+            std::bit_cast<void*>(&enable), sizeof(enable));
 #elif EQX_WINDOWS
         auto error_code = ::setsockopt(m_Socket, SOL_SOCKET, SO_REUSEADDR,
-            reinterpret_cast<const char*>(&enable), sizeof(enable));
+            std::bit_cast<const char*>(&enable), sizeof(enable));
 #endif
         eqx::ENSURE_HARD(error_code == 0, "Error Setting Socket Option!"sv);
 
@@ -172,11 +168,9 @@ namespace eqx
         server_address.sin_family = AF_INET;
         server_address.sin_addr.s_addr = INADDR_ANY;
         server_address.sin_port = htons(port);
-        // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
         error_code = ::bind(m_Socket,
-            reinterpret_cast<sockaddr*>(&server_address),
+            std::bit_cast<sockaddr*>(&server_address),
             sizeof(server_address));
-        // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
         eqx::ENSURE_HARD(error_code != -1, "Error Binding Socket!"sv);
 
         error_code = ::listen(m_Socket, listenCount);
@@ -187,10 +181,8 @@ namespace eqx
     {
         auto client_address = sockaddr_in();
         socklen_t client_address_size = sizeof(client_address);
-        // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
         auto client_socket = ::accept(m_Socket,
-            reinterpret_cast<sockaddr*>(&client_address), &client_address_size);
-        // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+            std::bit_cast<sockaddr*>(&client_address), &client_address_size);
         eqx::ENSURE_HARD(client_socket != -1, "Error Accepting Connection!"sv);
 
         return Socket{client_socket};
