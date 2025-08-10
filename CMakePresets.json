@@ -1,0 +1,349 @@
+{
+    "version": 8,
+
+    "configurePresets":
+    [
+        {
+            "name": "common",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables":
+            {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo;MinSizeRel"
+            }
+        },
+        {
+            "name": "gcc-14",
+            "displayName": "GCC 14",
+            "inherits": [ "common" ],
+            "cacheVariables":
+            {
+                "CMAKE_CXX_COMPILER": "g++-14"
+            }
+        },
+        {
+            "name": "clang-18",
+            "displayName": "Clang 18",
+            "inherits": [ "common" ],
+            "cacheVariables":
+            {
+                "CMAKE_CXX_COMPILER": "clang++-18"
+            }
+        },
+        {
+            "name": "cl",
+            "displayName": "MSVC",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables":
+            {
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release;RelWithDebInfo;MinSizeRel"
+            }
+        }
+    ],
+
+    "buildPresets":
+    [
+        {
+            "name": "common-gcc-14",
+            "hidden": true,
+            "configurePreset": "gcc-14",
+            "jobs": 0
+        },
+        {
+            "name": "common-clang-18",
+            "hidden": true,
+            "configurePreset": "clang-18",
+            "jobs": 0
+        },
+        {
+            "name": "common-cl",
+            "hidden": true,
+            "configurePreset": "cl",
+            "jobs": 0
+        },
+        {
+            "name": "gcc-14-debug",
+            "inherits": [ "common-gcc-14" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "gcc-14-release",
+            "inherits": [ "common-gcc-14" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "gcc-14-relwithdebinfo",
+            "inherits": [ "common-gcc-14" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "gcc-14-minsizerel",
+            "inherits": [ "common-gcc-14" ],
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "clang-18-debug",
+            "inherits": [ "common-clang-18" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "clang-18-release",
+            "inherits": [ "common-clang-18" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "clang-18-relwithdebinfo",
+            "inherits": [ "common-clang-18" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "clang-18-minsizerel",
+            "inherits": [ "common-clang-18" ],
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "cl-debug",
+            "inherits": [ "common-cl" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "cl-release",
+            "inherits": [ "common-cl" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "cl-relwithdebinfo",
+            "inherits": [ "common-cl" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "cl-minsizerel",
+            "inherits": [ "common-cl" ],
+            "configuration": "MinSizeRel"
+        }
+    ],
+
+    "testPresets":
+    [
+        {
+            "name": "common",
+            "hidden": true,
+            "output":
+            {
+                "outputOnFailure": true
+            },
+            "execution":
+            {
+                "jobs": 0,
+                "stopOnFailure": true
+            }
+        },
+        {
+            "name": "gcc-14",
+            "hidden": true,
+            "configurePreset": "gcc-14"
+        },
+        {
+            "name": "clang-18",
+            "hidden": true,
+            "configurePreset": "clang-18"
+        },
+        {
+            "name": "cl",
+            "hidden": true,
+            "configurePreset": "cl"
+        },
+        {
+            "name": "gcc-14-debug",
+            "inherits": [ "common", "gcc-14" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "gcc-14-release",
+            "inherits": [ "common", "gcc-14" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "gcc-14-relwithdebinfo",
+            "inherits": [ "common", "gcc-14" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "gcc-14-minsizerel",
+            "inherits": [ "common", "gcc-14" ],
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "clang-18-debug",
+            "inherits": [ "common", "clang-18" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "clang-18-release",
+            "inherits": [ "common", "clang-18" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "clang-18-relwithdebinfo",
+            "inherits": [ "common", "clang-18" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "clang-18-minsizerel",
+            "inherits": [ "common", "clang-18" ],
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "cl-debug",
+            "inherits": [ "common", "cl" ],
+            "configuration": "Debug"
+        },
+        {
+            "name": "cl-release",
+            "inherits": [ "common", "cl" ],
+            "configuration": "Release"
+        },
+        {
+            "name": "cl-relwithdebinfo",
+            "inherits": [ "common", "cl" ],
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "cl-minsizerel",
+            "inherits": [ "common", "cl" ],
+            "configuration": "MinSizeRel"
+        }
+
+    ],
+
+    "workflowPresets":
+    [
+        {
+            "name": "gcc-14",
+            "steps":
+            [
+                {
+                    "type": "configure",
+                    "name": "gcc-14"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-14-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-14-release"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-14-relwithdebinfo"
+                },
+                {
+                    "type": "build",
+                    "name": "gcc-14-minsizerel"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-14-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-14-release"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-14-relwithdebinfo"
+                },
+                {
+                    "type": "test",
+                    "name": "gcc-14-minsizerel"
+                }
+            ]
+        },
+        {
+            "name": "clang-18",
+            "steps":
+            [
+                {
+                    "type": "configure",
+                    "name": "clang-18"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-18-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-18-release"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-18-relwithdebinfo"
+                },
+                {
+                    "type": "build",
+                    "name": "clang-18-minsizerel"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-18-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-18-release"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-18-relwithdebinfo"
+                },
+                {
+                    "type": "test",
+                    "name": "clang-18-minsizerel"
+                }
+            ]
+        },
+        {
+            "name": "cl",
+            "steps":
+            [
+                {
+                    "type": "configure",
+                    "name": "cl"
+                },
+                {
+                    "type": "build",
+                    "name": "cl-debug"
+                },
+                {
+                    "type": "build",
+                    "name": "cl-release"
+                },
+                {
+                    "type": "build",
+                    "name": "cl-relwithdebinfo"
+                },
+                {
+                    "type": "build",
+                    "name": "cl-minsizerel"
+                },
+                {
+                    "type": "test",
+                    "name": "cl-debug"
+                },
+                {
+                    "type": "test",
+                    "name": "cl-release"
+                },
+                {
+                    "type": "test",
+                    "name": "cl-relwithdebinfo"
+                },
+                {
+                    "type": "test",
+                    "name": "cl-minsizerel"
+                }
+            ]
+        }
+    ]
+}

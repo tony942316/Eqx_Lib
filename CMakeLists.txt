@@ -1,31 +1,23 @@
-#
-# Copyright (C) 2024 Anthony H. Grasso
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-#
-
 cmake_minimum_required(VERSION 3.28)
 
 project(Eqx_Lib
-    VERSION 1.2.0
+    VERSION 2.0.0.0
     DESCRIPTION "Drop In C++ Extension"
+    HOMEPAGE_URL "https://github.com/tony942316/Eqx_Lib"
     LANGUAGES CXX)
 
-add_subdirectory(Dependencies/)
-add_subdirectory(Lib/include/Eqx/Lib/)
+include(FetchContent)
+
+FetchContent_Declare(
+    Eqx_Std
+    GIT_REPOSITORY https://github.com/tony942316/Eqx_Std.git
+    GIT_TAG main)
+
+FetchContent_MakeAvailable(Eqx_Std)
+
+add_subdirectory(Lib/)
 
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    add_subdirectory(ProvingGrounds/)
-    #add_subdirectory(Transmutator)
+    enable_testing()
+    add_subdirectory(Tests/)
 endif()

@@ -1,5 +1,1 @@
-out/
-.cache/
-Log.txt
-TestOutputFile.txt
-compile_commands.json
+build/
