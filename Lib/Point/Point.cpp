@@ -90,9 +90,11 @@ export namespace eqx::lib
             this->set_y(y);
         }
 
-        [[nodiscard]] constexpr std::string to_string() const noexcept
+        [[nodiscard]] inline std::string to_string() const noexcept
         {
-            return std::format("({}, {})"sv, this->get_x(), this->get_y());
+
+            return std::format("({:.4f}, {:.4f})"sv, this->get_x(),
+                this->get_y());
         }
 
         [[nodiscard]] static consteval PointF origin() noexcept

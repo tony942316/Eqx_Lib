@@ -63,6 +63,13 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         std::sin(1.0F), eqx::lib::Math::sin(1.0F),
         eqx::lib::CT_Math::sin(1.0F));
 
+    if (eqx::lib::PointF::origin().to_string() != "(0.0000, 0.0000)"s)
+    {
+        std::format_to(std::ostreambuf_iterator<char>(std::cout),
+            "OriginF = {}\n"sv, eqx::lib::PointF::origin().to_string());
+        return EXIT_FAILURE;
+    }
+
     std::format_to(std::ostreambuf_iterator<char>(std::cout), "\nEnd\n"sv);
     return EXIT_SUCCESS;
 }

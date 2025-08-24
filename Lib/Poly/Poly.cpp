@@ -85,7 +85,7 @@ export namespace eqx::lib
             return S;
         }
 
-        [[nodiscard]] constexpr std::string to_string() const noexcept
+        [[nodiscard]] inline std::string to_string() const noexcept
         {
             auto result = ""s;
             result.reserve(S * 15);
