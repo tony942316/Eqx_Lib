@@ -17,28 +17,60 @@ export namespace eqx::lib
         ~Math() = delete;
 
         template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr T to_radians(const T x) noexcept
+        {
+            return x * (std::numbers::pi_v<T> / T{180.0});
+        }
+
+        template <typename T>
+            requires std::integral<T>
+        [[nodiscard]] static constexpr double to_radians(const T x) noexcept
+        {
+            return to_radians(static_cast<double>(x));
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
         [[nodiscard]] static constexpr
             std::conditional_t<std::integral<T>, double, T> sqrt(
             const T x) noexcept
         {
             if (std::is_constant_evaluated())
             {
-                eqx::lib::CT_Math::sqrt<T>(x);
+                return eqx::lib::CT_Math::sqrt<T>(x);
             }
             else
             {
-                assert(x > -1 && "Can't take negative sqrt!");
+                assert(x >= T{0} && "Can't take negative sqrt!");
                 return std::sqrt(x);
             }
         }
 
         template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr float sqrtf(const T x) noexcept
+        {
+            if (std::is_constant_evaluated())
+            {
+                return eqx::lib::CT_Math::sqrtf<T>(x);
+            }
+            else
+            {
+                assert(x >= T{0} && "Can't take negative sqrt!");
+                return std::sqrtf(x);
+            }
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
         [[nodiscard]] static constexpr T hypot2(const T x, const T y) noexcept
         {
             return (x * x) + (y * y);
         }
 
         template <typename T>
+            requires std::is_arithmetic_v<T>
         [[nodiscard]] static constexpr
             std::conditional_t<std::integral<T>, double, T> hypot(const T x,
             const T y) noexcept
@@ -50,6 +82,38 @@ export namespace eqx::lib
             else
             {
                 return std::hypot(x, y);
+            }
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr
+            std::conditional_t<std::integral<T>, double, T> sin(
+            const T x) noexcept
+        {
+            if (std::is_constant_evaluated())
+            {
+                return eqx::lib::CT_Math::sin<T>(x);
+            }
+            else
+            {
+                return std::sin(x);
+            }
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr
+            std::conditional_t<std::integral<T>, double, T> cos(
+            const T x) noexcept
+        {
+            if (std::is_constant_evaluated())
+            {
+                return eqx::lib::CT_Math::cos<T>(x);
+            }
+            else
+            {
+                return std::cos(x);
             }
         }
     };

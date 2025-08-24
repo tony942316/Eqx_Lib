@@ -7,64 +7,84 @@ using namespace std::literals;
 
 export namespace eqx::lib
 {
-    template <typename T>
-    class Point
+    class PointF
     {
     public:
-        Point() = default;
-        Point(const Point&) = default;
-        Point(Point&&) = default;
-        Point& operator= (const Point&) = default;
-        Point& operator= (Point&&) = default;
-        ~Point() = default;
+        PointF() = default;
+        PointF(const PointF&) = default;
+        PointF(PointF&&) = default;
+        PointF& operator= (const PointF&) = default;
+        PointF& operator= (PointF&&) = default;
+        ~PointF() = default;
 
-        explicit constexpr Point(const T x, const T y) noexcept
+        explicit constexpr PointF(const float x, const float y) noexcept
             :
             m_x(x),
             m_y(y)
         {
         }
 
-        constexpr void trans(const Point<T>& p) noexcept
+        [[nodiscard]] constexpr PointF operator-() const noexcept
+        {
+            return PointF{ -this->get_x(), -this->get_y() };
+        }
+
+        constexpr void trans(const PointF& p) noexcept
         {
             this->set_xy(this->get_x() + p.get_x(), this->get_y() + p.get_y());
         }
 
-        [[nodiscard]] constexpr T dist(const Point<T>& p) const noexcept
+        constexpr void rot(const float rad,
+            const PointF& pivot = PointF::origin()) noexcept
         {
-            return eqx::lib::Math::hypot<T>(
+            this->rot(eqx::lib::Math::sin(rad), eqx::lib::Math::cos(rad),
+                pivot);
+        }
+
+        constexpr void rot(const float s, const float c,
+            const PointF& pivot = PointF::origin()) noexcept
+        {
+            this->trans(-pivot);
+            this->set_xy(c * this->get_x() - s * this->get_y(),
+                s * this->get_x() + c * this->get_y());
+            this->trans(pivot);
+        }
+
+        [[nodiscard]] constexpr float dist(const PointF& p) const noexcept
+        {
+            return eqx::lib::Math::hypot(
                 p.get_x() - this->get_x(),
                 p.get_y() - this->get_y());
         }
 
-        [[nodiscard]] constexpr T dist2(const Point<T>& p) const noexcept
+        [[nodiscard]] constexpr float dist2(const PointF& p) const noexcept
         {
-            return eqx::lib::Math::hypot2<T>(
+            return eqx::lib::Math::hypot2(
                 p.get_x() - this->get_x(),
                 p.get_y() - this->get_y());
         }
 
-        [[nodiscard]] constexpr T get_x() const noexcept
+        [[nodiscard]] constexpr float get_x() const noexcept
         {
-            return m_x;
+            return this->m_x;
         }
 
-        [[nodiscard]] constexpr T get_y() const noexcept
+        [[nodiscard]] constexpr float get_y() const noexcept
         {
-            return m_y;
+            return this->m_y;
         }
 
-        constexpr void set_x(const T x) noexcept
+        constexpr void set_x(const float x) noexcept
         {
-            m_x = x;
+            this->m_x = x;
         }
 
-        constexpr void set_y(const T y) noexcept
+        constexpr void set_y(const float y) noexcept
         {
-            m_y = y;
+            this->m_y = y;
         }
 
-        constexpr void set_xy(const T x, const T y) noexcept
+        constexpr void set_xy(const float x, const float y) noexcept
         {
             this->set_x(x);
             this->set_y(y);
@@ -75,8 +95,12 @@ export namespace eqx::lib
             return std::format("({}, {})"sv, this->get_x(), this->get_y());
         }
 
+        [[nodiscard]] static consteval PointF origin() noexcept
+        {
+            return PointF{ 0.0F, 0.0F };
+        }
+
     private:
-        T m_x;
-        T m_y;
+        float m_x, m_y;
     };
 }

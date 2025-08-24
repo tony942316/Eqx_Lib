@@ -7,71 +7,80 @@ using namespace std::literals;
 
 export namespace eqx::lib
 {
-    template <typename T, std::size_t S>
-    class Poly
+    template <std::size_t S>
+    class PolyF
     {
     public:
-        Poly() = default;
-        Poly(const Poly&) = default;
-        Poly(Poly&&) = default;
-        Poly& operator= (const Poly&) = default;
-        Poly& operator= (Poly&&) = default;
-        ~Poly() = default;
+        PolyF() = default;
+        PolyF(const PolyF&) = default;
+        PolyF(PolyF&&) = default;
+        PolyF& operator= (const PolyF&) = default;
+        PolyF& operator= (PolyF&&) = default;
+        ~PolyF() = default;
 
-        explicit constexpr Poly(
-            std::initializer_list<eqx::lib::Point<T>>&& ps) noexcept
+        explicit constexpr PolyF(
+            std::initializer_list<eqx::lib::PointF>&& ps) noexcept
             :
             m_data()
         {
+            assert(ps.size() == S);
             std::ranges::copy(ps, std::ranges::begin(m_data));
         }
 
-        template <std::size_t S2>
-        [[nodiscard]] constexpr bool aabb(const Poly<T, S2>& p) const noexcept
+        [[nodiscard]] constexpr
+            std::pair<eqx::lib::PointF, eqx::lib::PointF>
+            bounding_box() const noexcept
         {
-            auto maxx1 = T{0};
-            auto maxy1 = T{0};
-            auto minx1 = std::numeric_limits<T>::max();
-            auto miny1 = std::numeric_limits<T>::max();
+            const auto [minx, maxx] = std::ranges::minmax(this->get_data(), {},
+                &eqx::lib::PointF::get_x);
+            const auto [miny, maxy] = std::ranges::minmax(this->get_data(), {},
+                &eqx::lib::PointF::get_y);
 
-            std::ranges::for_each(this->m_data,
-                [&maxx1, &maxy1, &minx1, &miny1]
-                (const eqx::lib::Point<T>& p) noexcept -> void
-                {
-                    maxx1 = std::ranges::max(maxx1, p.get_x());
-                    maxy1 = std::ranges::max(maxy1, p.get_y());
-                    minx1 = std::ranges::min(minx1, p.get_x());
-                    miny1 = std::ranges::min(miny1, p.get_y());
-                });
-
-            auto maxx2 = T{0};
-            auto maxy2 = T{0};
-            auto minx2 = std::numeric_limits<T>::max();
-            auto miny2 = std::numeric_limits<T>::max();
-
-            std::ranges::for_each(p.m_data,
-                [&maxx2, &maxy2, &minx2, &miny2]
-                (const eqx::lib::Point<T>& p) noexcept -> void
-                {
-                    maxx2 = std::ranges::max(maxx2, p.get_x());
-                    maxy2 = std::ranges::max(maxy2, p.get_y());
-                    minx2 = std::ranges::min(minx2, p.get_x());
-                    miny2 = std::ranges::min(miny2, p.get_y());
-                });
-
-            return !(maxx1 < minx2 || maxx2 < minx1 || maxy1 < miny2 || maxy2 < miny1);
+            return std::pair<eqx::lib::PointF, eqx::lib::PointF>{
+                eqx::lib::PointF{ minx.get_x(), miny.get_y() },
+                eqx::lib::PointF{ maxx.get_x(), maxy.get_y() }};
         }
 
-        constexpr void trans(const eqx::lib::Point<T>& p) noexcept
+        [[nodiscard]] constexpr eqx::lib::PointF center() const noexcept
         {
-            std::ranges::for_each(m_data, [&p]
-                (const eqx::lib::Point<T>& val) noexcept -> void
+            const auto [min, max] = this->bounding_box();
+            return eqx::lib::PointF{
+                std::midpoint(min.get_x(), max.get_x()),
+                std::midpoint(min.get_y(), max.get_y()) };
+        }
+
+        template <std::size_t S2>
+        [[nodiscard]] constexpr bool aabb(const PolyF<S2>& p) const noexcept
+        {
+            const auto [min1, max1] = this->bounding_box();
+            const auto [min2, max2] = p.bounding_box();
+
+            return !(max1.get_x() < min2.get_x()
+                || max2.get_x() < min1.get_x()
+                || max1.get_y() < min2.get_y()
+                || max2.get_y() < min1.get_y());
+        }
+
+        constexpr void trans(const eqx::lib::PointF& p) noexcept
+        {
+            std::ranges::for_each(this->get_data(), [p]
+                (eqx::lib::PointF& val) constexpr noexcept -> void
                 {
                     val.trans(p);
                 });
         }
 
-        [[nodiscard]] constexpr std::size_t size() const noexcept
+        constexpr void rot(const float deg) noexcept
+        {
+            std::ranges::for_each(this->get_data(),
+                [deg, pivot = this->center()]
+                (eqx::lib::PointF& val) constexpr noexcept -> void
+                {
+                    val.rot(deg, pivot);
+                });
+        }
+
+        [[nodiscard]] consteval std::size_t size() const noexcept
         {
             return S;
         }
@@ -80,8 +89,8 @@ export namespace eqx::lib
         {
             auto result = ""s;
             result.reserve(S * 15);
-            std::ranges::for_each(m_data, [&result]
-                (const eqx::lib::Point<T>& p) noexcept -> void
+            std::ranges::for_each(this->get_data(), [&result]
+                (const eqx::lib::PointF& p) noexcept -> void
                 {
                     result += p.to_string();
                     result += '\n';
@@ -90,7 +99,13 @@ export namespace eqx::lib
             return result;
         }
 
-        std::array<eqx::lib::Point<T>, S> m_data;
+        [[nodiscard]] constexpr std::span<const eqx::lib::PointF, S>
+            get_data() const noexcept
+        {
+            return this->m_data;
+        }
+
     private:
+        std::array<eqx::lib::PointF, S> m_data;
     };
 }
