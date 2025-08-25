@@ -61,6 +61,11 @@ export namespace eqx::lib
                 || max2.get_y() < min1.get_y());
         }
 
+        constexpr void move(const eqx::lib::PointF& p) noexcept
+        {
+            this->trans(p - this->center());
+        }
+
         constexpr void trans(const eqx::lib::PointF& p) noexcept
         {
             std::ranges::for_each(this->get_data(), [p]

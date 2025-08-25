@@ -24,9 +24,42 @@ export namespace eqx::lib
         {
         }
 
-        [[nodiscard]] constexpr PointF operator-() const noexcept
+        [[nodiscard]] constexpr PointF operator+ () const noexcept
+        {
+            return *this;
+        }
+
+        [[nodiscard]] constexpr PointF operator- () const noexcept
         {
             return PointF{ -this->get_x(), -this->get_y() };
+        }
+
+        [[nodiscard]] constexpr PointF
+            operator+ (const PointF& p) const noexcept
+        {
+            return PointF{ this->get_x() + p.get_x(),
+                this->get_y() + p.get_y() };
+        }
+
+        [[nodiscard]] constexpr PointF
+            operator- (const PointF& p) const noexcept
+        {
+            return *this + -p;
+        }
+
+        [[nodiscard]] constexpr PointF operator* (const float x) const noexcept
+        {
+            return PointF{ this->get_x() * x, this->get_y() * x };
+        }
+
+        [[nodiscard]] constexpr PointF operator/ (const float x) const noexcept
+        {
+            return *this * (1.0F / x);
+        }
+
+        constexpr void neg() noexcept
+        {
+            this->set_xy(-this->get_x(), -this->get_y());
         }
 
         constexpr void trans(const PointF& p) noexcept
@@ -50,11 +83,26 @@ export namespace eqx::lib
             this->trans(pivot);
         }
 
+        constexpr void scale(const float x) noexcept
+        {
+            this->set_xy(this->get_x() * x, this->get_y() * x);
+        }
+
+        constexpr void norm() noexcept
+        {
+            this->scale(1.0F / this->dist());
+        }
+
         [[nodiscard]] constexpr float dist(const PointF& p) const noexcept
         {
             return eqx::lib::Math::hypot(
                 p.get_x() - this->get_x(),
                 p.get_y() - this->get_y());
+        }
+
+        [[nodiscard]] constexpr float dist() const noexcept
+        {
+            return eqx::lib::Math::hypot(this->get_x(), this->get_y());
         }
 
         [[nodiscard]] constexpr float dist2(const PointF& p) const noexcept
