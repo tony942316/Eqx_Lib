@@ -18,6 +18,22 @@ export namespace eqx::lib
 
         template <typename T>
             requires std::floating_point<T>
+        [[nodiscard]] static constexpr bool approx(const T x,
+            const T y) noexcept
+        {
+            return approx(x, y, static_cast<T>(0.0001L));
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr bool approx(const T x, const T y,
+            const T e) noexcept
+        {
+            return (x + e > y) && (x - e < y);
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
         [[nodiscard]] static constexpr T to_radians(const T x) noexcept
         {
             return x * (std::numbers::pi_v<T> / T{180.0});
