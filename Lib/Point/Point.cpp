@@ -112,6 +112,11 @@ export namespace eqx::lib
                 p.get_y() - this->get_y());
         }
 
+        [[nodiscard]] constexpr float dist2() const noexcept
+        {
+            return eqx::lib::Math::hypot2(this->get_x(), this->get_y());
+        }
+
         [[nodiscard]] constexpr float get_x() const noexcept
         {
             return this->m_x;
