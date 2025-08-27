@@ -52,6 +52,16 @@ export namespace eqx::lib
             return PointF{ this->get_x() * x, this->get_y() * x };
         }
 
+        [[nodiscard]] constexpr float operator* (const PointF& p) const noexcept
+        {
+            return this->get_x() * p.get_x() + this->get_y() * p.get_y();
+        }
+
+        [[nodiscard]] constexpr float operator^ (const PointF& p) const noexcept
+        {
+            return this->get_x() * p.get_y() - this->get_y() * p.get_x();
+        }
+
         [[nodiscard]] constexpr PointF operator/ (const float x) const noexcept
         {
             return *this * (1.0F / x);
@@ -91,6 +101,16 @@ export namespace eqx::lib
         constexpr void norm() noexcept
         {
             this->scale(1.0F / this->dist());
+        }
+
+        [[nodiscard]] constexpr float dot(const PointF& p) const noexcept
+        {
+            return *this * p;
+        }
+
+        [[nodiscard]] constexpr float cross(const PointF& p) const noexcept
+        {
+            return *this ^ p;
         }
 
         [[nodiscard]] constexpr float dist(const PointF& p) const noexcept
