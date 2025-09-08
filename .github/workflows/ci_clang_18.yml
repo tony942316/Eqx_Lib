@@ -1,0 +1,21 @@
+name: Clang++-18
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build gcc-14 clang++-18 clang-tidy-18
+
+      - name: Test-clang-18
+        run: cmake --workflow clang-18
