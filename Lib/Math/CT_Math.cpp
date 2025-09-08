@@ -16,6 +16,13 @@ export namespace eqx::lib
 
         template <typename T>
             requires std::floating_point<T>
+        [[nodiscard]] static constexpr bool signbit(const T x) noexcept
+        {
+            return x < T{ 0 } ? true : false;
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
         [[nodiscard]] static constexpr T sqrt(const T x) noexcept
         {
             assert(x >= T{0.0} && "Can't take negative sqrt!");

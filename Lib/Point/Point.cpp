@@ -1,3 +1,5 @@
+// Point.cpp
+
 export module Eqx.Lib.Point;
 
 import <Eqx/std.hpp>;
@@ -7,50 +9,134 @@ using namespace std::literals;
 
 export namespace eqx::lib
 {
-    class PointF
+    template <typename T>
+        requires std::floating_point<T>
+    class Point
     {
     public:
-        PointF() = default;
-        PointF(const PointF&) = default;
-        PointF(PointF&&) = default;
-        PointF& operator= (const PointF&) = default;
-        PointF& operator= (PointF&&) = default;
-        ~PointF() = default;
+        Point() = default;
+        Point(const Point&) = default;
+        Point(Point&&) = default;
+        Point& operator= (const Point&) = default;
+        Point& operator= (Point&&) = default;
+        ~Point() = default;
 
-        explicit constexpr PointF(const float x, const float y) noexcept
+        explicit constexpr Point(const T x, const T y) noexcept
             :
             m_x(x),
             m_y(y)
         {
         }
 
-        [[nodiscard]] constexpr PointF operator+ () const noexcept
+        constexpr void inplace_negate() noexcept
         {
-            return *this;
+            this->set_xy(-this->get_x(), -this->get_y());
         }
 
-        [[nodiscard]] constexpr PointF operator- () const noexcept
+        [[nodiscard]] constexpr Point<T> generate_negate() const noexcept
         {
-            return PointF{ -this->get_x(), -this->get_y() };
+            return Point<T>{ -this->get_x(), -this->get_y() };
         }
 
-        [[nodiscard]] constexpr PointF
-            operator+ (const PointF& p) const noexcept
+        constexpr void inplace_translate(const Point<T>& point) noexcept
         {
-            return PointF{ this->get_x() + p.get_x(),
-                this->get_y() + p.get_y() };
+            this->set_xy(this->get_x() + point.get_x(),
+                this->get_y() + point.get_y());
         }
 
-        [[nodiscard]] constexpr PointF
-            operator- (const PointF& p) const noexcept
+        [[nodiscard]] constexpr Point<T> generate_translate(
+            const Point<T>& point) const noexcept
         {
-            return *this + -p;
+            return Point<T>{ this->get_x() + point.get_x(),
+                this->get_y() + point.get_y() };
         }
 
-        [[nodiscard]] constexpr PointF operator* (const float x) const noexcept
+        constexpr void inplace_rotate(const T radian) noexcept
         {
-            return PointF{ this->get_x() * x, this->get_y() * x };
+            this->rot(eqx::lib::Math::sin(radian),
+                eqx::lib::Math::cos(radian));
         }
+
+        constexpr void inplace_rotate(const T radian,
+            const Point<T>& pivot) noexcept
+        {
+            this->rot(eqx::lib::Math::sin(radian), eqx::lib::Math::cos(radian),
+                pivot);
+        }
+
+        constexpr void inplace_rotate(const T sin_val, const T cos_val) noexcept
+        {
+            this->set_xy(cos_val * this->get_x() - sin_val * this->get_y(),
+                sin_val * this->get_x() + cos_val * this->get_y());
+        }
+
+        constexpr void inplace_rotate(const T sin_val, const T cos_val,
+            const Point<T>& pivot) noexcept
+        {
+            this->trans(pivot.generate_negate());
+            this->set_xy(cos_val * this->get_x() - sin_val * this->get_y(),
+                sin_val * this->get_x() + cos_val * this->get_y());
+            this->trans(pivot);
+        }
+
+        constexpr void inplace_scale(const T scaler) noexcept
+        {
+            this->set_xy(this->get_x() * scaler, this->get_y() * scaler);
+        }
+
+        [[nodiscard]] constexpr Point<T> generate_scale(
+            const T scaler) const noexcept
+        {
+            return Point<T>{ this->get_x() * scaler, this->get_y() * scaler };
+        }
+
+        [[nodiscard]] constexpr 
+
+        constexpr void set_x(const T x) noexcept
+        {
+            this->m_x = x;
+        }
+
+        constexpr void set_y(const T y) noexcept
+        {
+            this->m_y = y;
+        }
+
+        constexpr void set_xy(const T x, const T y) noexcept
+        {
+            this->set_x(x);
+            this->set_y(y);
+        }
+
+        [[nodiscard]] constexpr T get_x() const noexcept
+        {
+            return this->m_x;
+        }
+
+        [[nodiscard]] constexpr T get_y() const noexcept
+        {
+            return this->m_y;
+        }
+
+        [[nodiscard]] inline std::string to_string() const noexcept
+        {
+            return std::format("({:.4f}, {:.4f})"sv, this->get_x(),
+                this->get_y());
+        }
+
+        [[nodiscard]] static consteval Point<T> origin() noexcept
+        {
+            return Point<T>{ T{ 0 }, T{ 0 } };
+        }
+
+    private:
+        T m_x;
+        T m_y;
+    }
+
+    class PointF
+    {
+    public:
 
         [[nodiscard]] constexpr float operator* (const PointF& p) const noexcept
         {
@@ -62,45 +148,25 @@ export namespace eqx::lib
             return this->get_x() * p.get_y() - this->get_y() * p.get_x();
         }
 
-        [[nodiscard]] constexpr PointF operator/ (const float x) const noexcept
+        [[nodiscard]] constexpr PointF
+            operator>> (const PointF& p) const noexcept
         {
-            return *this * (1.0F / x);
-        }
-
-        constexpr void neg() noexcept
-        {
-            this->set_xy(-this->get_x(), -this->get_y());
-        }
-
-        constexpr void trans(const PointF& p) noexcept
-        {
-            this->set_xy(this->get_x() + p.get_x(), this->get_y() + p.get_y());
-        }
-
-        constexpr void rot(const float rad,
-            const PointF& pivot = PointF::origin()) noexcept
-        {
-            this->rot(eqx::lib::Math::sin(rad), eqx::lib::Math::cos(rad),
-                pivot);
-        }
-
-        constexpr void rot(const float s, const float c,
-            const PointF& pivot = PointF::origin()) noexcept
-        {
-            this->trans(-pivot);
-            this->set_xy(c * this->get_x() - s * this->get_y(),
-                s * this->get_x() + c * this->get_y());
-            this->trans(pivot);
-        }
-
-        constexpr void scale(const float x) noexcept
-        {
-            this->set_xy(this->get_x() * x, this->get_y() * x);
+            return (*this * p) / p.mag2()
         }
 
         constexpr void norm() noexcept
         {
             this->scale(1.0F / this->dist());
+        }
+
+        constexpr void proj(const PointF& p) noexcept
+        {
+            *this = p * (this->dot(p) / p.mag2());
+        }
+
+        [[nodiscard]] constexpr float sproj(const PointF& p) noexcept
+        {
+            return this->dot(p) / p.mag2();
         }
 
         [[nodiscard]] constexpr float dot(const PointF& p) const noexcept
@@ -120,7 +186,7 @@ export namespace eqx::lib
                 p.get_y() - this->get_y());
         }
 
-        [[nodiscard]] constexpr float dist() const noexcept
+        [[nodiscard]] constexpr float mag() const noexcept
         {
             return eqx::lib::Math::hypot(this->get_x(), this->get_y());
         }
@@ -132,47 +198,9 @@ export namespace eqx::lib
                 p.get_y() - this->get_y());
         }
 
-        [[nodiscard]] constexpr float dist2() const noexcept
+        [[nodiscard]] constexpr float mag2() const noexcept
         {
             return eqx::lib::Math::hypot2(this->get_x(), this->get_y());
-        }
-
-        [[nodiscard]] constexpr float get_x() const noexcept
-        {
-            return this->m_x;
-        }
-
-        [[nodiscard]] constexpr float get_y() const noexcept
-        {
-            return this->m_y;
-        }
-
-        constexpr void set_x(const float x) noexcept
-        {
-            this->m_x = x;
-        }
-
-        constexpr void set_y(const float y) noexcept
-        {
-            this->m_y = y;
-        }
-
-        constexpr void set_xy(const float x, const float y) noexcept
-        {
-            this->set_x(x);
-            this->set_y(y);
-        }
-
-        [[nodiscard]] inline std::string to_string() const noexcept
-        {
-
-            return std::format("({:.4f}, {:.4f})"sv, this->get_x(),
-                this->get_y());
-        }
-
-        [[nodiscard]] static consteval PointF origin() noexcept
-        {
-            return PointF{ 0.0F, 0.0F };
         }
 
     private:
