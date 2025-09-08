@@ -169,7 +169,9 @@ inline void signbit_fuzz_canonical() noexcept
     auto num = T{ 0 };
     for (auto i = 0; i < 20'000'000; ++i)
     {
-        num = std::generate_canonical<T, 128>(eng);
+        num = std::generate_canonical<T, std::numeric_limits<T>::digits>(eng)
+            + std::numeric_limits<T>::min();
+        ASSERT_NE(num, T{ 0 });
         EXPECT_EQ(eqx::lib::CT_Math::signbit(num), std::signbit(num))
             << "num: " << num;
         EXPECT_EQ(eqx::lib::CT_Math::signbit(-num), std::signbit(-num))
@@ -187,8 +189,8 @@ inline void signbit_fuzz_narrow() noexcept
     auto rd = std::random_device{};
     auto seed = std::seed_seq{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() };
     auto eng = std::mt19937_64{ seed };
-    auto dist =
-        std::uniform_real_distribution<T>{ T{ 0 }, T{ 10'000 } };
+    auto dist = std::uniform_real_distribution<T>{
+        std::numeric_limits<T>::min(), T{ 10'000 } };
 
     auto num = T{ 0 };
     for (auto i = 0; i < 20'000'000; ++i)
@@ -236,7 +238,7 @@ inline void signbit_fuzz_whole() noexcept
     auto seed = std::seed_seq{ rd(), rd(), rd(), rd(), rd(), rd(), rd(), rd() };
     auto eng = std::mt19937_64{ seed };
     auto dist = std::uniform_real_distribution<T>{
-        T{ 0 }, std::numeric_limits<T>::max() };
+        std::numeric_limits<T>::min(), std::numeric_limits<T>::max() };
 
     auto num = T{ 0 };
     for (auto i = 0; i < 20'000'000; ++i)
