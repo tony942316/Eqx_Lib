@@ -1,18 +1,22 @@
-export module Eqx.Lib.CT_Math;
+export module Eqx.Lib.Math;
 
 import <Eqx/std.hpp>;
 
 export namespace eqx::lib
 {
-    class CT_Math
+    class Math
     {
     public:
-        CT_Math() = delete;
-        CT_Math(const CT_Math&) = delete;
-        CT_Math(CT_Math&&) = delete;
-        CT_Math& operator= (const CT_Math&) = delete;
-        CT_Math& operator= (CT_Math&&) = delete;
-        ~CT_Math() = delete;
+        Math() = delete;
+        Math(const Math&) = delete;
+        Math(Math&&) = delete;
+        Math& operator= (const Math&) = delete;
+        Math& operator= (Math&&) = delete;
+        ~Math() = delete;
+
+        template <typename T>
+            requires std::floating_point<T>
+        static inline constexpr auto c_fpt = static_cast<T>(0.001F);
 
         template <typename T>
             requires std::floating_point<T>
@@ -22,24 +26,56 @@ export namespace eqx::lib
         }
 
         template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr T abs(const T x) noexcept
+        {
+            return x < T{ 0 } ? -x : x;
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr bool near(const T x, const T y,
+            const T eps = c_fpt<T>) noexcept
+        {
+            return abs(x - y) <= std::ranges::max(eps,
+                std::ranges::max(abs(x), abs(y)) * static_cast<T>(0.000001F));
+        }
+
+        template <typename T>
             requires std::floating_point<T>
         [[nodiscard]] static constexpr T sqrt(const T x) noexcept
         {
-            assert(x >= T{0.0} && "Can't take negative sqrt!");
+            assert(x >= T{ 0 } && "Can't take negative sqrt!");
 
-            if (T{0.0} < (x + static_cast<T>(0.0001))
-                && T{0.0} > (x - static_cast<T>(0.0001))) [[unlikely]]
+            if (near(x, T{ 0 }, static_cast<T>(1E-20F))) [[unlikely]]
             {
-                return T{0.0};
+                return T{ 0 };
             }
             else [[likely]]
             {
-                auto guess = std::ranges::max(x, T{1.0});
+                auto y = x;
+                auto scale = T{ 1 };
 
-                for (auto i = 0; i < 20; ++i)
-                    guess = T{0.5} * (guess + (x / guess));
+                while (y > T{ 4 })
+                {
+                    y *= static_cast<T>(0.25F);
+                    scale *= T{ 2 };
+                }
 
-                return guess;
+                while (y < static_cast<T>(0.25F))
+                {
+                    y *= T{ 4 };
+                    scale *= static_cast<T>(0.5F);
+                }
+
+                auto guess = T{ 1 };
+
+                for (auto i = 0; i < 4; ++i)
+                {
+                    guess = static_cast<T>(0.5F) * (guess + (y / guess));
+                }
+
+                return guess * scale;
             }
         }
 
