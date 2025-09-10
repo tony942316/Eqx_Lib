@@ -4,7 +4,7 @@ add_library(Eqx_Lib STATIC)
 target_sources(Eqx_Lib PUBLIC
     FILE_SET CXX_MODULES FILES
         #Eqx_Lib.cpp
-        Math/CT_Math.cpp)
+        Math/Math.cpp)
         #Math/Math.cpp
         #Point/Point.cpp
         #Poly/Poly.cpp)
@@ -19,7 +19,7 @@ add_library(Eqx_Lib_Typical STATIC)
 target_sources(Eqx_Lib_Typical PUBLIC
     FILE_SET CXX_MODULES FILES
         #Eqx_Lib.cpp
-        Math/CT_Math.cpp)
+        Math/Math.cpp)
         #Math/Math.cpp
         #Point/Point.cpp
         #Poly/Poly.cpp)

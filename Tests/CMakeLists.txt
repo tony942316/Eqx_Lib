@@ -48,6 +48,6 @@ else()
     message(FATAL_ERROR "Invalid Configuration!")
 endif()
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/CT_Math/)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Math/)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Manual/)
 # add_subdirectory(Point/)
