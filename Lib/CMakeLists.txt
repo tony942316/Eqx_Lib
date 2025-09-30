@@ -4,9 +4,9 @@ add_library(Eqx_Lib STATIC)
 target_sources(Eqx_Lib PUBLIC
     FILE_SET CXX_MODULES FILES
         #Eqx_Lib.cpp
-        Math/Math.cpp)
-        #Math/Math.cpp
-        #Point/Point.cpp
+        Math/CMath.cpp
+        Math/Math.cpp
+        Point/Point.cpp)
         #Poly/Poly.cpp)
 target_compile_features(Eqx_Lib PUBLIC cxx_std_20)
 target_link_libraries(Eqx_Lib PUBLIC Eqx_Std)
@@ -19,9 +19,9 @@ add_library(Eqx_Lib_Typical STATIC)
 target_sources(Eqx_Lib_Typical PUBLIC
     FILE_SET CXX_MODULES FILES
         #Eqx_Lib.cpp
-        Math/Math.cpp)
-        #Math/Math.cpp
-        #Point/Point.cpp
+        Math/CMath.cpp
+        Math/Math.cpp
+        Point/Point.cpp)
         #Poly/Poly.cpp)
 target_compile_features(Eqx_Lib_Typical PUBLIC cxx_std_20)
 target_link_libraries(Eqx_Lib_Typical PUBLIC Eqx_Std_Typical)

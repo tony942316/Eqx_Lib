@@ -49,5 +49,5 @@ else()
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Math/)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Point/)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Manual/)
-# add_subdirectory(Point/)

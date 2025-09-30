@@ -1,50 +1,22 @@
-export module Eqx.Lib.Math;
+// CMath.cpp
+
+export module Eqx.Lib.CMath;
 
 import <Eqx/std.hpp>;
 
-import Eqx.Lib.CT_Math;
+import Eqx.Lib.Math;
 
 export namespace eqx::lib
 {
-    class Math
+    class CMath
     {
     public:
-        Math() = delete;
-        Math(const Math&)= delete;
-        Math(Math&&) = delete;
-        Math& operator= (const Math&) = delete;
-        Math& operator= (Math&&) = delete;
-        ~Math() = delete;
-
-        template <typename T>
-            requires std::floating_point<T>
-        [[nodiscard]] static constexpr bool approx(const T x,
-            const T y) noexcept
-        {
-            return approx(x, y, static_cast<T>(0.0001L));
-        }
-
-        template <typename T>
-            requires std::floating_point<T>
-        [[nodiscard]] static constexpr bool approx(const T x, const T y,
-            const T e) noexcept
-        {
-            return (x + e > y) && (x - e < y);
-        }
-
-        template <typename T>
-            requires std::floating_point<T>
-        [[nodiscard]] static constexpr T to_radians(const T x) noexcept
-        {
-            return x * (std::numbers::pi_v<T> / T{180.0});
-        }
-
-        template <typename T>
-            requires std::integral<T>
-        [[nodiscard]] static constexpr double to_radians(const T x) noexcept
-        {
-            return to_radians(static_cast<double>(x));
-        }
+        CMath() = delete;
+        CMath(const CMath&)= delete;
+        CMath(CMath&&) = delete;
+        CMath& operator= (const CMath&) = delete;
+        CMath& operator= (CMath&&) = delete;
+        ~CMath() = delete;
 
         template <typename T>
             requires std::is_arithmetic_v<T>
@@ -54,11 +26,11 @@ export namespace eqx::lib
         {
             if (std::is_constant_evaluated())
             {
-                return eqx::lib::CT_Math::sqrt<T>(x);
+                return eqx::lib::Math::sqrt<T>(x);
             }
             else
             {
-                assert(x >= T{0} && "Can't take negative sqrt!");
+                assert(x >= T{ 0 } && "Can't take negative sqrt!");
                 return std::sqrt(x);
             }
         }
@@ -69,20 +41,13 @@ export namespace eqx::lib
         {
             if (std::is_constant_evaluated())
             {
-                return eqx::lib::CT_Math::sqrtf<T>(x);
+                return eqx::lib::Math::sqrtf<T>(x);
             }
             else
             {
-                assert(x >= T{0} && "Can't take negative sqrt!");
+                assert(x >= T{ 0 } && "Can't take negative sqrt!");
                 return std::sqrtf(x);
             }
-        }
-
-        template <typename T>
-            requires std::is_arithmetic_v<T>
-        [[nodiscard]] static constexpr T hypot2(const T x, const T y) noexcept
-        {
-            return (x * x) + (y * y);
         }
 
         template <typename T>
@@ -93,7 +58,7 @@ export namespace eqx::lib
         {
             if (std::is_constant_evaluated())
             {
-                return eqx::lib::Math::sqrt<T>(eqx::lib::Math::hypot2<T>(x, y));
+                return eqx::lib::Math::hypot<T>(x, y);
             }
             else
             {
@@ -109,7 +74,7 @@ export namespace eqx::lib
         {
             if (std::is_constant_evaluated())
             {
-                return eqx::lib::CT_Math::sin<T>(x);
+                return eqx::lib::Math::sin<T>(x);
             }
             else
             {
@@ -125,7 +90,7 @@ export namespace eqx::lib
         {
             if (std::is_constant_evaluated())
             {
-                return eqx::lib::CT_Math::cos<T>(x);
+                return eqx::lib::Math::cos<T>(x);
             }
             else
             {

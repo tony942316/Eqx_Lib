@@ -4,6 +4,7 @@ export module Eqx.Lib.Point;
 
 import <Eqx/std.hpp>;
 import Eqx.Lib.Math;
+import Eqx.Lib.CMath;
 
 using namespace std::literals;
 
@@ -28,69 +29,96 @@ export namespace eqx::lib
         {
         }
 
-        constexpr void inplace_negate() noexcept
+        constexpr void negate() noexcept
         {
             this->set_xy(-this->get_x(), -this->get_y());
         }
 
-        [[nodiscard]] constexpr Point<T> generate_negate() const noexcept
-        {
-            return Point<T>{ -this->get_x(), -this->get_y() };
-        }
-
-        constexpr void inplace_translate(const Point<T>& point) noexcept
+        constexpr void translate(const Point<T>& point) noexcept
         {
             this->set_xy(this->get_x() + point.get_x(),
                 this->get_y() + point.get_y());
         }
 
-        [[nodiscard]] constexpr Point<T> generate_translate(
-            const Point<T>& point) const noexcept
+        constexpr void rotate(const T radian) noexcept
         {
-            return Point<T>{ this->get_x() + point.get_x(),
-                this->get_y() + point.get_y() };
+            this->rotate(eqx::lib::CMath::sin(radian),
+                eqx::lib::CMath::cos(radian));
         }
 
-        constexpr void inplace_rotate(const T radian) noexcept
-        {
-            this->rot(eqx::lib::Math::sin(radian),
-                eqx::lib::Math::cos(radian));
-        }
-
-        constexpr void inplace_rotate(const T radian,
+        constexpr void rotate(const T radian,
             const Point<T>& pivot) noexcept
         {
-            this->rot(eqx::lib::Math::sin(radian), eqx::lib::Math::cos(radian),
-                pivot);
+            this->rotate(eqx::lib::CMath::sin(radian),
+                eqx::lib::CMath::cos(radian), pivot);
         }
 
-        constexpr void inplace_rotate(const T sin_val, const T cos_val) noexcept
+        constexpr void rotate(const T sin_val, const T cos_val) noexcept
         {
             this->set_xy(cos_val * this->get_x() - sin_val * this->get_y(),
                 sin_val * this->get_x() + cos_val * this->get_y());
         }
 
-        constexpr void inplace_rotate(const T sin_val, const T cos_val,
+        constexpr void rotate(const T sin_val, const T cos_val,
             const Point<T>& pivot) noexcept
         {
-            this->trans(pivot.generate_negate());
-            this->set_xy(cos_val * this->get_x() - sin_val * this->get_y(),
-                sin_val * this->get_x() + cos_val * this->get_y());
-            this->trans(pivot);
+            this->translate(negate(pivot));
+            this->rotate(sin_val, cos_val);
+            this->translate(pivot);
         }
 
-        constexpr void inplace_scale(const T scaler) noexcept
+        constexpr void scale(const T scaler) noexcept
         {
             this->set_xy(this->get_x() * scaler, this->get_y() * scaler);
         }
 
-        [[nodiscard]] constexpr Point<T> generate_scale(
-            const T scaler) const noexcept
+        [[nodiscard]] constexpr T magnitude() const noexcept
         {
-            return Point<T>{ this->get_x() * scaler, this->get_y() * scaler };
+            return eqx::lib::CMath::hypot(this->get_x(), this->get_y());
         }
 
-        [[nodiscard]] constexpr 
+        [[nodiscard]] constexpr T magnitude2() const noexcept
+        {
+            return eqx::lib::Math::hypot2(this->get_x(), this->get_y());
+        }
+
+        constexpr void normalize() noexcept
+        {
+            this->scale(T{ 1 } / this->magnitude());
+            assert(eqx::lib::Math::near(this->magnitude2(), T{ 1 }));
+        }
+
+        [[nodiscard]] constexpr T distance(const Point<T>& p) const noexcept
+        {
+            return eqx::lib::CMath::hypot(p.get_x() - this->get_x(),
+                p.get_y() - this->get_y());
+        }
+
+        [[nodiscard]] constexpr T distance2(const Point<T>& p) const noexcept
+        {
+            return eqx::lib::Math::hypot2(p.get_x() - this->get_x(),
+                p.get_y() - this->get_y());
+        }
+
+        [[nodiscard]] constexpr T dot(const Point<T>& p) const noexcept
+        {
+            return this->get_x() * p.get_x() + this->get_y() * p.get_y();
+        }
+
+        [[nodiscard]] constexpr T cross(const Point<T>& p) const noexcept
+        {
+            return this->get_x() * p.get_y() - this->get_y() * p.get_x();
+        }
+
+        [[nodiscard]] constexpr T component(const Point<T>& p) const noexcept
+        {
+            return this->dot(p) / p.magnitude();
+        }
+
+        constexpr void projection(const Point<T>& p) noexcept
+        {
+            *this = projection(*this, p);
+        }
 
         constexpr void set_x(const T x) noexcept
         {
@@ -124,6 +152,105 @@ export namespace eqx::lib
                 this->get_y());
         }
 
+        [[nodiscard]] static constexpr Point<T> negate(
+            const Point<T>& p) noexcept
+        {
+            return Point<T>{ -p.get_x(), -p.get_y() };
+        }
+
+        [[nodiscard]] static constexpr Point<T> translate(
+            const Point<T>& p1, const Point<T>& p2) noexcept
+        {
+            return Point<T>{ p1.get_x() + p2.get_x(), p1.get_y() + p2.get_y() };
+        }
+
+        [[nodiscard]] static constexpr Point<T> rotate(
+            const Point<T>& p, const T radian) noexcept
+        {
+            return rotate(p, eqx::lib::CMath::sin(radian),
+                eqx::lib::CMath::cos(radian));
+        }
+
+        [[nodiscard]] static constexpr Point<T> rotate(
+            const Point<T>& p, const T radian, const Point<T>& pivot) noexcept
+        {
+            return rotate(p, eqx::lib::CMath::sin(radian),
+                eqx::lib::CMath::cos(radian), pivot);
+        }
+
+        [[nodiscard]] static constexpr Point<T> rotate(
+            const Point<T>& p, const T sin_val, const T cos_val) noexcept
+        {
+            return Point<T>{ cos_val * p.get_x() - sin_val * p.get_y(),
+                sin_val * p.get_x() + cos_val * p.get_y() };
+        }
+
+        [[nodiscard]] static constexpr Point<T> rotate(
+            const Point<T>& p1, const T sin_val, const T cos_val,
+            const Point<T>& pivot) noexcept
+        {
+            return translate(rotate(
+                    translate(p1, negate(pivot)), sin_val, cos_val), pivot);
+        }
+
+        [[nodiscard]] static constexpr Point<T> scale(const Point<T>& p1,
+            const T scaler) noexcept
+        {
+            return Point<T>{ p1.get_x() * scaler, p1.get_y() * scaler };
+        }
+
+        [[nodiscard]] static constexpr T magnitude(const Point<T>& p1) noexcept
+        {
+            return p1.magnitude();
+        }
+
+        [[nodiscard]] static constexpr T magnitude2(const Point<T>& p1) noexcept
+        {
+            return p1.magnitude2();
+        }
+
+        [[nodiscard]] static constexpr Point<T> normalize(
+            const Point<T>& p1) noexcept
+        {
+            return scale(p1, T{ 1 } / magnitude(p1));
+        }
+
+        [[nodiscard]] static constexpr T distance(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return p1.distance(p2);
+        }
+
+        [[nodiscard]] static constexpr T distance2(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return p1.distance2(p2);
+        }
+
+        [[nodiscard]] static constexpr T dot(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return p1.dot(p2);
+        }
+
+        [[nodiscard]] static constexpr T cross(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return p1.cross(p2);
+        }
+
+        [[nodiscard]] static constexpr T component(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return p1.component(p2);
+        }
+
+        [[nodiscard]] static constexpr Point<T> projection(const Point<T>& p1,
+            const Point<T>& p2) noexcept
+        {
+            return scale(p2, dot(p1, p2) / magnitude2(p2));
+        }
+
         [[nodiscard]] static consteval Point<T> origin() noexcept
         {
             return Point<T>{ T{ 0 }, T{ 0 } };
@@ -132,78 +259,5 @@ export namespace eqx::lib
     private:
         T m_x;
         T m_y;
-    }
-
-    class PointF
-    {
-    public:
-
-        [[nodiscard]] constexpr float operator* (const PointF& p) const noexcept
-        {
-            return this->get_x() * p.get_x() + this->get_y() * p.get_y();
-        }
-
-        [[nodiscard]] constexpr float operator^ (const PointF& p) const noexcept
-        {
-            return this->get_x() * p.get_y() - this->get_y() * p.get_x();
-        }
-
-        [[nodiscard]] constexpr PointF
-            operator>> (const PointF& p) const noexcept
-        {
-            return (*this * p) / p.mag2()
-        }
-
-        constexpr void norm() noexcept
-        {
-            this->scale(1.0F / this->dist());
-        }
-
-        constexpr void proj(const PointF& p) noexcept
-        {
-            *this = p * (this->dot(p) / p.mag2());
-        }
-
-        [[nodiscard]] constexpr float sproj(const PointF& p) noexcept
-        {
-            return this->dot(p) / p.mag2();
-        }
-
-        [[nodiscard]] constexpr float dot(const PointF& p) const noexcept
-        {
-            return *this * p;
-        }
-
-        [[nodiscard]] constexpr float cross(const PointF& p) const noexcept
-        {
-            return *this ^ p;
-        }
-
-        [[nodiscard]] constexpr float dist(const PointF& p) const noexcept
-        {
-            return eqx::lib::Math::hypot(
-                p.get_x() - this->get_x(),
-                p.get_y() - this->get_y());
-        }
-
-        [[nodiscard]] constexpr float mag() const noexcept
-        {
-            return eqx::lib::Math::hypot(this->get_x(), this->get_y());
-        }
-
-        [[nodiscard]] constexpr float dist2(const PointF& p) const noexcept
-        {
-            return eqx::lib::Math::hypot2(
-                p.get_x() - this->get_x(),
-                p.get_y() - this->get_y());
-        }
-
-        [[nodiscard]] constexpr float mag2() const noexcept
-        {
-            return eqx::lib::Math::hypot2(this->get_x(), this->get_y());
-        }
-
-    private:
-        float m_x, m_y;
     };
 }

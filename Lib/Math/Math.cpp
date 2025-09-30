@@ -26,10 +26,47 @@ export namespace eqx::lib
         }
 
         template <typename T>
-            requires std::is_arithmetic_v<T>
+            requires std::floating_point<T> || std::signed_integral<T>
         [[nodiscard]] static constexpr T abs(const T x) noexcept
         {
             return x < T{ 0 } ? -x : x;
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr T trunc(const T x) noexcept
+        {
+            if (abs(x) < static_cast<T>(
+                std::numeric_limits<long long>::max())) [[likely]]
+            {
+                return static_cast<T>(static_cast<long long>(x));
+            }
+            else
+            {
+                assert(false && "Panic!");
+                return x;
+            }
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr T floor(const T x) noexcept
+        {
+            if (signbit(x) == true)
+            {
+                if (near(x, trunc(x), static_cast<T>(1E-7))) [[unlikely]]
+                {
+                    return trunc(x);
+                }
+                else [[likely]]
+                {
+                    return trunc(x) - T{ 1 };
+                }
+            }
+            else
+            {
+                return trunc(x);
+            }
         }
 
         template <typename T>
@@ -90,23 +127,75 @@ export namespace eqx::lib
             requires std::is_arithmetic_v<T>
         [[nodiscard]] static constexpr float sqrtf(const T x) noexcept
         {
-            if constexpr (std::same_as<std::remove_cvref<T>, float>)
-            {
-                return sqrt(x);
-            }
-            else
-            {
-                return sqrt(static_cast<float>(x));
-            }
+            return sqrt(static_cast<float>(x));
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr T hypot2(const T x, const T y) noexcept
+        {
+            return (x * x) + (y * y);
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr T hypot(const T x, const T y) noexcept
+        {
+            return sqrt(hypot2(x, y));
+        }
+
+        template <typename T>
+            requires std::integral<T>
+        [[nodiscard]] static constexpr T hypot(const T x, const T y) noexcept
+        {
+            return sqrt(hypot2(static_cast<double>(x), static_cast<double>(y)));
+        }
+
+        template <typename T>
+            requires std::floating_point<T>
+        [[nodiscard]] static constexpr T to_radians(const T x) noexcept
+        {
+            return x * (std::numbers::pi_v<T> / T{ 180 });
+        }
+
+        template <typename T>
+            requires std::integral<T>
+        [[nodiscard]] static constexpr double to_radians(const T x) noexcept
+        {
+            return to_radians(static_cast<double>(x));
+        }
+
+        template <typename T>
+            requires std::is_arithmetic_v<T>
+        [[nodiscard]] static constexpr float to_radiansf(const T x) noexcept
+        {
+            return to_radians(static_cast<float>(x));
         }
 
         template <typename T>
             requires std::floating_point<T>
         [[nodiscard]] static constexpr T sin(const T x) noexcept
         {
-            return ((T{16.0} * x) * (std::numbers::pi_v<T> - x))
-                / ((T{5.0} * std::numbers::pi_v<T> * std::numbers::pi_v<T>)
-                - ((T{4.0} * x) * (std::numbers::pi_v<T> - x)));
+            if (x < T{ 0 })
+            {
+                return -sin(-x);
+            }
+            else
+            {
+                const auto n = floor(x / (T{ 2 } * std::numbers::pi_v<T>));
+                auto A = x - (n * T{ 2 } * std::numbers::pi_v<T>);
+                auto ident = T{ 1 };
+
+                if (A > std::numbers::pi_v<T>)
+                {
+                    ident = T{ -1 };
+                    A -= std::numbers::pi_v<T>;
+                }
+
+                return ident * (((T{ 16 } * A) * (std::numbers::pi_v<T> - A))
+                    / ((T{ 5 } * std::numbers::pi_v<T> * std::numbers::pi_v<T>)
+                    - ((T{ 4 } * A) * (std::numbers::pi_v<T> - A))));
+            }
         }
 
         template <typename T>
@@ -117,24 +206,10 @@ export namespace eqx::lib
         }
 
         template <typename T>
-            requires std::is_arithmetic_v<T>
-        [[nodiscard]] static constexpr float sinf(const T x) noexcept
-        {
-            if constexpr (std::same_as<std::remove_cvref<T>, float>)
-            {
-                return sin(x);
-            }
-            else
-            {
-                return sin(static_cast<float>(x));
-            }
-        }
-
-        template <typename T>
             requires std::floating_point<T>
         [[nodiscard]] static constexpr T cos(const T x) noexcept
         {
-            return sin(x + (std::numbers::pi_v<T> / T{2.0}));
+            return sin(x + (std::numbers::pi_v<T> / T{ 2 }));
         }
 
         template <typename T>
@@ -142,20 +217,6 @@ export namespace eqx::lib
         [[nodiscard]] static constexpr double cos(const T x) noexcept
         {
             return cos(static_cast<double>(x));
-        }
-
-        template <typename T>
-            requires std::is_arithmetic_v<T>
-        [[nodiscard]] static constexpr float cosf(const T x) noexcept
-        {
-            if constexpr (std::same_as<std::remove_cvref<T>, float>)
-            {
-                return cos(x);
-            }
-            else
-            {
-                return cos(static_cast<float>(x));
-            }
         }
 
     private:
