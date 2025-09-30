@@ -26,7 +26,7 @@ TYPED_TEST_SUITE(CMAKE_TARGET_NAME, My_Types);
 template <typename T>
 inline void point_negate() noexcept
 {
-    constexpr auto cp1 = std::invoke([]() consteval noexcept
+    constexpr auto cp1 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -64,7 +64,7 @@ template <typename T>
 inline void point_translate() noexcept
 {
     constexpr auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
-    constexpr auto cp2 = std::invoke([]() consteval noexcept
+    constexpr auto cp2 = std::invoke([]() constexpr noexcept
             -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -103,14 +103,14 @@ inline void point_translate() noexcept
 template <typename T>
 inline void point_rotate() noexcept
 {
-    constexpr auto cp1 = std::invoke([]() consteval noexcept
+    constexpr auto cp1 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
             p1.rotate(std::numbers::pi_v<T> * T{ 2 });
             return p1;
         });
-    constexpr auto cp2 = std::invoke([]() consteval noexcept
+    constexpr auto cp2 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -158,7 +158,7 @@ inline void point_rotate() noexcept
 template <typename T>
 inline void point_scale() noexcept
 {
-    constexpr auto cp1 = std::invoke([]() consteval noexcept
+    constexpr auto cp1 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -166,7 +166,7 @@ inline void point_scale() noexcept
             return p1;
         });
 
-    constexpr auto cp2 = std::invoke([]() consteval noexcept
+    constexpr auto cp2 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ -1 }, T{ -1 } };
@@ -330,14 +330,14 @@ inline void point_magnitude2() noexcept
 template <typename T>
 inline void point_normalize() noexcept
 {
-    constexpr auto cp1 = std::invoke([]() consteval noexcept
+    constexpr auto cp1 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
             p1.normalize();
             return p1;
         });
-    constexpr auto cp2 = std::invoke([]() consteval noexcept
+    constexpr auto cp2 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto p1 = eqx::lib::Point<T>{ T{ 2 }, T{ 0 } };
@@ -970,14 +970,14 @@ inline void point_projection() noexcept
     constexpr auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
     constexpr auto cp3 = eqx::lib::Point<T>{ T{ -2 }, T{ -3 } };
 
-    constexpr auto cp11 = std::invoke([]() consteval noexcept
+    constexpr auto cp11 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
             cp1.projection(cp1);
             return cp1;
         });
-    constexpr auto cp12 = std::invoke([]() consteval noexcept
+    constexpr auto cp12 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
@@ -985,7 +985,7 @@ inline void point_projection() noexcept
             cp1.projection(cp2);
             return cp1;
         });
-    constexpr auto cp13 = std::invoke([]() consteval noexcept
+    constexpr auto cp13 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
@@ -993,7 +993,7 @@ inline void point_projection() noexcept
             cp1.projection(cp3);
             return cp1;
         });
-    constexpr auto cp21 = std::invoke([]() consteval noexcept
+    constexpr auto cp21 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -1001,14 +1001,14 @@ inline void point_projection() noexcept
             cp2.projection(cp1);
             return cp2;
         });
-    constexpr auto cp22 = std::invoke([]() consteval noexcept
+    constexpr auto cp22 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
             cp2.projection(cp2);
             return cp2;
         });
-    constexpr auto cp23 = std::invoke([]() consteval noexcept
+    constexpr auto cp23 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
@@ -1016,7 +1016,7 @@ inline void point_projection() noexcept
             cp2.projection(cp3);
             return cp2;
         });
-    constexpr auto cp31 = std::invoke([]() consteval noexcept
+    constexpr auto cp31 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp3 = eqx::lib::Point<T>{ T{ -2 }, T{ -3 } };
@@ -1024,7 +1024,7 @@ inline void point_projection() noexcept
             cp3.projection(cp1);
             return cp3;
         });
-    constexpr auto cp32 = std::invoke([]() consteval noexcept
+    constexpr auto cp32 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp3 = eqx::lib::Point<T>{ T{ -2 }, T{ -3 } };
@@ -1032,7 +1032,7 @@ inline void point_projection() noexcept
             cp3.projection(cp2);
             return cp3;
         });
-    constexpr auto cp33 = std::invoke([]() consteval noexcept
+    constexpr auto cp33 = std::invoke([]() constexpr noexcept
         -> eqx::lib::Point<T>
         {
             auto cp3 = eqx::lib::Point<T>{ T{ -2 }, T{ -3 } };
