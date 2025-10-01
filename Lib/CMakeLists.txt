@@ -3,11 +3,11 @@ cmake_minimum_required(VERSION 3.28)
 add_library(Eqx_Lib STATIC)
 target_sources(Eqx_Lib PUBLIC
     FILE_SET CXX_MODULES FILES
-        #Eqx_Lib.cpp
+        Eqx_Lib.cpp
         Math/CMath.cpp
         Math/Math.cpp
-        Point/Point.cpp)
-        #Poly/Poly.cpp)
+        Point/Point.cpp
+        Polygon/Polygon.cpp)
 target_compile_features(Eqx_Lib PUBLIC cxx_std_20)
 target_link_libraries(Eqx_Lib PUBLIC Eqx_Std)
 set_target_properties(Eqx_Lib PROPERTIES
@@ -18,11 +18,11 @@ set_target_properties(Eqx_Lib PROPERTIES
 add_library(Eqx_Lib_Typical STATIC)
 target_sources(Eqx_Lib_Typical PUBLIC
     FILE_SET CXX_MODULES FILES
-        #Eqx_Lib.cpp
+        Eqx_Lib.cpp
         Math/CMath.cpp
         Math/Math.cpp
-        Point/Point.cpp)
-        #Poly/Poly.cpp)
+        Point/Point.cpp
+        Polygon/Polygon.cpp)
 target_compile_features(Eqx_Lib_Typical PUBLIC cxx_std_20)
 target_link_libraries(Eqx_Lib_Typical PUBLIC Eqx_Std_Typical)
 set_target_properties(Eqx_Lib_Typical PROPERTIES
