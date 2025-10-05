@@ -348,6 +348,16 @@ inline void polygon_rotate() noexcept
             p1.rotate(std::numbers::pi_v<T>);
             return p1;
        });
+    constexpr auto cp2 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Polygon<T, 3>
+        {
+            auto p1 = eqx::lib::Polygon<T, 3>{
+                eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+                eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+                eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+            p1.rotate(std::numbers::pi_v<T>, eqx::lib::Point<T>::origin());
+            return p1;
+       });
 
     static_assert(eqx::lib::Math::near(cp1.get_data()[0].get_x(), T{ 0 }));
     static_assert(eqx::lib::Math::near(cp1.get_data()[0].get_y(), T{ 0 }));
@@ -358,11 +368,26 @@ inline void polygon_rotate() noexcept
     static_assert(eqx::lib::Math::near(cp1.center().get_x(), T{ 0 }));
     static_assert(eqx::lib::Math::near(cp1.center().get_y(), T{ 1 } / T{ 2 }));
 
+    static_assert(eqx::lib::Math::near(cp2.get_data()[0].get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cp2.get_data()[0].get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cp2.get_data()[1].get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp2.get_data()[1].get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cp2.get_data()[2].get_x(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cp2.get_data()[2].get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cp2.center().get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cp2.center().get_y(), T{ -1 } / T{ 2 }));
+
     auto p1 = eqx::lib::Polygon<T, 3>{
         eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
         eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
         eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
     p1.rotate(std::numbers::pi_v<T>);
+
+    auto p2 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    p2.rotate(std::numbers::pi_v<T>, eqx::lib::Point<T>::origin());
 
     ASSERT_TRUE(eqx::lib::Math::near(p1.get_data()[0].get_x(), T{ 0 }));
     ASSERT_TRUE(eqx::lib::Math::near(p1.get_data()[0].get_y(), T{ 0 }));
@@ -372,6 +397,15 @@ inline void polygon_rotate() noexcept
     ASSERT_TRUE(eqx::lib::Math::near(p1.get_data()[2].get_y(), T{ 1 }));
     ASSERT_TRUE(eqx::lib::Math::near(p1.center().get_x(), T{ 0 }));
     ASSERT_TRUE(eqx::lib::Math::near(p1.center().get_y(), T{ 1 } / T{ 2 }));
+
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[0].get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[0].get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[1].get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[1].get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[2].get_x(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.get_data()[2].get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.center().get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p2.center().get_y(), T{ -1 } / T{ 2 }));
 }
 
 template <typename T>

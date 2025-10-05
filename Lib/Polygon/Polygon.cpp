@@ -1,3 +1,5 @@
+// Polygon.cpp
+
 export module Eqx.Lib.Polygon;
 
 import <Eqx/std.hpp>;
@@ -38,7 +40,7 @@ export namespace eqx::lib
 
             return std::pair<eqx::lib::Point<T>, eqx::lib::Point<T>>{
                 eqx::lib::Point<T>{ minx.get_x(), miny.get_y() },
-                eqx::lib::Point<T>{ maxx.get_x(), maxy.get_y() }};
+                eqx::lib::Point<T>{ maxx.get_x(), maxy.get_y() } };
         }
 
         [[nodiscard]] constexpr eqx::lib::Point<T> center() const noexcept
@@ -79,8 +81,14 @@ export namespace eqx::lib
 
         constexpr void rotate(const T radians) noexcept
         {
+            this->rotate(radians, this->center());
+        }
+
+        constexpr void rotate(const T radians,
+            const eqx::lib::Point<T>& pivot) noexcept
+        {
             std::ranges::for_each(this->m_data,
-                [radians, pivot = this->center()]
+                [radians, &pivot]
                 (eqx::lib::Point<T>& val) noexcept -> void
                 {
                     val.rotate(radians, pivot);
