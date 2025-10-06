@@ -100,6 +100,18 @@ export namespace eqx::lib
                 p.get_y() - this->get_y());
         }
 
+        constexpr void lerp(const Point<T>& p, const T t) noexcept
+        {
+            this->set_xy(std::lerp(this->get_x(), p.get_x(), t),
+                std::lerp(this->get_y(), p.get_y(), t));
+        }
+
+        constexpr void midpoint(const Point<T>& p) noexcept
+        {
+            this->set_xy(std::midpoint(this->get_x(), p.get_x()),
+                std::midpoint(this->get_y(), p.get_y()));
+        }
+
         [[nodiscard]] constexpr T dot(const Point<T>& p) const noexcept
         {
             return this->get_x() * p.get_x() + this->get_y() * p.get_y();
@@ -225,6 +237,20 @@ export namespace eqx::lib
             const Point<T>& p2) noexcept
         {
             return p1.distance2(p2);
+        }
+
+        [[nodiscard]] static constexpr Point<T> lerp(const Point<T>& p1,
+            const Point<T> p2, const T t) noexcept
+        {
+            return Point<T>{ std::lerp(p1.get_x(), p2.get_x(), t),
+                std::lerp(p1.get_y(), p2.get_y(), t) };
+        }
+
+        [[nodiscard]] static constexpr Point<T> midpoint(const Point<T>& p1,
+            const Point<T> p2) noexcept
+        {
+            return Point<T>{ std::midpoint(p1.get_x(), p2.get_x()),
+                std::midpoint(p1.get_y(), p2.get_y()) };
         }
 
         [[nodiscard]] static constexpr T dot(const Point<T>& p1,

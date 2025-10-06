@@ -646,6 +646,190 @@ inline void point_distance2() noexcept
 }
 
 template <typename T>
+inline void point_lerp() noexcept
+{
+    constexpr auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+    constexpr auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+    constexpr auto cp4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+
+    constexpr auto cp12d3 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+            p1.lerp(p2, static_cast<T>(0.3F));
+            return p1;
+        });
+    constexpr auto cp12d7 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+            p1.lerp(p2, static_cast<T>(0.7F));
+            return p1;
+        });
+    constexpr auto cp14d3 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+            p1.lerp(p4, static_cast<T>(0.3F));
+            return p1;
+        });
+    constexpr auto cp14d7 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+            p1.lerp(p4, static_cast<T>(0.7F));
+            return p1;
+        });
+
+    constexpr auto cp12d3l = eqx::lib::Point<T>::lerp(cp1, cp2,
+        static_cast<T>(0.3F));
+    constexpr auto cp12d7l = eqx::lib::Point<T>::lerp(cp1, cp2,
+        static_cast<T>(0.7F));
+    constexpr auto cp14d3l = eqx::lib::Point<T>::lerp(cp1, cp4,
+        static_cast<T>(0.3F));
+    constexpr auto cp14d7l = eqx::lib::Point<T>::lerp(cp1, cp4,
+        static_cast<T>(0.7F));
+
+    static_assert(eqx::lib::Math::near(cp12d3.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12d3.get_y(), static_cast<T>(0.3F)));
+    static_assert(eqx::lib::Math::near(cp12d7.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12d7.get_y(), static_cast<T>(0.7F)));
+    static_assert(eqx::lib::Math::near(cp14d3.get_x(), static_cast<T>(0.1F)));
+    static_assert(eqx::lib::Math::near(cp14d3.get_y(), static_cast<T>(-0.6F)));
+    static_assert(eqx::lib::Math::near(cp14d7.get_x(), static_cast<T>(-1.1F)));
+    static_assert(eqx::lib::Math::near(cp14d7.get_y(), static_cast<T>(-1.4F)));
+    static_assert(eqx::lib::Math::near(cp12d3l.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12d3l.get_y(), static_cast<T>(0.3F)));
+    static_assert(eqx::lib::Math::near(cp12d7l.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12d7l.get_y(), static_cast<T>(0.7F)));
+    static_assert(eqx::lib::Math::near(cp14d3l.get_x(), static_cast<T>(0.1F)));
+    static_assert(eqx::lib::Math::near(cp14d3l.get_y(), static_cast<T>(-0.6F)));
+    static_assert(eqx::lib::Math::near(cp14d7l.get_x(), static_cast<T>(-1.1F)));
+    static_assert(eqx::lib::Math::near(cp14d7l.get_y(), static_cast<T>(-1.4F)));
+
+    const auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+    const auto p2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+    const auto p4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+
+    auto p12d3 = p1;
+    auto p12d7 = p1;
+    auto p14d3 = p1;
+    auto p14d7 = p1;
+
+    p12d3.lerp(p2, static_cast<T>(0.3F));
+    p12d7.lerp(p2, static_cast<T>(0.7F));
+    p14d3.lerp(p4, static_cast<T>(0.3F));
+    p14d7.lerp(p4, static_cast<T>(0.7F));
+
+    auto p12d3l = eqx::lib::Point<T>::lerp(p1, p2, static_cast<T>(0.3F));
+    auto p12d7l = eqx::lib::Point<T>::lerp(p1, p2, static_cast<T>(0.7F));
+    auto p14d3l = eqx::lib::Point<T>::lerp(p1, p4, static_cast<T>(0.3F));
+    auto p14d7l = eqx::lib::Point<T>::lerp(p1, p4, static_cast<T>(0.7F));
+
+    ASSERT_TRUE(eqx::lib::Math::near(p12d3.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d3.get_y(), static_cast<T>(0.3F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d7.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d7.get_y(), static_cast<T>(0.7F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d3.get_x(), static_cast<T>(0.1F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d3.get_y(), static_cast<T>(-0.6F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d7.get_x(), static_cast<T>(-1.1F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d7.get_y(), static_cast<T>(-1.4F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d3l.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d3l.get_y(), static_cast<T>(0.3F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d7l.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12d7l.get_y(), static_cast<T>(0.7F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d3l.get_x(), static_cast<T>(0.1F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d3l.get_y(), static_cast<T>(-0.6F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d7l.get_x(), static_cast<T>(-1.1F)));
+    ASSERT_TRUE(eqx::lib::Math::near(p14d7l.get_y(), static_cast<T>(-1.4F)));
+}
+
+template <typename T>
+inline void point_midpoint() noexcept
+{
+    constexpr auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+    constexpr auto cp2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+    constexpr auto cp3 = eqx::lib::Point<T>{ T{ 0 }, T{ 1 } };
+    constexpr auto cp4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+
+    constexpr auto cp12 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+            p1.midpoint(p2);
+            return p1;
+        });
+    constexpr auto cp13 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p3 = eqx::lib::Point<T>{ T{ 0 }, T{ 1 } };
+            p1.midpoint(p3);
+            return p1;
+        });
+    constexpr auto cp14 = std::invoke([]() constexpr noexcept
+        -> eqx::lib::Point<T>
+        {
+            auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+            auto p4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+            p1.midpoint(p4);
+            return p1;
+        });
+
+    constexpr auto cp12m = eqx::lib::Point<T>::midpoint(cp1, cp2);
+    constexpr auto cp13m = eqx::lib::Point<T>::midpoint(cp1, cp3);
+    constexpr auto cp14m = eqx::lib::Point<T>::midpoint(cp1, cp4);
+
+    static_assert(eqx::lib::Math::near(cp12.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12.get_y(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp13.get_x(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp13.get_y(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp14.get_x(), T{ -1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp14.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cp12m.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cp12m.get_y(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp13m.get_x(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp13m.get_y(), T{ 1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp14m.get_x(), T{ -1 } / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cp14m.get_y(), T{ -1 }));
+
+    const auto p1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
+    const auto p2 = eqx::lib::Point<T>{ T{ 1 }, T{ 1 } };
+    const auto p3 = eqx::lib::Point<T>{ T{ 0 }, T{ 1 } };
+    const auto p4 = eqx::lib::Point<T>{ T{ -2 }, T{ -2 } };
+
+    auto p12 = p1;
+    auto p13 = p1;
+    auto p14 = p1;
+
+    p12.midpoint(p2);
+    p13.midpoint(p3);
+    p14.midpoint(p4);
+
+    auto p12m = eqx::lib::Point<T>::midpoint(p1, p2);
+    auto p13m = eqx::lib::Point<T>::midpoint(p1, p3);
+    auto p14m = eqx::lib::Point<T>::midpoint(p1, p4);
+
+    ASSERT_TRUE(eqx::lib::Math::near(p12.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12.get_y(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p13.get_x(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p13.get_y(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p14.get_x(), T{ -1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p14.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12m.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p12m.get_y(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p13m.get_x(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p13m.get_y(), T{ 1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p14m.get_x(), T{ -1 } / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(p14m.get_y(), T{ -1 }));
+}
+
+template <typename T>
 inline void point_dot() noexcept
 {
     constexpr auto cp1 = eqx::lib::Point<T>{ T{ 1 }, T{ 0 } };
@@ -1234,6 +1418,16 @@ TYPED_TEST(CMAKE_TARGET_NAME, point_distance)
 TYPED_TEST(CMAKE_TARGET_NAME, point_distance2)
 {
     point_distance2<TypeParam>();
+}
+
+TYPED_TEST(CMAKE_TARGET_NAME, point_lerp)
+{
+    point_lerp<TypeParam>();
+}
+
+TYPED_TEST(CMAKE_TARGET_NAME, point_midpoint)
+{
+    point_midpoint<TypeParam>();
 }
 
 TYPED_TEST(CMAKE_TARGET_NAME, point_dot)
