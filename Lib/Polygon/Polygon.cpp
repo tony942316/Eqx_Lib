@@ -133,10 +133,10 @@ export namespace eqx::lib
             const T height) noexcept
         {
             return eqx::lib::Polygon<T, 4>{
-                eqx::lib::Point<T>{ width, height },
-                eqx::lib::Point<T>{ -width, height },
-                eqx::lib::Point<T>{ -width, -height },
-                eqx::lib::Point<T>{ width, -height } };
+                eqx::lib::Point<T>{ width / T{ 2 }, height / T{ 2 } },
+                eqx::lib::Point<T>{ -width / T{ 2 }, height / T{ 2 } },
+                eqx::lib::Point<T>{ -width / T{ 2 }, -height / T{ 2 } },
+                eqx::lib::Point<T>{ width / T{ 2 }, -height / T{ 2 } } };
         }
 
     private:
