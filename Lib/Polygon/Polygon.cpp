@@ -95,6 +95,15 @@ export namespace eqx::lib
                 });
         }
 
+        constexpr void scale(const T x) noexcept
+        {
+            std::ranges::for_each(this->m_data,
+                [x](eqx::lib::Point<T>& val) noexcept -> void
+                {
+                    val.scale(x);
+                });
+        }
+
         [[nodiscard]] consteval std::size_t size() const noexcept
         {
             return S;
@@ -118,6 +127,16 @@ export namespace eqx::lib
             get_data() const noexcept
         {
             return this->m_data;
+        }
+
+        [[nodiscard]] static constexpr Polygon<T, 4> rectangle(const T width,
+            const T height) noexcept
+        {
+            return eqx::lib::Polygon<T, 4>{
+                eqx::lib::Point<T>{ width, height },
+                eqx::lib::Point<T>{ -width, height },
+                eqx::lib::Point<T>{ -width, -height },
+                eqx::lib::Point<T>{ width, -height } };
         }
 
     private:
