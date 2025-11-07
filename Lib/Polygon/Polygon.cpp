@@ -104,6 +104,34 @@ export namespace eqx::lib
                 });
         }
 
+        constexpr eqx::lib::Point<T> midpoint(
+            const std::size_t i) const noexcept
+        {
+            assert(i < S && i >= std::size_t{ 0 });
+
+            return eqx::lib::Point<T>::midpoint(this->get_data()[i],
+                this->get_data()[(i + std::size_t{ 1 }) % S]);
+        }
+
+        constexpr eqx::lib::Point<T> normal(const std::size_t i) const noexcept
+        {
+            assert(i < S && i >= std::size_t{ 0 });
+
+            return eqx::lib::Point<T>::normalize(
+                eqx::lib::Point<T>::rotate(eqx::lib::Point<T>::translate(
+                    this->get_data()[(i + std::size_t{ 1 }) % S],
+                    eqx::lib::Point<T>::negate(this->get_data()[i])),
+                -std::numbers::pi_v<T> / T{ 2 }));
+        }
+
+        template <std::size_t S2>
+        constexpr eqx::lib::Point<T> difference(
+            const Polygon<T, S2>& poly) const noexcept
+        {
+            return eqx::lib::Point<T>::translate(this->center(),
+                eqx::lib::Point<T>::negate(poly.center()));
+        }
+
         [[nodiscard]] consteval std::size_t size() const noexcept
         {
             return S;

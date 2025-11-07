@@ -493,6 +493,505 @@ inline void polygon_scale() noexcept
 }
 
 template <typename T>
+inline void polygon_midpoint() noexcept
+{
+    constexpr auto cp1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    constexpr auto cp2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    constexpr auto cp3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    constexpr auto cp4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    constexpr auto cpm10 = cp1.midpoint(std::size_t{ 0 });
+    constexpr auto cpm11 = cp1.midpoint(std::size_t{ 1 });
+    constexpr auto cpm12 = cp1.midpoint(std::size_t{ 2 });
+    constexpr auto cpm20 = cp2.midpoint(std::size_t{ 0 });
+    constexpr auto cpm21 = cp2.midpoint(std::size_t{ 1 });
+    constexpr auto cpm22 = cp2.midpoint(std::size_t{ 2 });
+    constexpr auto cpm23 = cp2.midpoint(std::size_t{ 3 });
+    constexpr auto cpm30 = cp3.midpoint(std::size_t{ 0 });
+    constexpr auto cpm31 = cp3.midpoint(std::size_t{ 1 });
+    constexpr auto cpm32 = cp3.midpoint(std::size_t{ 2 });
+    constexpr auto cpm33 = cp3.midpoint(std::size_t{ 3 });
+    constexpr auto cpm34 = cp3.midpoint(std::size_t{ 4 });
+    constexpr auto cpm35 = cp3.midpoint(std::size_t{ 5 });
+    constexpr auto cpm36 = cp3.midpoint(std::size_t{ 6 });
+    constexpr auto cpm37 = cp3.midpoint(std::size_t{ 7 });
+    constexpr auto cpm40 = cp4.midpoint(std::size_t{ 0 });
+    constexpr auto cpm41 = cp4.midpoint(std::size_t{ 1 });
+    constexpr auto cpm42 = cp4.midpoint(std::size_t{ 2 });
+
+    static_assert(eqx::lib::Math::near(cpm10.get_x(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpm10.get_y(), static_cast<T>(0.5F)));
+    static_assert(eqx::lib::Math::near(cpm11.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm11.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm12.get_x(), static_cast<T>(0.5F)));
+    static_assert(eqx::lib::Math::near(cpm12.get_y(), static_cast<T>(0.5F)));
+    static_assert(eqx::lib::Math::near(cpm20.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm20.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm21.get_x(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm21.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm22.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm22.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm23.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm23.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm30.get_x(), static_cast<T>(-1.5F)));
+    static_assert(eqx::lib::Math::near(cpm30.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm31.get_x(), static_cast<T>(-2.5F)));
+    static_assert(eqx::lib::Math::near(cpm31.get_y(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpm32.get_x(), T{ -3 }));
+    static_assert(eqx::lib::Math::near(cpm32.get_y(), static_cast<T>(-1.5F)));
+    static_assert(eqx::lib::Math::near(cpm33.get_x(), static_cast<T>(-2.5F)));
+    static_assert(eqx::lib::Math::near(cpm33.get_y(), static_cast<T>(-2.5F)));
+    static_assert(eqx::lib::Math::near(cpm34.get_x(), static_cast<T>(-1.5F)));
+    static_assert(eqx::lib::Math::near(cpm34.get_y(), T{ -3 }));
+    static_assert(eqx::lib::Math::near(cpm35.get_x(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpm35.get_y(), static_cast<T>(-2.5F)));
+    static_assert(eqx::lib::Math::near(cpm36.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm36.get_y(), static_cast<T>(-1.5F)));
+    static_assert(eqx::lib::Math::near(cpm37.get_x(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpm37.get_y(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpm40.get_x(), static_cast<T>(2.5F)));
+    static_assert(eqx::lib::Math::near(cpm40.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm41.get_x(), static_cast<T>(1.5F)));
+    static_assert(eqx::lib::Math::near(cpm41.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm42.get_x(), T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm42.get_y(), T{ 0 }));
+
+    const auto p1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    const auto p2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    const auto p3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    const auto p4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    const auto pm10 = p1.midpoint(std::size_t{ 0 });
+    const auto pm11 = p1.midpoint(std::size_t{ 1 });
+    const auto pm12 = p1.midpoint(std::size_t{ 2 });
+    const auto pm20 = p2.midpoint(std::size_t{ 0 });
+    const auto pm21 = p2.midpoint(std::size_t{ 1 });
+    const auto pm22 = p2.midpoint(std::size_t{ 2 });
+    const auto pm23 = p2.midpoint(std::size_t{ 3 });
+    const auto pm30 = p3.midpoint(std::size_t{ 0 });
+    const auto pm31 = p3.midpoint(std::size_t{ 1 });
+    const auto pm32 = p3.midpoint(std::size_t{ 2 });
+    const auto pm33 = p3.midpoint(std::size_t{ 3 });
+    const auto pm34 = p3.midpoint(std::size_t{ 4 });
+    const auto pm35 = p3.midpoint(std::size_t{ 5 });
+    const auto pm36 = p3.midpoint(std::size_t{ 6 });
+    const auto pm37 = p3.midpoint(std::size_t{ 7 });
+    const auto pm40 = p4.midpoint(std::size_t{ 0 });
+    const auto pm41 = p4.midpoint(std::size_t{ 1 });
+    const auto pm42 = p4.midpoint(std::size_t{ 2 });
+
+    ASSERT_TRUE(eqx::lib::Math::near(pm10.get_x(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm10.get_y(), static_cast<T>(0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm11.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm11.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm12.get_x(), static_cast<T>(0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm12.get_y(), static_cast<T>(0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm20.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm20.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm21.get_x(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm21.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm22.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm22.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm23.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm23.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm30.get_x(), static_cast<T>(-1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm30.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm31.get_x(), static_cast<T>(-2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm31.get_y(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm32.get_x(), T{ -3 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm32.get_y(), static_cast<T>(-1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm33.get_x(), static_cast<T>(-2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm33.get_y(), static_cast<T>(-2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm34.get_x(), static_cast<T>(-1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm34.get_y(), T{ -3 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm35.get_x(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm35.get_y(), static_cast<T>(-2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm36.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm36.get_y(), static_cast<T>(-1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm37.get_x(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm37.get_y(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm40.get_x(), static_cast<T>(2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm40.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm41.get_x(), static_cast<T>(1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm41.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm42.get_x(), T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm42.get_y(), T{ 0 }));
+}
+
+template <typename T>
+inline void polygon_normal() noexcept
+{
+    constexpr auto cp1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    constexpr auto cp2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    constexpr auto cp3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    constexpr auto cp4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    constexpr auto cpm10 = cp1.normal(std::size_t{ 0 });
+    constexpr auto cpm11 = cp1.normal(std::size_t{ 1 });
+    constexpr auto cpm12 = cp1.normal(std::size_t{ 2 });
+    constexpr auto cpm20 = cp2.normal(std::size_t{ 0 });
+    constexpr auto cpm21 = cp2.normal(std::size_t{ 1 });
+    constexpr auto cpm22 = cp2.normal(std::size_t{ 2 });
+    constexpr auto cpm23 = cp2.normal(std::size_t{ 3 });
+    constexpr auto cpm30 = cp3.normal(std::size_t{ 0 });
+    constexpr auto cpm31 = cp3.normal(std::size_t{ 1 });
+    constexpr auto cpm32 = cp3.normal(std::size_t{ 2 });
+    constexpr auto cpm33 = cp3.normal(std::size_t{ 3 });
+    constexpr auto cpm34 = cp3.normal(std::size_t{ 4 });
+    constexpr auto cpm35 = cp3.normal(std::size_t{ 5 });
+    constexpr auto cpm36 = cp3.normal(std::size_t{ 6 });
+    constexpr auto cpm37 = cp3.normal(std::size_t{ 7 });
+    constexpr auto cpm40 = cp4.normal(std::size_t{ 0 });
+    constexpr auto cpm41 = cp4.normal(std::size_t{ 1 });
+    constexpr auto cpm42 = cp4.normal(std::size_t{ 2 });
+
+    static_assert(eqx::lib::Math::near(cpm10.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm10.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm11.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm11.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm12.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm12.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm20.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm20.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm21.get_x(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm21.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm22.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm22.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm23.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm23.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm30.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm30.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm31.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm31.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm32.get_x(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm32.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm33.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm33.get_y(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm34.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm34.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpm35.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm35.get_y(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm36.get_x(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpm36.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm37.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm37.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpm40.get_x(), static_cast<T>(0.8944F)));
+    static_assert(eqx::lib::Math::near(cpm40.get_y(), static_cast<T>(0.4472F)));
+    static_assert(eqx::lib::Math::near(cpm41.get_x(),
+        static_cast<T>(-0.8944F)));
+    static_assert(eqx::lib::Math::near(cpm41.get_y(), static_cast<T>(0.4472F)));
+    static_assert(eqx::lib::Math::near(cpm42.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpm42.get_y(), T{ -1 }));
+
+    const auto p1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    const auto p2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    const auto p3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    const auto p4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    const auto pm10 = p1.normal(std::size_t{ 0 });
+    const auto pm11 = p1.normal(std::size_t{ 1 });
+    const auto pm12 = p1.normal(std::size_t{ 2 });
+    const auto pm20 = p2.normal(std::size_t{ 0 });
+    const auto pm21 = p2.normal(std::size_t{ 1 });
+    const auto pm22 = p2.normal(std::size_t{ 2 });
+    const auto pm23 = p2.normal(std::size_t{ 3 });
+    const auto pm30 = p3.normal(std::size_t{ 0 });
+    const auto pm31 = p3.normal(std::size_t{ 1 });
+    const auto pm32 = p3.normal(std::size_t{ 2 });
+    const auto pm33 = p3.normal(std::size_t{ 3 });
+    const auto pm34 = p3.normal(std::size_t{ 4 });
+    const auto pm35 = p3.normal(std::size_t{ 5 });
+    const auto pm36 = p3.normal(std::size_t{ 6 });
+    const auto pm37 = p3.normal(std::size_t{ 7 });
+    const auto pm40 = p4.normal(std::size_t{ 0 });
+    const auto pm41 = p4.normal(std::size_t{ 1 });
+    const auto pm42 = p4.normal(std::size_t{ 2 });
+
+    ASSERT_TRUE(eqx::lib::Math::near(pm10.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm10.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm11.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm11.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm12.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm12.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm20.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm20.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm21.get_x(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm21.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm22.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm22.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm23.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm23.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm30.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm30.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm31.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm31.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm32.get_x(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm32.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm33.get_x(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm33.get_y(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm34.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm34.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm35.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm35.get_y(),
+        -std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm36.get_x(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm36.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm37.get_x(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm37.get_y(),
+        std::numbers::sqrt2_v<T> / T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm40.get_x(), static_cast<T>(0.894427F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm40.get_y(), static_cast<T>(0.447214F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm41.get_x(), static_cast<T>(-0.894427F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm41.get_y(), static_cast<T>(0.447214F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pm42.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pm42.get_y(), T{ -1 }));
+}
+
+template <typename T>
+inline void polygon_difference() noexcept
+{
+    constexpr auto cp1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    constexpr auto cp2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    constexpr auto cp3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    constexpr auto cp4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    constexpr auto cpd11 = cp1.difference(cp1);
+    constexpr auto cpd12 = cp1.difference(cp2);
+    constexpr auto cpd13 = cp1.difference(cp3);
+    constexpr auto cpd14 = cp1.difference(cp4);
+    constexpr auto cpd21 = cp2.difference(cp1);
+    constexpr auto cpd22 = cp2.difference(cp2);
+    constexpr auto cpd23 = cp2.difference(cp3);
+    constexpr auto cpd24 = cp2.difference(cp4);
+    constexpr auto cpd31 = cp3.difference(cp1);
+    constexpr auto cpd32 = cp3.difference(cp2);
+    constexpr auto cpd33 = cp3.difference(cp3);
+    constexpr auto cpd34 = cp3.difference(cp4);
+    constexpr auto cpd41 = cp4.difference(cp1);
+    constexpr auto cpd42 = cp4.difference(cp2);
+    constexpr auto cpd43 = cp4.difference(cp3);
+    constexpr auto cpd44 = cp4.difference(cp4);
+
+    static_assert(eqx::lib::Math::near(cpd11.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd11.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd12.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd12.get_y(), static_cast<T>(0.5F)));
+    static_assert(eqx::lib::Math::near(cpd13.get_x(), static_cast<T>(1.5F)));
+    static_assert(eqx::lib::Math::near(cpd13.get_y(), T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpd14.get_x(), T{ -2 }));
+    static_assert(eqx::lib::Math::near(cpd14.get_y(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpd21.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd21.get_y(), static_cast<T>(-0.5F)));
+    static_assert(eqx::lib::Math::near(cpd22.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd22.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd23.get_x(), static_cast<T>(1.5F)));
+    static_assert(eqx::lib::Math::near(cpd23.get_y(), static_cast<T>(1.5F)));
+    static_assert(eqx::lib::Math::near(cpd24.get_x(), T{ -2 }));
+    static_assert(eqx::lib::Math::near(cpd24.get_y(), T{ -1 }));
+    static_assert(eqx::lib::Math::near(cpd31.get_x(), static_cast<T>(-1.5)));
+    static_assert(eqx::lib::Math::near(cpd31.get_y(), T{ -2 }));
+    static_assert(eqx::lib::Math::near(cpd32.get_x(), static_cast<T>(-1.5)));
+    static_assert(eqx::lib::Math::near(cpd32.get_y(), static_cast<T>(-1.5)));
+    static_assert(eqx::lib::Math::near(cpd33.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd33.get_y(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd34.get_x(), static_cast<T>(-3.5)));
+    static_assert(eqx::lib::Math::near(cpd34.get_y(), static_cast<T>(-2.5)));
+    static_assert(eqx::lib::Math::near(cpd41.get_x(), T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpd41.get_y(), static_cast<T>(0.5F)));
+    static_assert(eqx::lib::Math::near(cpd42.get_x(), T{ 2 }));
+    static_assert(eqx::lib::Math::near(cpd42.get_y(), T{ 1 }));
+    static_assert(eqx::lib::Math::near(cpd43.get_x(), static_cast<T>(3.5F)));
+    static_assert(eqx::lib::Math::near(cpd43.get_y(), static_cast<T>(2.5F)));
+    static_assert(eqx::lib::Math::near(cpd44.get_x(), T{ 0 }));
+    static_assert(eqx::lib::Math::near(cpd44.get_y(), T{ 0 }));
+
+    const auto p1 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 0 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+    const auto p2 = eqx::lib::Polygon<T, 4>{
+        eqx::lib::Point<T>{ T{ 1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ 1 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ -1 } } };
+    const auto p3 = eqx::lib::Polygon<T, 8>{
+        eqx::lib::Point<T>{ T{ -1 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -1 } },
+        eqx::lib::Point<T>{ T{ -3 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ -2 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ -1 }, T{ -3 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -2 } },
+        eqx::lib::Point<T>{ T{ 0 }, T{ -1 } } };
+    const auto p4 = eqx::lib::Polygon<T, 3>{
+        eqx::lib::Point<T>{ T{ 3 }, T{ 0 } },
+        eqx::lib::Point<T>{ T{ 2 }, T{ 2 } },
+        eqx::lib::Point<T>{ T{ 1 }, T{ 0 } } };
+
+    const auto pd11 = p1.difference(p1);
+    const auto pd12 = p1.difference(p2);
+    const auto pd13 = p1.difference(p3);
+    const auto pd14 = p1.difference(p4);
+    const auto pd21 = p2.difference(p1);
+    const auto pd22 = p2.difference(p2);
+    const auto pd23 = p2.difference(p3);
+    const auto pd24 = p2.difference(p4);
+    const auto pd31 = p3.difference(p1);
+    const auto pd32 = p3.difference(p2);
+    const auto pd33 = p3.difference(p3);
+    const auto pd34 = p3.difference(p4);
+    const auto pd41 = p4.difference(p1);
+    const auto pd42 = p4.difference(p2);
+    const auto pd43 = p4.difference(p3);
+    const auto pd44 = p4.difference(p4);
+
+    ASSERT_TRUE(eqx::lib::Math::near(pd11.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd11.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd12.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd12.get_y(), static_cast<T>(0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd13.get_x(), static_cast<T>(1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd13.get_y(), T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd14.get_x(), T{ -2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd14.get_y(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd21.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd21.get_y(), static_cast<T>(-0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd22.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd22.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd23.get_x(), static_cast<T>(1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd23.get_y(), static_cast<T>(1.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd24.get_x(), T{ -2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd24.get_y(), T{ -1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd31.get_x(), static_cast<T>(-1.5)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd31.get_y(), T{ -2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd32.get_x(), static_cast<T>(-1.5)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd32.get_y(), static_cast<T>(-1.5)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd33.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd33.get_y(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd34.get_x(), static_cast<T>(-3.5)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd34.get_y(), static_cast<T>(-2.5)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd41.get_x(), T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd41.get_y(), static_cast<T>(0.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd42.get_x(), T{ 2 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd42.get_y(), T{ 1 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd43.get_x(), static_cast<T>(3.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd43.get_y(), static_cast<T>(2.5F)));
+    ASSERT_TRUE(eqx::lib::Math::near(pd44.get_x(), T{ 0 }));
+    ASSERT_TRUE(eqx::lib::Math::near(pd44.get_y(), T{ 0 }));
+}
+
+template <typename T>
 inline void polygon_rectangle() noexcept
 {
     constexpr auto cp1 = eqx::lib::Polygon<T, 4>::rectangle(T{ 1 }, T{ 1 });
@@ -636,6 +1135,21 @@ TYPED_TEST(CMAKE_TARGET_NAME, polygon_rotate)
 TYPED_TEST(CMAKE_TARGET_NAME, polygon_scale)
 {
     polygon_scale<TypeParam>();
+}
+
+TYPED_TEST(CMAKE_TARGET_NAME, polygon_midpoint)
+{
+    polygon_midpoint<TypeParam>();
+}
+
+TYPED_TEST(CMAKE_TARGET_NAME, polygon_normal)
+{
+    polygon_normal<TypeParam>();
+}
+
+TYPED_TEST(CMAKE_TARGET_NAME, polygon_difference)
+{
+    polygon_difference<TypeParam>();
 }
 
 TYPED_TEST(CMAKE_TARGET_NAME, polygon_rectangle)
